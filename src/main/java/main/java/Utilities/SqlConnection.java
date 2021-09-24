@@ -16,7 +16,7 @@ public class SqlConnection {
     public static String password = "Y7*9dkUkl1";
 
     //Users
-    public static void createUser(User user) {
+    public static User createUser(User user) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, userName, password);
@@ -25,16 +25,24 @@ public class SqlConnection {
             con.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            return null;
         }
+        return getUserId(user);
     }
 
-    public static boolean validateUserCredentials(User user) {
+    public static User getUserId(User user){
+        //retrieve the userId and assign it to the user object
+        //user.id =
+        return user;
+    }
+
+    public static boolean validateUserCredentials(String username, String password) {
         boolean isValidUser = false;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, userName, password);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("Select Email, HashedPassword From Users WHERE Email = '" + user.email + "' AND HashedPassword = '" + user.password + "'");
+            ResultSet rs = stmt.executeQuery("Select Email, HashedPassword From Users WHERE Email = '" + username + "' AND HashedPassword = '" + password + "'");
 
             while (rs.next()) {
                 isValidUser = true;
@@ -46,10 +54,6 @@ public class SqlConnection {
         }
         return isValidUser;
     }
-
-    //static function that takes in a User object and runs an Update statment
-        //Things you can't modify:
-            //
 
     public static UserType getUserType(int userId){ //TODO: Pass User object instead and lookup userId
         int userTypeId = 1;
@@ -84,7 +88,21 @@ public class SqlConnection {
         return userType;
     }
 
+    //Jacoby more user methods
+    //Modify User account. Takes in a user and returns that same user if succesfull
 
-    //Modify method input User
+    //public static User getUserByUsername(string userName)
+
+    //public static User validateAndGetUser(String userName, String password)
+
+    //static function that takes in a User object and runs an Update statment
+    //Things you can't modify:
+    //
+
+
+
+
+    //Jake
+    //Room methods
 
 }
