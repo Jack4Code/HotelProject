@@ -9,5 +9,6 @@ public class User {
         this.firstName = firstname;
         this.lastName = lastname;
         this.email = email;
+        this.userTypeId = 1;
     }
 }
