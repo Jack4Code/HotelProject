@@ -13,7 +13,7 @@ public class Main {
 //        SqlConnection.createUser(user);
 //        SqlConnection.validateUserCredentials(user.email, user.password);
 //        SqlConnection.getUserType(user.id);
-
+        System.out.println("wasssuppp");
     }
 
 }
