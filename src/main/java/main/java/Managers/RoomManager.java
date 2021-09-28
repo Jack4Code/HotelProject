@@ -1,37 +1,31 @@
 package main.java.Managers;
 
+import java.util.Date;
+
 public class RoomManager {
 
-    public RoomManager()
-    {
-
-    }
-
     //Jake
-    //Methods to modify room attributes such as
-    //isAvailable, NextAvailableDate(?..), RoomType, NumBeds, BedType, isSmoking
 
-    public void changeRoomStatus(int roomId, boolean isAvailable) {
-        //Shouldn't be void, but...
-        try{
+    //First check to see if the proper user is logged in?
 
+    public static boolean changeRoomStatus(int roomId, boolean isAvailable) {
+
+        boolean x = false;
+
+        try
+        {
+            "".isEmpty(); //Do nothing - temporary
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
         //Return a method in SQLConnection => updateRoomStatus() => will put actual query in SqlConnection file
-
+        return true; //or whatever needed...
     }
 
-       /*
-        changeNextAvailableDate(int roomId, Date nextAvailableDate )
-        .
-        .
-        .
-        all of them except for Id
-     */
-
-
-
+    //public static boolean changeRoomType(int roomId, String RoomType ) {}
+    //public static boolean changeNumBeds(int roomId, int NumBeds ) {}
+    //public static boolean changeBedType(int roomId, String BedType ) {} <- Bed type similar to users? Use enum?
+    //Method for isSmoking? Is that something you can change for a specific room? Or is it fixed?
 
 }
