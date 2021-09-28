@@ -112,9 +112,39 @@ public class SqlConnection {
     //Jacoby more user methods
     //Modify User account. Takes in a user and returns that same user if succesfull
 
-    //public static User getUserByUsername(string userName)
+    public static User getUserByUsername(String userName)
+    {
+        User user = new User();
 
-    //public static User validateAndGetUser(String userName, String password)
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("Select * From Users Where UserName = '" + userName + "'");
+            while (rs.next()) {
+                //populate everything except for password
+                //user.id = rs.get
+                //user.firstName =  rs.getString("FirstName")
+            }
+        }
+        catch(Exception ex){
+            //logging
+            return null;
+        }
+
+
+
+        return user;
+    }
+
+    public static User validateAndGetUser(String userName, String password){
+        if(!validateUserCredentials(userName, password))
+        {
+            return null;
+        }
+        return getUserByUsername(userName);
+    }
 
     //static function that takes in a User object and runs an Update statment
     //Things you can't modify:

@@ -3,45 +3,43 @@ package main.java.Managers;
 import main.java.DataModels.User;
 import main.java.Utilities.SqlConnection;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 
 
 public class UserManager {
 
-    public User ActiveUser = null; //TODO: Lookup nameing convention casing: is it pascal or camal
-    public HashMap<String, Integer> UserTypeIdMapping = new HashMap<>();
+    public User activeUser = null;
+    public HashMap<String, Integer> userTypeIdMapping = new HashMap<>();
 
     public UserManager(String userName, String password)
     {
-        UserTypeIdMapping.put("Guest", 1);
-        UserTypeIdMapping.put("Hotel Clerk", 2);
-        UserTypeIdMapping.put("SysAdmin", 3);
+        userTypeIdMapping.put("Guest", 1);
+        userTypeIdMapping.put("Hotel Clerk", 2);
+        userTypeIdMapping.put("SysAdmin", 3);
 
-        //ActiveUser = loginUser
+        activeUser = loginUser(userName, password);
+        if(activeUser == null)
+        {
+            throw new EmptyStackException();
+        }
     }
 
     //Jacoby
     public User loginUser(String userName, String password)
     {
-        if (SqlConnection.validateUserCredentials(userName, password) && ActiveUser == null) {
-            // ActiveUser = new User(userName, password);
-            ActiveUser.id = SqlConnection.getUserId(ActiveUser).id;
-            return ActiveUser;
-        }
+        return SqlConnection.validateAndGetUser(userName, password);
+    }
 
-        return null;
-    }  //this should call SqlConnection.validateAndGetUser
-
-
-    public void logoutUser(User ActiveUser)
+    public void logoutUser()
     {
-
+        activeUser = null;
     } //take active user and set it to null
 
     //create a hotel clerk account
     public User createClerkUser(User clerk) //Something only a sysAdmin can do
     {
-        if(ActiveUser != null && ActiveUser.userTypeId != 3) //TODO: firgure out syntax: UserTypeIdMapping["SysAdmin"]
+        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
         {
             return null;
         }
