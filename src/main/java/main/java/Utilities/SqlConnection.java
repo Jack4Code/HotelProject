@@ -12,14 +12,14 @@ public class SqlConnection {
     //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
     //public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
     public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
-    public static String userName = "zzsa@mysqlclassproject";
-    public static String password = "Y7*9dkUkl1";
+    public static String connectionUserName = "zzsa@mysqlclassproject";
+    public static String connectionPassword = "Y7*9dkUkl1";
 
     //Users
     public static User createUser(User user) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(connectionString, userName, password);
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
             stmt.execute("Insert Into Users (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate, LastLoginDate) VALUES (" + user.userTypeId + ", '" + user.firstName + "', '" + user.lastName + "', '" + user.email + "', '" + user.password + "', NOW(), NOW(), null)");
             con.close();
@@ -30,7 +30,27 @@ public class SqlConnection {
         return getUserId(user);
     }
 
+    //Get User
+    public static User getUser(User user) {
+
+        return user;
+    }
+
     public static User getUserId(User user){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Id From Users WHERE Email = '" + user.email + "' AND HashedPassword = '" + user.password + "'");
+
+            while (rs.next()) {
+                user.id = rs.findColumn("id");
+            }
+
+            con.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         //retrieve the userId and assign it to the user object
         //user.id =
         return user;
@@ -40,7 +60,7 @@ public class SqlConnection {
         boolean isValidUser = false;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(connectionString, userName, password);
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("Select Email, HashedPassword From Users WHERE Email = '" + username + "' AND HashedPassword = '" + password + "'");
 
@@ -61,7 +81,7 @@ public class SqlConnection {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(connectionString, userName, password);
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("Select UserTypeId From Users Where UserId = " + userId);
             while (rs.next()) {
@@ -81,6 +101,7 @@ public class SqlConnection {
                     userType = UserType.Guest;
                     break;
             }
+
             con.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

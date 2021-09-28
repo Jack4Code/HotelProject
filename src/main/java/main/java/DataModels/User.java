@@ -5,9 +5,10 @@ public class User {
     public String firstName, lastName, email, password;
     public  int id, userTypeId;
 
-    public User(String firstname, String lastname, String email) {
-        this.firstName = firstname;
-        this.lastName = lastname;
+    public User(String email, String password) {
+        //this.firstName = firstname;
+        //this.lastName = lastname;
+        this.password = password;
         this.email = email;
         this.userTypeId = 1;
     }

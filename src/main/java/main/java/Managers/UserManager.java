@@ -21,9 +21,22 @@ public class UserManager {
     }
 
     //Jacoby
-    //public User loginUser(userName, password)   //this should call SqlConnection.validateAndGetUser
+    public User loginUser(String userName, String password)
+    {
+        if (SqlConnection.validateUserCredentials(userName, password) && ActiveUser == null) {
+            // ActiveUser = new User(userName, password);
+            ActiveUser.id = SqlConnection.getUserId(ActiveUser).id;
+            return ActiveUser;
+        }
 
-    //public void logoutUser() //take active user and set it to null
+        return null;
+    }  //this should call SqlConnection.validateAndGetUser
+
+
+    public void logoutUser(User ActiveUser)
+    {
+
+    } //take active user and set it to null
 
     //create a hotel clerk account
     public User createClerkUser(User clerk) //Something only a sysAdmin can do
