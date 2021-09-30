@@ -25,7 +25,6 @@ public class UserManager {
         }
     }
 
-    //Jacoby
     public User loginUser(String userName, String password)
     {
         return SqlConnection.validateAndGetUser(userName, password);
@@ -34,27 +33,37 @@ public class UserManager {
     public void logoutUser()
     {
         activeUser = null;
-    } //take active user and set it to null
+    }
 
     //create a hotel clerk account
-    public User createClerkUser(User clerk) //Something only a sysAdmin can do
+    public User createClerkUser(User activeUser, String firstName, String lastName, String email, String password)
     {
         if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
         {
             return null;
         }
+        User clerk = new User(2, firstName, lastName, email, password);
         return SqlConnection.createUser(clerk);
     }
 
-    //Jacoby
-    //Modify own user account. Check to make sure permission is granted to do modification.
+    public User modifyUser(User activeUser, String newFirstName, String newLastName, String newEmail, String newPassword)
+    {
+        if(activeUser == null)
+        {
+            return null;
+        }
+        return SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+    }
 
-    /*
-        bool available = true;
-        RoomManager.changeRoomStatus(roomId, available)
-
-     */
-
+    public User modifyUserType(User activeUser, String usernameToChange, int newUserType)
+    {
+        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
+        {
+            return null;
+        }
+        User userToChange = SqlConnection.getUserByUsername(usernameToChange);
+        return SqlConnection.modifyUserType(userToChange, newUserType);
+    }
 
 
 

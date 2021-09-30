@@ -9,14 +9,15 @@ public class Main {
     public static void main(String[] args) {
 
           UserManager User = new UserManager("hj@gmail.com", "testPassword1!");
-          User.loginUser("hj@gmail.com", "testPassword1!");
+//        User.modifyUserType(User.activeUser, "john.smith@gmail.com", 2);
+//        User.modifyUser(User.activeUser, "Harry", "Johnson", "hj@gmail.com", "testPassword1!");
+//        User.createClerkUser(User.activeUser);
 //        User user = new User("Harry", "Johnson", "hj@gmail.com");
 //        user.password = "testPassword1!";
-//
 //        SqlConnection.createUser(user);
 //        SqlConnection.validateUserCredentials(user.email, user.password);
 //        SqlConnection.getUserType(user.id);
-        System.out.println(User.ActiveUser.id);
+//        System.out.println(User.activeUser.id);
     }
 
 }

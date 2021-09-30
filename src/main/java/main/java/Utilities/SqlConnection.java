@@ -41,18 +41,16 @@ public class SqlConnection {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT Id From Users WHERE Email = '" + user.email + "' AND HashedPassword = '" + user.password + "'");
+            ResultSet rs = stmt.executeQuery("SELECT Id FROM Users WHERE Email = '" + user.email + "' AND HashedPassword = '" + user.password + "'");
 
             while (rs.next()) {
-                user.id = rs.findColumn("id");
+                user.id = rs.getInt("Id");
             }
 
             con.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        //retrieve the userId and assign it to the user object
-        //user.id =
         return user;
     }
 
@@ -85,7 +83,7 @@ public class SqlConnection {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("Select UserTypeId From Users Where UserId = " + userId);
             while (rs.next()) {
-                userTypeId = rs.findColumn("UserTypeId");
+                userTypeId = rs.getInt("UserTypeId");
             }
             switch(userTypeId){
                 case 1:
@@ -109,32 +107,27 @@ public class SqlConnection {
         return userType;
     }
 
-    //Jacoby more user methods
-    //Modify User account. Takes in a user and returns that same user if succesfull
-
     public static User getUserByUsername(String userName)
     {
         User user = new User();
-
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("Select * From Users Where UserName = '" + userName + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Email = '" + userName + "'");
             while (rs.next()) {
-                //populate everything except for password
-                //user.id = rs.get
-                //user.firstName =  rs.getString("FirstName")
+                user.id = rs.getInt("Id");
+                user.userTypeId = rs.getInt("UserTypeId");
+                user.firstName = rs.getString("FirstName");
+                user.lastName = rs.getString("LastName");
+                user.email = rs.getString("Email");
             }
         }
         catch(Exception ex){
             //logging
             return null;
         }
-
-
-
         return user;
     }
 
@@ -146,12 +139,46 @@ public class SqlConnection {
         return getUserByUsername(userName);
     }
 
-    //static function that takes in a User object and runs an Update statment
-    //Things you can't modify:
-    //
+    public static User modifyUser(User user, String newFirstName, String newLastName, String newUserName, String newPassword)
+    {
 
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE users SET FirstName = '" + newFirstName + "', LastName = '" + newLastName + "', Email = '" + newUserName + "', HashedPassword = '" + newPassword + "' WHERE Id = '" + user.id + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Id = '" + user.id + "'");
+            while (rs.next()) {
+                user.firstName = rs.getString("FirstName");
+                user.lastName = rs.getString("LastName");
+                user.email = rs.getString("Email");
+            }
+        }
+        catch(Exception ex){
+            //logging
+            return null;
+        }
+        return user;
+    }
 
-
+    public static User modifyUserType(User user, int newUserType)
+    {
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE users SET UserTypeId = '" + newUserType + "' WHERE Id = '" + user.id + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Id = '" + user.id + "'");
+            while (rs.next()) {
+                user.userTypeId = rs.getInt("UserTypeId");
+            }
+        }
+        catch(Exception ex){
+            //logging
+            return null;
+        }
+        return user;
+    }
 
     //Jake
     //Room methods
