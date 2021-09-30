@@ -1,8 +1,10 @@
 package main.java.Utilities;
+import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.DataModels.UserType;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
 
@@ -99,44 +101,73 @@ public class SqlConnection {
     //Things you can't modify:
     //
 
+    public static ArrayList<Room> getAllRooms(){
+        ArrayList<Room> rooms = new ArrayList<>();
 
-
-
-    //Jake
-    //Room methods
-    //Todo: Do i want to use a Room Class?
-    public static boolean getRoomInfo(int roomId){
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, userName, password);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id ='" + roomId + "'"); //Todo: Are these marks correct?
+            ResultSet rs = stmt.executeQuery("SELECT * FROM room");
 
             while(rs.next()){
-                int isAvailable = rs.getInt("isAvailable");
-                Date nextAvailableDate = rs.getDate("NextAvailableDate");
-                String roomType = rs.getString("RoomType");
-                int numBeds = rs.getInt("NumBeds");
-                String bedType = rs.getString("BedType");
-                int isSmoking = rs.getInt("isSmoking");
+                Room room = new Room();
+                room.id = rs.getInt("Id");
+                room.isAvailable = rs.getInt("isAvailable");
+                room.nextAvailableDate = rs.getDate("NextAvailableDate");
+                room.roomType = rs.getString("RoomType");
+                room.numBeds = rs.getInt("NumBeds");
+                room.bedType = rs.getString("BedType");
+                room.isSmoking = rs.getInt("isSmoking");
+
+                rooms.add(room);
             }
-
-
-            //use "Set" in SQL?
-            // Change all room options at the same time, on one GUI page
-
-
-
             con.close();
-
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
 
-        return true;
+        return rooms;
+    }
+
+
+    //Jake
+    //Room methods
+    //Todo: Do i want to use a Room Class?
+    public static Room getRoomById(int roomId){
+        Room room = new Room();
+        room.id = roomId;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, userName, password);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + roomId);
+
+            while(rs.next()){
+                room.isAvailable = rs.getInt("isAvailable");
+                room.nextAvailableDate = rs.getDate("NextAvailableDate");
+                room.roomType = rs.getString("RoomType");
+                room.numBeds = rs.getInt("NumBeds");
+                room.bedType = rs.getString("BedType");
+                room.isSmoking = rs.getInt("isSmoking");
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return room;
     }
     //Next method- updateRoomInfo()
+    public static boolean updateRoom(Room room){
+        boolean isUpdateSuccessful = true;
+        //do the try catch
+        String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
 
+
+        return isUpdateSuccessful;
+    }
 
 }
