@@ -104,5 +104,39 @@ public class SqlConnection {
 
     //Jake
     //Room methods
+    //Todo: Do i want to use a Room Class?
+    public static boolean getRoomInfo(int roomId){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, userName, password);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id ='" + roomId + "'"); //Todo: Are these marks correct?
+
+            while(rs.next()){
+                int isAvailable = rs.getInt("isAvailable");
+                Date nextAvailableDate = rs.getDate("NextAvailableDate");
+                String roomType = rs.getString("RoomType");
+                int numBeds = rs.getInt("NumBeds");
+                String bedType = rs.getString("BedType");
+                int isSmoking = rs.getInt("isSmoking");
+            }
+
+
+            //use "Set" in SQL?
+            // Change all room options at the same time, on one GUI page
+
+
+
+            con.close();
+
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return true;
+    }
+    //Next method- updateRoomInfo()
+
 
 }
