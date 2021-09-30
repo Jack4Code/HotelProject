@@ -25,7 +25,7 @@ public class SqlConnection {
             con.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return null;
+            return null; //TODO: actually throw this exception. we want it to break and catch it
         }
         return getUserId(user);
     }

@@ -25,6 +25,23 @@ public class UserManager {
         }
     }
 
+    public static boolean registerUser(String firstname, String lastname, String email, String password) {//for sign up as guest
+        boolean isRegisterSuccesss = true;
+        User userToSignup = new User(1, firstname, lastname, email, password);
+        try{
+            SqlConnection.createUser(userToSignup);
+        }
+        catch(Exception ex){
+            isRegisterSuccesss = false;
+        }
+
+        if(userToSignup.id == 0){
+            isRegisterSuccesss = false;
+        }
+
+        return isRegisterSuccesss;
+    }
+
     public User loginUser(String userName, String password)
     {
         return SqlConnection.validateAndGetUser(userName, password);
