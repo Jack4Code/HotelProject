@@ -3,47 +3,84 @@ package main.java.Managers;
 import main.java.DataModels.User;
 import main.java.Utilities.SqlConnection;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 
 
 public class UserManager {
 
-    public User ActiveUser = null; //TODO: Lookup nameing convention casing: is it pascal or camal
-    public HashMap<String, Integer> UserTypeIdMapping = new HashMap<>();
+    public User activeUser = null;
+    public HashMap<String, Integer> userTypeIdMapping = new HashMap<>();
 
     public UserManager(String userName, String password)
     {
-        UserTypeIdMapping.put("Guest", 1);
-        UserTypeIdMapping.put("Hotel Clerk", 2);
-        UserTypeIdMapping.put("SysAdmin", 3);
+        userTypeIdMapping.put("Guest", 1);
+        userTypeIdMapping.put("Hotel Clerk", 2);
+        userTypeIdMapping.put("SysAdmin", 3);
 
-        //ActiveUser = loginUser
+        activeUser = loginUser(userName, password);
+        if(activeUser == null)
+        {
+            throw new EmptyStackException();
+        }
     }
 
-    //Jacoby
-    //public User loginUser(userName, password)   //this should call SqlConnection.validateAndGetUser
+    public static boolean registerUser(String firstname, String lastname, String email, String password) {//for sign up as guest
+        boolean isRegisterSuccesss = true;
+        User userToSignup = new User(1, firstname, lastname, email, password);
+        try{
+            SqlConnection.createUser(userToSignup);
+        }
+        catch(Exception ex){
+            isRegisterSuccesss = false;
+        }
 
-    //public void logoutUser() //take active user and set it to null
+        if(userToSignup.id == 0){
+            isRegisterSuccesss = false;
+        }
+
+        return isRegisterSuccesss;
+    }
+
+    public User loginUser(String userName, String password)
+    {
+        return SqlConnection.validateAndGetUser(userName, password);
+    }
+
+    public void logoutUser()
+    {
+        activeUser = null;
+    }
 
     //create a hotel clerk account
-    public User createClerkUser(User clerk) //Something only a sysAdmin can do
+    public User createClerkUser(User activeUser, String firstName, String lastName, String email, String password)
     {
-        if(ActiveUser != null && ActiveUser.userTypeId != 3) //TODO: firgure out syntax: UserTypeIdMapping["SysAdmin"]
+        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
         {
             return null;
         }
+        User clerk = new User(2, firstName, lastName, email, password);
         return SqlConnection.createUser(clerk);
     }
 
-    //Jacoby
-    //Modify own user account. Check to make sure permission is granted to do modification.
+    public User modifyUser(User activeUser, String newFirstName, String newLastName, String newEmail, String newPassword)
+    {
+        if(activeUser == null)
+        {
+            return null;
+        }
+        return SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+    }
 
-    /*
-        bool available = true;
-        RoomManager.changeRoomStatus(roomId, available)
-
-     */
-
+    public User modifyUserType(User activeUser, String usernameToChange, int newUserType)
+    {
+        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
+        {
+            return null;
+        }
+        User userToChange = SqlConnection.getUserByUsername(usernameToChange);
+        return SqlConnection.modifyUserType(userToChange, newUserType);
+    }
 
 
 

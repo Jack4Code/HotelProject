@@ -14,8 +14,8 @@ public class SqlConnection {
     //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
     //public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
     public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
-    public static String userName = "zzsa@mysqlclassproject";
-    public static String password = "Y7*9dkUkl1";
+    public static String connectionUserName = "zzsa@mysqlclassproject";
+    public static String connectionPassword = "Y7*9dkUkl1";
 
     //Users
     public static User createUser(User user) {
@@ -90,16 +90,82 @@ public class SqlConnection {
         return userType;
     }
 
-    //Jacoby more user methods
-    //Modify User account. Takes in a user and returns that same user if succesfull
+    public static User getUserByUsername(String userName)
+    {
+        User user = new User();
 
-    //public static User getUserByUsername(string userName)
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Email = '" + userName + "'");
+            while (rs.next()) {
+                user.id = rs.getInt("Id");
+                user.userTypeId = rs.getInt("UserTypeId");
+                user.firstName = rs.getString("FirstName");
+                user.lastName = rs.getString("LastName");
+                user.email = rs.getString("Email");
+            }
+        }
+        catch(Exception ex){
+            //logging
+            return null;
+        }
+        return user;
+    }
 
-    //public static User validateAndGetUser(String userName, String password)
+    public static User validateAndGetUser(String userName, String password){
+        if(!validateUserCredentials(userName, password))
+        {
+            return null;
+        }
+        return getUserByUsername(userName);
+    }
 
-    //static function that takes in a User object and runs an Update statment
-    //Things you can't modify:
-    //
+    public static User modifyUser(User user, String newFirstName, String newLastName, String newUserName, String newPassword)
+    {
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE users SET FirstName = '" + newFirstName + "', LastName = '" + newLastName + "', Email = '" + newUserName + "', HashedPassword = '" + newPassword + "' WHERE Id = '" + user.id + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Id = '" + user.id + "'");
+            while (rs.next()) {
+                user.firstName = rs.getString("FirstName");
+                user.lastName = rs.getString("LastName");
+                user.email = rs.getString("Email");
+            }
+        }
+        catch(Exception ex){
+            //logging
+            return null;
+        }
+        return user;
+    }
+
+    public static User modifyUserType(User user, int newUserType)
+    {
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE users SET UserTypeId = '" + newUserType + "' WHERE Id = '" + user.id + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Id = '" + user.id + "'");
+            while (rs.next()) {
+                user.userTypeId = rs.getInt("UserTypeId");
+            }
+        }
+        catch(Exception ex){
+            //logging
+            return null;
+        }
+        return user;
+    }
+
+
+
+
 
     public static ArrayList<Room> getAllRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
@@ -160,7 +226,7 @@ public class SqlConnection {
     public static boolean updateRoom(Room room){
         boolean isUpdateSuccessful = true;
         //do the try catch
-       // String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
+        // String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -179,5 +245,7 @@ public class SqlConnection {
 
         return isUpdateSuccessful;
     }
+
+
 
 }
