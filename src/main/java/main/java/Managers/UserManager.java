@@ -1,5 +1,6 @@
 package main.java.Managers;
 
+import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.Utilities.SqlConnection;
 
@@ -55,7 +56,7 @@ public class UserManager {
     //create a hotel clerk account
     public User createClerkUser(User activeUser, String firstName, String lastName, String email, String password)
     {
-        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
+        if(activeUser != null && activeUser.userTypeId == userTypeIdMapping.get("SysAdmin"))
         {
             return null;
         }
@@ -82,6 +83,14 @@ public class UserManager {
         return SqlConnection.modifyUserType(userToChange, newUserType);
     }
 
+    public boolean updateRoom(Room room){
+        boolean isUpdateSuccessfull = false;
 
+        if(activeUser != null && activeUser.userTypeId == userTypeIdMapping.get("SysAdmin")){
+            isUpdateSuccessfull = RoomManager.updateRoom(room);
+        }
+
+        return isUpdateSuccessfull;
+    }
 
 }

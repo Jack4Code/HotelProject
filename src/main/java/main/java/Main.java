@@ -60,7 +60,6 @@ public class Main {
                 mainUser = null;
                 System.out.println("Logout successful!");
             }
-
             else if(command.equals("create-clerk")){
                 System.out.println("test");
             }

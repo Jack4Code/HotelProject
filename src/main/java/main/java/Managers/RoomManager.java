@@ -15,4 +15,13 @@ public class RoomManager {
         return SqlConnection.getRoomById(roomId);
     }
 
+
+    public static boolean updateRoom(Room room){
+        boolean isUpdateSuccessfull = true;
+
+        //implement
+
+        return isUpdateSuccessfull;
+    }
+
 }
