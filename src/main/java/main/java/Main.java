@@ -61,6 +61,10 @@ public class Main {
                 System.out.println("Logout successful!");
             }
 
+            else if(command.equals("create-clerk")){
+                System.out.println("test");
+            }
+
 
             System.out.println("Enter command: ");
             command = scanner.nextLine();
