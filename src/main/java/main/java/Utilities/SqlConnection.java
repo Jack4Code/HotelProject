@@ -131,10 +131,6 @@ public class SqlConnection {
         return rooms;
     }
 
-
-    //Jake
-    //Room methods
-    //Todo: Do i want to use a Room Class?
     public static Room getRoomById(int roomId){
         Room room = new Room();
         room.id = roomId;
@@ -146,8 +142,8 @@ public class SqlConnection {
             ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + roomId);
 
             while(rs.next()){
-                room.isAvailable = rs.getInt("isAvailable");
-                room.nextAvailableDate = rs.getDate("NextAvailableDate");
+                room.isAvailable = rs.getInt("isAvailable"); //Todo: Bit in SQL, so should be boolean here?
+                room.nextAvailableDate = rs.getDate("NextAvailableDate"); //Todo: Automatically set after guest checks in/out?
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
@@ -160,12 +156,26 @@ public class SqlConnection {
         }
         return room;
     }
-    //Next method- updateRoomInfo()
+
     public static boolean updateRoom(Room room){
         boolean isUpdateSuccessful = true;
         //do the try catch
-        String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
+       // String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
 
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, userName, password);
+            Statement stmt = con.createStatement();
+            String roomUpdateQuery=  "UPDATE room SET isAvailable = " + room.isAvailable +", RoomType = " + room.roomType +", NumBeds = " + room.numBeds +", isSmoking = " + room.isSmoking +", WHERE Id = " + room.id;
+            stmt.executeUpdate(roomUpdateQuery);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + room.id);
+            while (rs.next()){
+                //Change vlaues in here?
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
         return isUpdateSuccessful;
     }
