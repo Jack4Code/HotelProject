@@ -83,14 +83,16 @@ public class UserManager {
         return SqlConnection.modifyUserType(userToChange, newUserType);
     }
 
-    public boolean updateRoom(Room room){
-        boolean isUpdateSuccessfull = false;
 
-        if(activeUser != null && activeUser.userTypeId == userTypeIdMapping.get("SysAdmin")){
-            isUpdateSuccessfull = RoomManager.updateRoom(room);
+    public boolean checkRoomCredentials(Room room){
+        //Only Clerk can update rooms
+        boolean checkUserCred = false;
+
+        if(activeUser != null && activeUser.userTypeId == userTypeIdMapping.get("Hotel Clerk")){
+            //If the user is logged in, and is the Hotel Clerk, they can update the room
+            checkUserCred = true;
         }
 
-        return isUpdateSuccessfull;
+        return checkUserCred;
     }
-
 }

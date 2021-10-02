@@ -3,7 +3,10 @@ package main.java;
 import main.java.DataModels.User;
 import main.java.Utilities.SqlConnection;
 import main.java.Managers.UserManager;
+import main.java.DataModels.Room;
+import main.java.Managers.RoomManager;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -60,9 +63,46 @@ public class Main {
                 mainUser = null;
                 System.out.println("Logout successful!");
             }
+
             else if(command.equals("create-clerk")){
-                System.out.println("test");
+
+                //Todo: Make sure a SysAdmin is logged in and activeUser != null
+                System.out.println("Please enter firstname: ");
+                String firstname = scanner.nextLine();
+                System.out.println("Please enter lastname: ");
+                String lastname = scanner.nextLine();
+                System.out.println("Please enter email: ");
+                String email = scanner.nextLine();
+                System.out.println("Please enter password: ");
+                String password = scanner.nextLine();
+                User clerk = new User(2, firstname, lastname, email, password);
+                System.out.println(SqlConnection.createUser(clerk));
             }
+            //Todo: Create update room command - Jake
+            else if(command.equals("get-room")){
+                System.out.println("Room Number: ");
+                int roomId = scanner.nextInt();
+                System.out.println(RoomManager.lookUpRoomById(roomId));
+
+            }
+            else if(command.equals("modify-room")){
+                System.out.println("Room Number: ");
+                int roomId = scanner.nextInt();
+                //System.out.println(RoomManager.lookUpRoomById(roomId));
+                Room x = RoomManager.lookUpRoomById(roomId);
+                System.out.println("isAvailable (true/false): ");
+                boolean newIsAvailable = scanner.nextBoolean();
+                System.out.println("RoomType: ");
+                String newRoomType = scanner.nextLine();
+                System.out.println("Number of Beds: ");
+                int newNumBeds = scanner.nextInt();
+                System.out.println("Bed Type: ");
+                String newBedType = scanner.nextLine();
+                System.out.println(SqlConnection.modifyRoom(x, newIsAvailable, newRoomType, newNumBeds, newBedType));
+                //Todo: I think my SQL query isn't correct. Everything works except the strings newRoomType, newBedType
+            }
+
+
 
 
             System.out.println("Enter command: ");

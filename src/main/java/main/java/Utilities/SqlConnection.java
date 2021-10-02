@@ -2,6 +2,7 @@ package main.java.Utilities;
 import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.DataModels.UserType;
+import main.java.Managers.UserManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -178,7 +179,7 @@ public class SqlConnection {
             while(rs.next()){
                 Room room = new Room();
                 room.id = rs.getInt("Id");
-                room.isAvailable = rs.getInt("isAvailable");
+                room.isAvailable = rs.getBoolean("isAvailable");
                 room.nextAvailableDate = rs.getDate("NextAvailableDate");
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
@@ -207,12 +208,11 @@ public class SqlConnection {
             ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + roomId);
 
             while(rs.next()){
-                room.isAvailable = rs.getInt("isAvailable"); //Todo: Bit in SQL, so should be boolean here?
-                room.nextAvailableDate = rs.getDate("NextAvailableDate"); //Todo: Automatically set after guest checks in/out?
+                //Todo: Note- Don't want to give access to modify nextAvailableDate and isSmoking
+                room.isAvailable = rs.getBoolean("isAvailable"); //Todo: Bit in SQL, so should be boolean here?
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
-                room.isSmoking = rs.getInt("isSmoking");
             }
             con.close();
         }
@@ -222,26 +222,37 @@ public class SqlConnection {
         return room;
     }
 
-    public static boolean updateRoom(Room room){
-        boolean isUpdateSuccessful = true;
-        //do the try catch
-        // String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
 
+    public static Room modifyRoom(Room room, boolean newIsAvailable, String newRoomType, int newNumBeds, String newBedType)
+    {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            String roomUpdateQuery=  "UPDATE room SET isAvailable = " + room.isAvailable +", RoomType = " + room.roomType +", NumBeds = " + room.numBeds +", isSmoking = " + room.isSmoking +", WHERE Id = " + room.id;
-            stmt.executeUpdate(roomUpdateQuery);
+            stmt.executeUpdate("UPDATE room SET isAvailable = " + newIsAvailable + ", RoomType = '" + newRoomType + "', NumBeds = " + newNumBeds + ", BedType = '" + newBedType +"' WHERE Id = " + room.id);
+            //Todo: Verify the executeUpdate statement above with Jack- unsure on "" marks
             ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + room.id);
-            while (rs.next()){
-                //Change vlaues in here?
+
+            while(rs.next()){
+                room.isAvailable = rs.getBoolean("isAvailable");
+                room.roomType = rs.getString("RoomType");
+                room.numBeds = rs.getInt("NumBeds");
+                room.bedType = rs.getString("BedType");
+
             }
+            con.close();
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
+            //Todo: return null here?
+            //Todo: Ask Jack- what would be a null room or user
         }
+        return room;
 
-        return isUpdateSuccessful;
     }
+
+
+
+
+
 }
