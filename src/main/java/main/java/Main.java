@@ -11,11 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new LoginRegisterView();
-
-
+        runUI();
     }
 
+    public static void runUI(){
+        new LoginRegisterView();
+    }
 
     public static void runConsole(){
         String command = "";

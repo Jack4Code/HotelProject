@@ -16,6 +16,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
     JButton toggleRegisterPage;
 
     JPanel loginContainerPanel;
+    JPanel registerContainerPanel;
 
     public LoginRegisterView() {
 
@@ -43,8 +44,27 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         jpanel.setLayout(null);
 
         jpanel.add(getHeaderPane("Login", "Sign in to your account"));
-        jpanel.add(getInputComponent(185, "Email:", false));
-        jpanel.add(getInputComponent(275, "Password:", true));
+        jpanel.add(getInputComponent(185, "Email", false));
+        jpanel.add(getInputComponent(270, "Password", true));
+
+        loginButton = new JButton("Login");
+        loginButton.setFocusable(false);
+        loginButton.setFont(new Font("serif", Font.PLAIN, 30)); //TODO: figure out why this shifts the font position down
+        loginButton.setBounds(40, 365, 320, 60);
+        loginButton.setBackground(CustomColor.PURPLE_THEME_TXT);
+        loginButton.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        loginButton.addActionListener(this);
+
+        registerButton = new JButton("Register");
+        registerButton.setFocusable(false);
+        registerButton.setFont(new Font("serif", Font.PLAIN, 30)); //TODO: figure out why this shifts the font position down
+        registerButton.setBounds(40, 440, 320, 60);
+        registerButton.setBackground(CustomColor.PURPLE_THEME_TXT);
+        registerButton.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        registerButton.addActionListener(this);
+
+        jpanel.add(loginButton);
+        jpanel.add(registerButton);
 
         return jpanel;
     }
@@ -81,7 +101,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         panel.setBounds(0, yPosition, 400, 75);
         panel.setLayout(null);
 
-        JLabel label = new JLabel(placeholderTxt);
+        JLabel label = new JLabel(placeholderTxt + ":");
         label.setBounds(40, 10, 200, 16);
         label.setFont(new Font("serif", Font.PLAIN, 16));
 
@@ -89,6 +109,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         if(isPassword){
             textField = new JPasswordField();
         }
+        textField.putClientProperty("id", placeholderTxt);
         textField.setBounds(40, 30, 320, 40);
         textField.setBackground(CustomColor.INPUT_BACKGROUND);
         //placeholder text? //TODO: figure out how to do this in swing...swing sucks so bad!!
@@ -125,7 +146,12 @@ public class LoginRegisterView extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e){
-
+        if(e.getSource() == loginButton){
+            System.out.println("Login button pressed!");
+        }
+        else if(e.getSource() == registerButton){
+            System.out.println("Register button pressed!");
+        }
     }
 
 }
