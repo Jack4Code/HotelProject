@@ -1,0 +1,345 @@
+package main.java.UI;
+
+import main.java.Managers.UserManager;
+import main.java.UI.Resources.CustomColor;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class PortalView extends JFrame implements ActionListener {
+
+    UserManager userManager;
+
+    //Side nav stuff
+    JPanel sideNavContainer = null;
+    JPanel homeOption, userOption, settingsOption, roomOption;
+    JButton homeOptionButton, userOptionButton, settingsOptionButton, roomOptionButton;
+
+    //Top bar stuff
+    JPanel topBarContainer;
+    JButton logoutButton;
+
+    //page content stuff
+    JPanel homeContent, userContent, settingsContent, roomContent = null;
+    JTextField firstName, lastName, password;
+    JButton settingsSubmissionBtn;
+
+    //state
+    String currentTab;
+
+    public PortalView(UserManager loggedInUser) {
+        this.userManager = loggedInUser;
+
+        this.currentTab = "Home";
+        //this.toggleHomeView();
+
+        sideNavContainer = initSideNav();
+        topBarContainer = initTopBar();
+
+        this.add(sideNavContainer);
+        this.add(topBarContainer);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Hotel J3");
+        ImageIcon mainIcon = new ImageIcon("hotel2.png");
+        this.setIconImage(mainIcon.getImage());
+        this.getContentPane().setBackground(CustomColor.MAIN_PURPLE_THEME);
+        this.setLayout(null);
+        this.setSize(1610, 950);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        System.out.println("Logged in as user: " + userManager.activeUser.email);
+    }
+
+    public JPanel initSideNav() {
+        JPanel panel = new JPanel();
+        panel.setBackground(CustomColor.PORTAL_SIDE_NAV);
+        panel.setBounds(0, 0, 250, 1900);
+        panel.setLayout(null);
+
+        homeOption = this.generateSideNavOption("Home", 160);
+        settingsOption = this.generateSideNavOption("Settings", 220);
+
+
+        panel.add(homeOption);
+
+        if (userManager.activeUser.userTypeId == 2) {
+            roomOption = this.generateSideNavOption("Rooms", 280);
+            panel.add(roomOption);
+        } else if(userManager.activeUser.userTypeId == 3){
+            userOption = this.generateSideNavOption("Users", 280);
+            panel.add(userOption);
+        }
+
+        panel.add(settingsOption);
+
+        return panel;
+    }
+
+    public JPanel generateSideNavOption(String label, int yPosition) {
+        JPanel panel = new JPanel();
+
+        panel.setLayout(null);
+        panel.setBounds(0, yPosition, 250, 60);
+        panel.setBackground(label.equals(this.currentTab) ? CustomColor.HIGHLIGHTED_OPTION : CustomColor.TRANSPARENT);
+
+        JButton btn = new JButton(label);
+        btn.setFocusable(false);
+        btn.setBounds(0, 0, 250, 60);
+        btn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        btn.setBackground(CustomColor.TRANSPARENT);
+        btn.setBorder(null);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setFocusPainted(false);
+        btn.setRolloverEnabled(false);
+        btn.setContentAreaFilled(false);
+        btn.setFont(new Font("serif", Font.PLAIN, 20));
+
+        if (label.equals(this.currentTab)) {
+            JPanel selectedBar = new JPanel();
+            selectedBar.setLayout(null);
+            selectedBar.setBackground(CustomColor.SELECTED_BAR);
+            selectedBar.setBounds(0, 0, 5, 60);
+            panel.add(selectedBar);
+        }
+
+        switch (label) {
+            case "Home":
+                homeOptionButton = btn;
+                homeOptionButton.addActionListener(this);
+                panel.add(homeOptionButton);
+                break;
+            case "Users":
+                userOptionButton = btn;
+                userOptionButton.addActionListener(this);
+                panel.add(userOptionButton);
+                break;
+            case "Settings":
+                settingsOptionButton = btn;
+                settingsOptionButton.addActionListener(this);
+                panel.add(settingsOptionButton);
+                break;
+            case "Rooms":
+                roomOptionButton = btn;
+                roomOptionButton.addActionListener(this);
+                panel.add(roomOptionButton);
+                break;
+            default:
+                break;
+        }
+
+        return panel;
+    }
+
+    public JPanel initTopBar() {
+        JPanel panel = new JPanel();
+        panel.setBackground(CustomColor.PORTAL_TOP_BAR);
+        panel.setBounds(250, 0, 2000, 80);
+        panel.setLayout(null);
+
+        //TODO: Figure out how to make this right align and reposition with resizing
+        logoutButton = new JButton("Logout");
+        logoutButton.setFont(new Font("serif", Font.PLAIN, 30));
+        logoutButton.setFocusable(false);
+        logoutButton.setBackground(CustomColor.TRANSPARENT);
+        logoutButton.setBorder(null);
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoutButton.setFocusPainted(false);
+        logoutButton.setRolloverEnabled(false);
+        logoutButton.setContentAreaFilled(false);
+        logoutButton.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        logoutButton.setBounds(1200, 15, 150, 50);
+        logoutButton.addActionListener(this);
+
+        panel.add(logoutButton);
+
+        return panel;
+    }
+
+    public void regenerateSideNav() {
+
+        if(settingsContent != null) {
+            this.remove(settingsContent);
+        }
+        if(userContent != null){
+            this.remove(userContent);
+        }
+        if(homeContent != null){
+            this.remove(homeContent);
+        }
+        this.repaint();
+
+        if(sideNavContainer != null){
+            this.remove(sideNavContainer);
+        }
+
+        sideNavContainer = initSideNav();
+        this.add(sideNavContainer);
+        this.repaint();
+    }
+
+    public JPanel generateBlankContentCanvas(){
+        JPanel panel = new JPanel();
+
+        panel.setLayout(null);
+        panel.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
+        panel.setBounds(330, 160, 1200, 700);
+
+        return panel;
+    }
+
+    public void toggleHomeView() {
+        this.regenerateSideNav();
+
+        this.homeContent = generateBlankContentCanvas();
+
+        //
+
+        this.add(homeContent);
+        this.repaint();
+    }
+
+    public void toggleUserView() {
+        this.regenerateSideNav();
+
+        this.userContent = generateBlankContentCanvas();
+
+        JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameLabel.setBounds(40, 15, 320, 24);
+        firstNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        firstName = new JTextField("");
+        firstName.setBounds(40, 40, 320, 40);
+        firstName.setBackground(CustomColor.INPUT_BACKGROUND);
+        firstName.setFont(new Font("serif", Font.PLAIN, 20));
+        firstName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        firstName.setMargin(new Insets(0, 10, 0, 0));
+
+        JLabel lastNameLabel = new JLabel("Last Name:");
+        lastNameLabel.setBounds(40, 115, 320, 24);
+        lastNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        lastName = new JTextField("");
+        lastName.setBounds(40, 140, 320, 40);
+        lastName.setBackground(CustomColor.INPUT_BACKGROUND);
+        lastName.setFont(new Font("serif", Font.PLAIN, 20));
+        lastName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        lastName.setMargin(new Insets(0, 10, 0, 0));
+
+
+//        JLabel emailLabel = new JLabel("Email:");
+//        emailLabel.setBounds(40, 200, 320, 24);
+//        emailLabel.setFont(new Font("serif", Font.PLAIN, 20));
+//
+//        email = new JTextField("");
+//        password.setBounds(40, 225, 320, 40);
+//        password.setBackground(CustomColor.INPUT_BACKGROUND);
+//        password.setFont(new Font("serif", Font.PLAIN, 20));
+//        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+//        password.setMargin(new Insets(0, 10, 0, 0));
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setBounds(40, 200, 320, 24);
+        passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        password = new JPasswordField(userManager.activeUser.password);
+        password.setBounds(40, 225, 320, 40);
+        password.setBackground(CustomColor.INPUT_BACKGROUND);
+        password.setFont(new Font("serif", Font.PLAIN, 20));
+        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        password.setMargin(new Insets(0, 10, 0, 0));
+
+        this.repaint();
+    }
+
+    public void toggleSettingsView(){
+        System.out.println("Settings view toggled!");
+        this.regenerateSideNav();
+
+        this.settingsContent = generateBlankContentCanvas();
+
+        JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameLabel.setBounds(40, 15, 320, 24);
+        firstNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        firstName = new JTextField(userManager.activeUser.firstName);
+        firstName.setBounds(40, 40, 320, 40);
+        firstName.setBackground(CustomColor.INPUT_BACKGROUND);
+        firstName.setFont(new Font("serif", Font.PLAIN, 20));
+        firstName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        firstName.setMargin(new Insets(0, 10, 0, 0));
+
+        JLabel lastNameLabel = new JLabel("Last Name:");
+        lastNameLabel.setBounds(40, 115, 320, 24);
+        lastNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        lastName = new JTextField(userManager.activeUser.lastName);
+        lastName.setBounds(40, 140, 320, 40);
+        lastName.setBackground(CustomColor.INPUT_BACKGROUND);
+        lastName.setFont(new Font("serif", Font.PLAIN, 20));
+        lastName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        lastName.setMargin(new Insets(0, 10, 0, 0));
+
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setBounds(40, 200, 320, 24);
+        passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        password = new JPasswordField(userManager.activeUser.password);
+        password.setBounds(40, 225, 320, 40);
+        password.setBackground(CustomColor.INPUT_BACKGROUND);
+        password.setFont(new Font("serif", Font.PLAIN, 20));
+        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        password.setMargin(new Insets(0, 10, 0, 0));
+
+
+        settingsSubmissionBtn = new JButton("Modify");
+        settingsSubmissionBtn.setFocusable(false);
+        settingsSubmissionBtn.setBounds(40, 285, 320, 40);
+        settingsSubmissionBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        settingsSubmissionBtn.setFont(new Font("serif", Font.PLAIN, 20));
+        settingsSubmissionBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        settingsSubmissionBtn.addActionListener(this);
+
+
+        settingsContent.add(firstNameLabel);
+        settingsContent.add(firstName);
+        settingsContent.add(lastNameLabel);
+        settingsContent.add(lastName);
+        settingsContent.add(passwordLabel);
+        settingsContent.add(password);
+        settingsContent.add(settingsSubmissionBtn);
+        this.add(settingsContent);
+        this.repaint();
+    }
+
+    public void toggleRoomsView() {
+        this.regenerateSideNav();
+
+        this.repaint();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == logoutButton) {
+            new LoginRegisterView();
+            this.dispose();
+        } else if (e.getSource() == homeOptionButton) {
+            this.currentTab = "Home";
+            this.toggleHomeView();
+        } else if (e.getSource() == userOptionButton) {
+            this.currentTab = "Users";
+            this.toggleUserView();
+        } else if(e.getSource() == settingsOptionButton){
+            this.currentTab = "Settings";
+            this.toggleSettingsView();
+        } else if(e.getSource() == roomOptionButton){
+            this.currentTab = "Rooms";
+            this.toggleRoomsView();
+        }else if(e.getSource() == settingsSubmissionBtn) {
+            userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), userManager.activeUser.email, password.getText());
+        }
+    }
+}

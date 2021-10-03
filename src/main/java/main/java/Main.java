@@ -2,16 +2,26 @@ package main.java;
 
 import main.java.DataModels.User;
 import main.java.UI.LoginRegisterView;
+import main.java.UI.PortalView;
 import main.java.Utilities.SqlConnection;
 import main.java.Managers.UserManager;
 
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        runUI();
+
+        //runUI(); //Run to start from login page
+
+        UserManager u = new UserManager("jack@giannini.org", "password");
+        u.activeUser.password = "password";
+        new PortalView(u);
+
     }
 
     public static void runUI(){

@@ -19,10 +19,10 @@ public class UserManager {
         userTypeIdMapping.put("SysAdmin", 3);
 
         activeUser = loginUser(userName, password);
-        if(activeUser == null)
-        {
-            throw new EmptyStackException();
-        }
+//        if(activeUser == null)
+//        {
+//            throw new EmptyStackException();
+//        }
     }
 
     public static boolean registerUser(String firstname, String lastname, String email, String password) {//for sign up as guest
