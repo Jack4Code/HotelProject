@@ -18,6 +18,8 @@ public class RoomManager {
        //Todo: Ask Jack about error - "non static method cannot be referenced from a static context"
         //Todo: Trying to use a boolean return type with a Room return type
 
+        //Todo: If I create an instance of user manager, this method wouldn't be needed?
+
         return checkClerkCredentials;
     }
 

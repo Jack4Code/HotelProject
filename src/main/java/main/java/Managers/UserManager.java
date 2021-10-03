@@ -86,6 +86,7 @@ public class UserManager {
 
     public boolean checkRoomCredentials(Room room){
         //Only Clerk can update rooms
+
         boolean checkUserCred = false;
 
         if(activeUser != null && activeUser.userTypeId == userTypeIdMapping.get("Hotel Clerk")){

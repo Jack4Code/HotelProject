@@ -2,6 +2,7 @@ package main.java.Utilities;
 import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.DataModels.UserType;
+import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
 
 import java.sql.*;
@@ -209,7 +210,7 @@ public class SqlConnection {
 
             while(rs.next()){
                 //Todo: Note- Don't want to give access to modify nextAvailableDate and isSmoking
-                room.isAvailable = rs.getBoolean("isAvailable"); //Todo: Bit in SQL, so should be boolean here?
+                room.isAvailable = rs.getBoolean("isAvailable");
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
@@ -230,7 +231,7 @@ public class SqlConnection {
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
             stmt.executeUpdate("UPDATE room SET isAvailable = " + newIsAvailable + ", RoomType = '" + newRoomType + "', NumBeds = " + newNumBeds + ", BedType = '" + newBedType +"' WHERE Id = " + room.id);
-            //Todo: Verify the executeUpdate statement above with Jack- unsure on "" marks
+
             ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + room.id);
 
             while(rs.next()){
