@@ -1,6 +1,7 @@
 package main.java.DataModels;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 public class Room {
     public int id, isAvailable, numBeds, isSmoking;
@@ -18,8 +19,5 @@ public class Room {
         this.numBeds = NumBeds;
         this.bedType = BedType;
         this.isSmoking = isSmoking;
-
     }
-
-
 }

@@ -1,12 +1,22 @@
 package main.java.UI;
 
+import jdk.jshell.spi.ExecutionControlProvider;
+import main.java.DataModels.Room;
+import main.java.DataModels.User;
+import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.TableCellListener;
 
 import javax.swing.*;
+import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class PortalView extends JFrame implements ActionListener {
 
@@ -23,8 +33,10 @@ public class PortalView extends JFrame implements ActionListener {
 
     //page content stuff
     JPanel homeContent, userContent, settingsContent, roomContent = null;
-    JTextField firstName, lastName, password;
-    JButton settingsSubmissionBtn;
+    JTextField firstName, lastName, password, email;
+    JButton settingsSubmissionBtn, userCreateBtn;
+    JTable roomsTable;
+    ArrayList<Room> rooms;
 
     //state
     String currentTab;
@@ -47,7 +59,7 @@ public class PortalView extends JFrame implements ActionListener {
         this.setIconImage(mainIcon.getImage());
         this.getContentPane().setBackground(CustomColor.MAIN_PURPLE_THEME);
         this.setLayout(null);
-        this.setSize(1610, 950);
+        this.setSize(1650, 990);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         System.out.println("Logged in as user: " + userManager.activeUser.email);
@@ -68,7 +80,7 @@ public class PortalView extends JFrame implements ActionListener {
         if (userManager.activeUser.userTypeId == 2) {
             roomOption = this.generateSideNavOption("Rooms", 280);
             panel.add(roomOption);
-        } else if(userManager.activeUser.userTypeId == 3){
+        } else if (userManager.activeUser.userTypeId == 3) {
             userOption = this.generateSideNavOption("Users", 280);
             panel.add(userOption);
         }
@@ -160,18 +172,21 @@ public class PortalView extends JFrame implements ActionListener {
 
     public void regenerateSideNav() {
 
-        if(settingsContent != null) {
+        if (settingsContent != null) {
             this.remove(settingsContent);
         }
-        if(userContent != null){
+        if (userContent != null) {
             this.remove(userContent);
         }
-        if(homeContent != null){
+        if (homeContent != null) {
             this.remove(homeContent);
+        }
+        if (roomContent != null) {
+            this.remove(roomContent);
         }
         this.repaint();
 
-        if(sideNavContainer != null){
+        if (sideNavContainer != null) {
             this.remove(sideNavContainer);
         }
 
@@ -180,7 +195,7 @@ public class PortalView extends JFrame implements ActionListener {
         this.repaint();
     }
 
-    public JPanel generateBlankContentCanvas(){
+    public JPanel generateBlankContentCanvas() {
         JPanel panel = new JPanel();
 
         panel.setLayout(null);
@@ -206,77 +221,92 @@ public class PortalView extends JFrame implements ActionListener {
 
         this.userContent = generateBlankContentCanvas();
 
+        JLabel hotelClerkSignUpHeader = new JLabel("Create new hotel clerk below:");
+        hotelClerkSignUpHeader.setForeground(CustomColor.PORTAL_TOP_BAR);
+        hotelClerkSignUpHeader.setFont(new Font("serif", Font.PLAIN, 30));
+        hotelClerkSignUpHeader.setBounds(40, 35, 700, 35);
+
         JLabel firstNameLabel = new JLabel("First Name:");
-        firstNameLabel.setBounds(40, 15, 320, 24);
+        firstNameLabel.setBounds(40, 115, 320, 24);
         firstNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
         firstName = new JTextField("");
-        firstName.setBounds(40, 40, 320, 40);
+        firstName.setBounds(40, 140, 320, 40);
         firstName.setBackground(CustomColor.INPUT_BACKGROUND);
         firstName.setFont(new Font("serif", Font.PLAIN, 20));
         firstName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
         firstName.setMargin(new Insets(0, 10, 0, 0));
 
         JLabel lastNameLabel = new JLabel("Last Name:");
-        lastNameLabel.setBounds(40, 115, 320, 24);
+        lastNameLabel.setBounds(40, 215, 320, 24);
         lastNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
         lastName = new JTextField("");
-        lastName.setBounds(40, 140, 320, 40);
+        lastName.setBounds(40, 240, 320, 40);
         lastName.setBackground(CustomColor.INPUT_BACKGROUND);
         lastName.setFont(new Font("serif", Font.PLAIN, 20));
         lastName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
         lastName.setMargin(new Insets(0, 10, 0, 0));
 
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setBounds(40, 315, 320, 24);
+        emailLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
-//        JLabel emailLabel = new JLabel("Email:");
-//        emailLabel.setBounds(40, 200, 320, 24);
-//        emailLabel.setFont(new Font("serif", Font.PLAIN, 20));
-//
-//        email = new JTextField("");
-//        password.setBounds(40, 225, 320, 40);
-//        password.setBackground(CustomColor.INPUT_BACKGROUND);
-//        password.setFont(new Font("serif", Font.PLAIN, 20));
-//        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-//        password.setMargin(new Insets(0, 10, 0, 0));
+        email = new JTextField("");
+        email.setBounds(40, 340, 320, 40);
+        email.setBackground(CustomColor.INPUT_BACKGROUND);
+        email.setFont(new Font("serif", Font.PLAIN, 20));
+        email.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        email.setMargin(new Insets(0, 10, 0, 0));
 
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(40, 200, 320, 24);
-        passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
+        userCreateBtn = new JButton("Create");
+        userCreateBtn.setFocusable(false);
+        userCreateBtn.setBounds(40, 440, 320, 40);
+        userCreateBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        userCreateBtn.setFont(new Font("serif", Font.PLAIN, 20));
+        userCreateBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        userCreateBtn.addActionListener(this);
 
-        password = new JPasswordField(userManager.activeUser.password);
-        password.setBounds(40, 225, 320, 40);
-        password.setBackground(CustomColor.INPUT_BACKGROUND);
-        password.setFont(new Font("serif", Font.PLAIN, 20));
-        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        password.setMargin(new Insets(0, 10, 0, 0));
-
+        userContent.add(hotelClerkSignUpHeader);
+        userContent.add(firstNameLabel);
+        userContent.add(firstName);
+        userContent.add(lastNameLabel);
+        userContent.add(lastName);
+        userContent.add(emailLabel);
+        userContent.add(email);
+        userContent.add(userCreateBtn);
+        this.add(userContent);
         this.repaint();
     }
 
-    public void toggleSettingsView(){
+    public void toggleSettingsView() {
         System.out.println("Settings view toggled!");
         this.regenerateSideNav();
 
         this.settingsContent = generateBlankContentCanvas();
 
+        JLabel modifyAccountMsg = new JLabel("Modify your account below:");
+        modifyAccountMsg.setForeground(CustomColor.PORTAL_TOP_BAR);
+        modifyAccountMsg.setFont(new Font("serif", Font.PLAIN, 30));
+        modifyAccountMsg.setBounds(40, 35, 700, 35);
+
         JLabel firstNameLabel = new JLabel("First Name:");
-        firstNameLabel.setBounds(40, 15, 320, 24);
+        firstNameLabel.setBounds(40, 115, 320, 24);
         firstNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
         firstName = new JTextField(userManager.activeUser.firstName);
-        firstName.setBounds(40, 40, 320, 40);
+        firstName.setBounds(40, 140, 320, 40);
         firstName.setBackground(CustomColor.INPUT_BACKGROUND);
         firstName.setFont(new Font("serif", Font.PLAIN, 20));
         firstName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
         firstName.setMargin(new Insets(0, 10, 0, 0));
 
         JLabel lastNameLabel = new JLabel("Last Name:");
-        lastNameLabel.setBounds(40, 115, 320, 24);
+        lastNameLabel.setBounds(40, 215, 320, 24);
         lastNameLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
         lastName = new JTextField(userManager.activeUser.lastName);
-        lastName.setBounds(40, 140, 320, 40);
+        lastName.setBounds(40, 240, 320, 40);
         lastName.setBackground(CustomColor.INPUT_BACKGROUND);
         lastName.setFont(new Font("serif", Font.PLAIN, 20));
         lastName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
@@ -284,11 +314,11 @@ public class PortalView extends JFrame implements ActionListener {
 
 
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(40, 200, 320, 24);
+        passwordLabel.setBounds(40, 315, 320, 24);
         passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
         password = new JPasswordField(userManager.activeUser.password);
-        password.setBounds(40, 225, 320, 40);
+        password.setBounds(40, 340, 320, 40);
         password.setBackground(CustomColor.INPUT_BACKGROUND);
         password.setFont(new Font("serif", Font.PLAIN, 20));
         password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
@@ -297,13 +327,14 @@ public class PortalView extends JFrame implements ActionListener {
 
         settingsSubmissionBtn = new JButton("Modify");
         settingsSubmissionBtn.setFocusable(false);
-        settingsSubmissionBtn.setBounds(40, 285, 320, 40);
+        settingsSubmissionBtn.setBounds(40, 440, 320, 40);
         settingsSubmissionBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         settingsSubmissionBtn.setFont(new Font("serif", Font.PLAIN, 20));
         settingsSubmissionBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
         settingsSubmissionBtn.addActionListener(this);
 
 
+        settingsContent.add(modifyAccountMsg);
         settingsContent.add(firstNameLabel);
         settingsContent.add(firstName);
         settingsContent.add(lastNameLabel);
@@ -316,8 +347,99 @@ public class PortalView extends JFrame implements ActionListener {
     }
 
     public void toggleRoomsView() {
-        this.regenerateSideNav();
 
+        this.regenerateSideNav();
+        this.roomContent = generateBlankContentCanvas();
+
+        rooms = RoomManager.getAllRooms();
+
+        String[] columnNames = {
+                "Id",
+                "Available Now",
+                "Next Available Date",
+                "Room Type",
+                "Bed Count",
+                "Bed Type",
+                "Smoking Available"
+        };
+
+        Object[][] data = new Object[40][7];
+
+        for (int i = 0; i < 40; i++) {
+            data[i][0] = rooms.get(i).id;
+            data[i][1] = rooms.get(i).isAvailable == 1 ? "Yes" : "No";
+            data[i][2] = rooms.get(i).nextAvailableDate;
+            data[i][3] = rooms.get(i).roomType.substring(0, 1).toUpperCase() + rooms.get(i).roomType.substring(1).toLowerCase();
+            data[i][4] = rooms.get(i).numBeds;
+            data[i][5] = rooms.get(i).bedType.substring(0, 1).toUpperCase() + rooms.get(i).bedType.substring(1).toLowerCase();
+            data[i][6] = rooms.get(i).isSmoking == 1 ? "Yes" : "No";
+        }
+
+        roomsTable = new JTable(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0;
+            }
+        };
+
+        roomsTable.setBounds(0, 0, 900, 650);
+        roomsTable.setFont(new Font("serif", Font.PLAIN, 20));
+        roomsTable.setRowHeight(21);
+
+        Action action = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                TableCellListener tcl = (TableCellListener) e.getSource();
+                System.out.println("Row   : " + tcl.getRow());
+                System.out.println("Column: " + tcl.getColumn());
+                System.out.println("Old   : " + tcl.getOldValue());
+                System.out.println("New   : " + tcl.getNewValue());
+
+                System.out.println("Updating database!");
+
+                Room roomToUpdate = new Room();
+                roomToUpdate = rooms.get(tcl.getRow()); //TODO: Be careful here...what if the order changes? Fix potential bug before it arises
+
+                switch (tcl.getColumn()) {
+                    case 1:
+                        roomToUpdate.isAvailable = tcl.getNewValue().toString().toLowerCase().equals("yes") ? 1 : 0;
+                        break;
+                    case 2:
+                        try {
+                            roomToUpdate.nextAvailableDate = new SimpleDateFormat("yyyy-MM-dd").parse(tcl.getNewValue().toString());
+                        } catch (Exception ignore) {
+                        }
+                        break;
+                    case 3:
+                        roomToUpdate.roomType = tcl.getNewValue().toString();
+                        break;
+                    case 4:
+                        roomToUpdate.numBeds = Integer.parseInt(tcl.getNewValue().toString());
+                        break;
+                    case 5:
+                        roomToUpdate.bedType = tcl.getNewValue().toString();
+                        break;
+                    case 6:
+                        roomToUpdate.isSmoking = tcl.getNewValue().toString().toLowerCase().equals("yes") ? 1 : 0;
+                        break;
+                }
+
+                RoomManager.updateRoom(roomToUpdate);
+            }
+        };
+
+        TableCellListener tcl = new TableCellListener(roomsTable, action);
+
+        JScrollPane pane = new JScrollPane(roomsTable);
+        pane.setBounds(150, 120, 900, 483);
+
+        JLabel tableTitle = new JLabel("Modify room information below: ");
+        tableTitle.setFont(new Font("serif", Font.PLAIN, 30));
+        tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        tableTitle.setBounds(150, 60, 700, 35);
+
+        roomContent.add(tableTitle);
+        roomContent.add(pane);
+        this.add(roomContent);
         this.repaint();
     }
 
@@ -332,14 +454,61 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == userOptionButton) {
             this.currentTab = "Users";
             this.toggleUserView();
-        } else if(e.getSource() == settingsOptionButton){
+        } else if (e.getSource() == settingsOptionButton) {
             this.currentTab = "Settings";
             this.toggleSettingsView();
-        } else if(e.getSource() == roomOptionButton){
+        } else if (e.getSource() == roomOptionButton) {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
-        }else if(e.getSource() == settingsSubmissionBtn) {
-            userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), userManager.activeUser.email, password.getText());
+        } else if (e.getSource() == settingsSubmissionBtn) {
+            try {
+                userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), userManager.activeUser.email, password.getText());
+                JFrame modal = new JFrame(); //TODO: For 2nd release implement true modal functionality
+
+                JLabel successMessage = new JLabel("Account modified!");
+                successMessage.setFont(new Font("serif", Font.PLAIN, 20));
+
+                modal.add(successMessage);
+                modal.setTitle("Hotel J3");
+                ImageIcon mainIcon = new ImageIcon("hotel2.png");
+                modal.setIconImage(mainIcon.getImage());
+                modal.setSize(200, 200);
+                modal.setLocationRelativeTo(null);
+                modal.setVisible(true);
+            } catch (Exception ignore) {
+            }
+
+        } else if (e.getSource() == userCreateBtn) {
+
+            try {
+
+                if (userManager.createClerkUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(),
+                        "password" + firstName.getText().substring(0, 1).toLowerCase() + lastName.getText().substring(0, 1).toLowerCase())) {
+
+
+                    JFrame modal = new JFrame(); //TODO: For 2nd release implement true modal functionality
+
+                    JLabel successMessage = new JLabel(firstName.getText() + " " + lastName.getText() + " created!");
+                    successMessage.setFont(new Font("serif", Font.PLAIN, 20));
+
+                    modal.add(successMessage);
+                    modal.setTitle("Hotel J3");
+                    ImageIcon mainIcon = new ImageIcon("hotel2.png");
+                    modal.setIconImage(mainIcon.getImage());
+                    modal.setSize(200, 200);
+                    modal.setLocationRelativeTo(null);
+                    modal.setVisible(true);
+
+                    firstName.setText("");
+                    lastName.setText("");
+                    email.setText("");
+
+                    System.out.println("Created hotel clerk account!");
+                }
+
+            } catch (Exception ignore) {
+
+            }
         }
     }
 }

@@ -9,26 +9,23 @@ import main.java.Managers.UserManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
+import java.awt.*;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-
-
-        //runUI(); //Run to start from login page
-
-        UserManager u = new UserManager("jack@giannini.org", "password");
-        u.activeUser.password = "password";
-        new PortalView(u);
-
+        UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+        if (defaults.get("Table.alternateRowColor") == null)
+            defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
+        runUI();
     }
 
-    public static void runUI(){
+    public static void runUI() {
         new LoginRegisterView();
     }
 
-    public static void runConsole(){
+    public static void runConsole() {
         String command = "";
         Scanner scanner = new Scanner(System.in);
 
@@ -62,8 +59,7 @@ public class Main {
                 System.out.println("Please enter password: ");
                 String password = scanner.nextLine();
                 System.out.println(UserManager.registerUser(firstname, lastname, email, password) ? "Register Successful!" : "Registration Failed!");
-            }
-            else if(command.equals("logout")){
+            } else if (command.equals("logout")) {
                 mainUser.logoutUser();
                 mainUser = null;
                 System.out.println("Logout successful!");

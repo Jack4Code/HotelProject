@@ -53,11 +53,11 @@ public class UserManager {
     }
 
     //create a hotel clerk account
-    public User createClerkUser(User activeUser, String firstName, String lastName, String email, String password)
+    public boolean createClerkUser(User activeUser, String firstName, String lastName, String email, String password) //TODO: refactor...don't need to pass activeUser
     {
         if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
         {
-            return null;
+            return false;
         }
         User clerk = new User(2, firstName, lastName, email, password);
         return SqlConnection.createUser(clerk);
@@ -74,7 +74,7 @@ public class UserManager {
 
     public User modifyUserType(User activeUser, String usernameToChange, int newUserType)
     {
-        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
+        if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin")) //TODO: 2nd release, sysAdmin can change userTypes
         {
             return null;
         }

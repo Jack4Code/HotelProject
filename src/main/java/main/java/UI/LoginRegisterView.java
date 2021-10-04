@@ -221,7 +221,10 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         if (e.getSource() == loginButton) {
             System.out.println("Login button pressed!");
             UserManager userManager = new UserManager(userNameTxtField.getText(), passwordTxtField.getText()); //TODO: Sanitize inputs! Don't allow SQL Injection!
-            userManager.activeUser.password = passwordTxtField.getText(); //TODO: Hacky, modify this later
+            if(userManager.activeUser != null){
+                userManager.activeUser.password = passwordTxtField.getText(); //TODO: Hacky, modify this later
+            }
+
             if (userManager.activeUser != null) {
                 new PortalView(userManager);
                 this.dispose();
@@ -237,8 +240,10 @@ public class LoginRegisterView extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == registerButton) {
             try {
-                UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText());
-                this.switchToLoginView();
+                if (!userNameTxtField.getText().equals("")) {
+                    UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText());
+                    this.switchToLoginView();
+                }
             } catch (Exception ex) {
                 System.out.println("User already exists or another error!");
             }

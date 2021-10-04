@@ -17,7 +17,8 @@ public class SqlConnection {
     public static String connectionPassword = "Y7*9dkUkl1";
 
     //Users
-    public static User createUser(User user) {
+    public static boolean createUser(User user) {
+        boolean isCreateSuccess = true;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
@@ -26,9 +27,9 @@ public class SqlConnection {
             con.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return null;
+            isCreateSuccess = false;
         }
-        return getUserId(user);
+        return isCreateSuccess;
     }
 
     public static User getUserId(User user){
@@ -224,24 +225,20 @@ public class SqlConnection {
 
     public static boolean updateRoom(Room room){
         boolean isUpdateSuccessful = true;
-        //do the try catch
-        // String updateQueryExample = "Update Room set isAvailable = " + room.isAvailable +", NextAvailableDate = now(), RoomType = '' WHERE Id = 1";
-
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            String roomUpdateQuery=  "UPDATE room SET isAvailable = " + room.isAvailable +", RoomType = " + room.roomType +", NumBeds = " + room.numBeds +", isSmoking = " + room.isSmoking +", WHERE Id = " + room.id;
+            java.text.SimpleDateFormat sdf =
+                    new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String nextAvailableDate = sdf.format(room.nextAvailableDate);
+            String roomUpdateQuery=  "UPDATE room SET isAvailable = " + room.isAvailable +", NextAvailableDate = '" + nextAvailableDate + "', RoomType = '" + room.roomType +"', NumBeds = " + room.numBeds +", isSmoking = " + room.isSmoking +", BedType = '" + room.bedType + "' WHERE Id = " + room.id;
             stmt.executeUpdate(roomUpdateQuery);
-            ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + room.id);
-            while (rs.next()){
-                //Change vlaues in here?
-            }
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
+            isUpdateSuccessful = false;
         }
-
         return isUpdateSuccessful;
     }
 }
