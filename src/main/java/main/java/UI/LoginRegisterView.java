@@ -240,7 +240,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == registerButton) {
             try {
-                if (!userNameTxtField.getText().equals("")) {
+                if (!userNameTxtField.getText().equals("") && UserManager.isValidEmail(userNameTxtField.getText())) {
                     UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText());
                     this.switchToLoginView();
                 }

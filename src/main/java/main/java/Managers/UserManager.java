@@ -5,9 +5,14 @@ import main.java.Utilities.SqlConnection;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class UserManager {
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public User activeUser = null;
     public HashMap<String, Integer> userTypeIdMapping = new HashMap<>();
@@ -25,8 +30,18 @@ public class UserManager {
 //        }
     }
 
+    public static boolean isValidEmail(String email){
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return matcher.find();
+    }
+
     public static boolean registerUser(String firstname, String lastname, String email, String password) {//for sign up as guest
         boolean isRegisterSuccesss = true;
+
+        if(!isValidEmail(email)){
+            return false;
+        }
+
         User userToSignup = new User(1, firstname, lastname, email, password);
         try{
             SqlConnection.createUser(userToSignup);
@@ -55,6 +70,9 @@ public class UserManager {
     //create a hotel clerk account
     public boolean createClerkUser(User activeUser, String firstName, String lastName, String email, String password) //TODO: refactor...don't need to pass activeUser
     {
+        if(!isValidEmail(email)){
+            return false;
+        }
         if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
         {
             return false;
