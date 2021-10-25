@@ -22,9 +22,22 @@ public class SqlConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            stmt.execute("Insert Into Users (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate, LastLoginDate) VALUES (" + user.userTypeId + ", '" + user.firstName + "', '" + user.lastName + "', '" + user.email + "', '" + user.password + "', NOW(), NOW(), null)");
+            //Statement stmt = con.createStatement();
+            // stmt.execute("Insert Into Users (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate, LastLoginDate) VALUES (" + user.userTypeId + ", '" + user.firstName + "', '" + user.lastName + "', '" + user.email + "', '" + user.password + "', NOW(), NOW(), null)");
+
+            //Todo: Trying out prepared statements
+            PreparedStatement prepStmt = con.prepareStatement("Insert Into Users (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate, LastLoginDate) VALUES (" + "?, ?, ?, ?, ?, NOW(), NOW(), null)");
+            prepStmt.setInt(1, user.userTypeId);
+            prepStmt.setString(2, user.firstName);
+            prepStmt.setString(3, user.lastName);
+            prepStmt.setString(4, user.email);
+            prepStmt.setString(5, user.password);
+            prepStmt.execute();
+
+
             con.close();
+
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             isCreateSuccess = false;
