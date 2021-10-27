@@ -2,6 +2,7 @@ package main.java.UI;
 
 import main.java.Managers.UserManager;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.InputValidator;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
@@ -302,7 +303,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
     public void handleRegister() {
         new Thread(() -> {
             try {
-                if (!userNameTxtField.getText().equals("") && UserManager.isValidEmail(userNameTxtField.getText())) {
+                if (!userNameTxtField.getText().equals("") && InputValidator.isValidEmail(userNameTxtField.getText())) {
                     if (UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText())) {
                         this.switchToLoginView();
                     } else {
