@@ -29,15 +29,15 @@ public class UserManager {
         boolean isRegisterSuccesss = true;
         User userToSignup = new User(1, firstname, lastname, email, password);
         try{
-            SqlConnection.createUser(userToSignup);
+            isRegisterSuccesss = SqlConnection.createUser(userToSignup);
         }
         catch(Exception ex){
             isRegisterSuccesss = false;
         }
 
-        if(userToSignup.id == 0){
-            isRegisterSuccesss = false;
-        }
+//        if(userToSignup.id == 0){
+//            isRegisterSuccesss = false;
+//        }
 
         return isRegisterSuccesss;
     }
