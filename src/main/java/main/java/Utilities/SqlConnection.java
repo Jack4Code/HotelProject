@@ -22,10 +22,6 @@ public class SqlConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            //Statement stmt = con.createStatement();
-            // stmt.execute("Insert Into Users (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate, LastLoginDate) VALUES (" + user.userTypeId + ", '" + user.firstName + "', '" + user.lastName + "', '" + user.email + "', '" + user.password + "', NOW(), NOW(), null)");
-
-            //Todo: Trying out prepared statements
             PreparedStatement prepStmt = con.prepareStatement("Insert Into Users (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate, LastLoginDate) VALUES (" + "?, ?, ?, ?, ?, NOW(), NOW(), null)");
             prepStmt.setInt(1, user.userTypeId);
             prepStmt.setString(2, user.firstName);
@@ -33,7 +29,6 @@ public class SqlConnection {
             prepStmt.setString(4, user.email);
             prepStmt.setString(5, user.password);
             prepStmt.execute();
-
 
             con.close();
 
@@ -56,8 +51,10 @@ public class SqlConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("Select Email, HashedPassword From Users WHERE Email = '" + username + "' AND HashedPassword = '" + password + "'");
+            PreparedStatement prepStmt = con.prepareStatement("Select Email, HashedPassword From Users" + " WHERE Email = ? AND HashedPassword = ?" );
+            prepStmt.setString(1, username);
+            prepStmt.setString(2, password);
+            ResultSet rs = prepStmt.executeQuery();
 
             while (rs.next()) {
                 isValidUser = true;
@@ -77,8 +74,15 @@ public class SqlConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("Select UserTypeId From Users Where UserId = " + userId);
+
+            //Todo: Prepared Statement-----------------------------------------------------------------
+            //Statement stmt = con.createStatement();
+            //ResultSet rs = stmt.executeQuery("Select UserTypeId From Users Where UserId = " + userId);
+            //Todo: Where is this being used? When they sing in to UI?
+            PreparedStatement prepStmt = con.prepareStatement("Select UserTypeId From Users Where UserId =? ");
+            prepStmt.setInt(1, userId);
+            ResultSet rs = prepStmt.executeQuery();
+
             while (rs.next()) {
                 userTypeId = rs.findColumn("UserTypeId");
             }
@@ -110,8 +114,10 @@ public class SqlConnection {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Email = '" + userName + "'");
+            PreparedStatement prepStmt = con.prepareStatement("Select * From Users Where Email =? ");
+            prepStmt.setString(1, userName);
+            ResultSet rs = prepStmt.executeQuery();
+
             while (rs.next()) {
                 user.id = rs.getInt("Id");
                 user.userTypeId = rs.getInt("UserTypeId");
@@ -141,9 +147,19 @@ public class SqlConnection {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("UPDATE users SET FirstName = '" + newFirstName + "', LastName = '" + newLastName + "', Email = '" + newUserName + "', HashedPassword = '" + newPassword + "' WHERE Id = '" + user.id + "'");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Id = '" + user.id + "'");
+
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE users SET FirstName = ?, LastName = ?, Email = ?, HashedPassword = ?" + " WHERE Id = ?" );
+            prepStmt.setString(1, newFirstName);
+            prepStmt.setString(2, newLastName);
+            prepStmt.setString(3, newUserName);
+            prepStmt.setString(4, newPassword);
+            prepStmt.setInt(5, user.id);
+            prepStmt.executeUpdate();
+
+            PreparedStatement updatedPrepStmt = con.prepareStatement("SELECT * FROM users WHERE Id = ?");
+            updatedPrepStmt.setInt(1, user.id);
+            ResultSet rs = updatedPrepStmt.executeQuery();
+
             while (rs.next()) {
                 user.firstName = rs.getString("FirstName");
                 user.lastName = rs.getString("LastName");
@@ -162,9 +178,16 @@ public class SqlConnection {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("UPDATE users SET UserTypeId = '" + newUserType + "' WHERE Id = '" + user.id + "'");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Id = '" + user.id + "'");
+
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE users SET UserTypeId = ?" + " WHERE Id = ?" );
+            prepStmt.setInt(1, newUserType);
+            prepStmt.setInt(2, user.id);
+            prepStmt.executeUpdate();
+
+            PreparedStatement updatedPrepStmt = con.prepareStatement("SELECT * FROM users WHERE Id = ?");
+            updatedPrepStmt.setInt(1, user.id);
+            ResultSet rs = updatedPrepStmt.executeQuery();
+
             while (rs.next()) {
                 user.userTypeId = rs.getInt("UserTypeId");
             }
@@ -211,18 +234,20 @@ public class SqlConnection {
     }
 
     public static Room getRoomById(int roomId){
+        //Todo: Is this method being used?
         Room room = new Room();
         room.id = roomId;
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM room WHERE Id = " + roomId);
+            PreparedStatement prepStmt = con.prepareStatement("Select * From room Where Id = ?");
+            prepStmt.setInt(1, roomId);
+            ResultSet rs = prepStmt.executeQuery();
 
             while(rs.next()){
-                room.isAvailable = rs.getInt("isAvailable"); //Todo: Bit in SQL, so should be boolean here?
-                room.nextAvailableDate = rs.getDate("NextAvailableDate"); //Todo: Automatically set after guest checks in/out?
+                room.isAvailable = rs.getInt("isAvailable");
+                room.nextAvailableDate = rs.getDate("NextAvailableDate");
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
@@ -241,12 +266,21 @@ public class SqlConnection {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
+
             java.text.SimpleDateFormat sdf =
                     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String nextAvailableDate = sdf.format(room.nextAvailableDate);
-            String roomUpdateQuery=  "UPDATE room SET isAvailable = " + room.isAvailable +", NextAvailableDate = '" + nextAvailableDate + "', RoomType = '" + room.roomType +"', NumBeds = " + room.numBeds +", isSmoking = " + room.isSmoking +", BedType = '" + room.bedType + "' WHERE Id = " + room.id;
-            stmt.executeUpdate(roomUpdateQuery);
+
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE room SET isAvailable = ?, NextAvailableDate = ?, RoomType = ?, NumBeds = ?, isSmoking = ?, BedType = ?" + " WHERE Id = ?" );
+            prepStmt.setInt(1, room.isAvailable);
+            prepStmt.setString(2, nextAvailableDate);
+            prepStmt.setString(3, room.roomType);
+            prepStmt.setInt(4, room.numBeds);
+            prepStmt.setInt(5, room.isSmoking);
+            prepStmt.setString(6, room.bedType);
+            prepStmt.setInt(7, room.id);
+            prepStmt.executeUpdate();
+
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
