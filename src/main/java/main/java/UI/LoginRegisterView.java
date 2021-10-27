@@ -302,7 +302,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
     public void handleRegister() {
         new Thread(() -> {
             try {
-                if (!userNameTxtField.getText().equals("")) {
+                if (!userNameTxtField.getText().equals("") && UserManager.isValidEmail(userNameTxtField.getText())) {
                     if (UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText())) {
                         this.switchToLoginView();
                     } else {
