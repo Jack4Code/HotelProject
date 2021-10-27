@@ -18,11 +18,28 @@ public class Main {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
-        runUI();
+        if (args.length == 2) {
+            try {
+                runUIFromMainPortal(args[0], args[1]);
+            } catch (Exception ex) {
+                runUIFromLogin();
+            }
+        } else {
+            runUIFromLogin();
+        }
     }
 
-    public static void runUI() {
+    public static void runUIFromLogin() {
         new LoginRegisterView();
+    }
+
+    public static void runUIFromMainPortal(String username, String password) throws Exception {
+        UserManager user = new UserManager(username, password);
+        if (user.activeUser == null) {
+            throw new Exception("Invalid login attempt");
+        } else {
+            new PortalView(user);
+        }
     }
 
     public static void runConsole() {

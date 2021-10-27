@@ -239,6 +239,19 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         return panel;
     }
 
+    public void renderInvalidRegisterAttempt() {
+        if (invalidRegisterAttemptTxt == null) {
+
+            invalidRegisterAttemptTxt = new JLabel("Invalid register attempt!");
+            invalidRegisterAttemptTxt.setBounds(165, 30, 250, 30);
+            invalidRegisterAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
+            invalidRegisterAttemptTxt.setForeground(CustomColor.WARNING_RED);
+
+            this.add(invalidRegisterAttemptTxt);
+            this.repaint();
+        }
+    }
+
     public void switchToRegisterView() {
         loginRegisterState = "REGISTER";
         this.remove(loginContainerPanel);
@@ -246,21 +259,6 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         this.add(registerContainerPanel);
         this.repaint();
         firstnameTxtField.requestFocus();
-    }
-
-    public void renderInvalidRegisterAttempt() {
-        if (invalidRegisterAttemptTxt != null) {
-            invalidRegisterAttemptTxt = new JLabel("Invalid register attempt!");
-            invalidRegisterAttemptTxt.setBounds(165, 101, 250, 30);
-            invalidRegisterAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
-            invalidRegisterAttemptTxt.setForeground(CustomColor.WARNING_RED);
-
-            registerContainerPanel.setComponentZOrder(invalidRegisterAttemptTxt, 1);
-            //invalidRegisterAttemptTxt.setVisible(true);
-
-            this.add(invalidRegisterAttemptTxt);
-            this.repaint();
-        }
     }
 
     public void switchToLoginView() {
