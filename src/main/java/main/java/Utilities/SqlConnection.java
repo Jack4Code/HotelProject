@@ -241,4 +241,14 @@ public class SqlConnection {
         }
         return isUpdateSuccessful;
     }
+
+    //Check for repeated email usage
+    public static boolean isRepeatUser(String newEmail){
+
+//        Int repeat SELECT COUNT(1)
+//        FROM users
+//        WHERE Email = 'asd';
+
+        return false;
+    }
 }
