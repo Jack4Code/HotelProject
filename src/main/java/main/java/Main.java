@@ -1,6 +1,8 @@
 package main.java;
 
+import main.java.DataModels.Room;
 import main.java.DataModels.User;
+import main.java.Managers.ReservationManager;
 import main.java.UI.LoginRegisterView;
 import main.java.UI.PortalView;
 import main.java.Utilities.SqlConnection;
@@ -10,11 +12,15 @@ import main.java.Managers.UserManager;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        ArrayList<Room> availableRes = ReservationManager.getAllCurrentlyAvailableRooms();
+
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
