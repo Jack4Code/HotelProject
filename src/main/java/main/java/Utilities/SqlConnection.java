@@ -297,8 +297,9 @@ public class SqlConnection {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(1) FROM users WHERE Email = '" + newEmail + "'");
+            PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(1) FROM users WHERE Email = ?");
+            pstmt.setString(1, newEmail);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 is_repeated = rs.getInt("COUNT(1)");
@@ -306,7 +307,6 @@ public class SqlConnection {
 
             if (is_repeated == 1)
             {
-                System.out.println("Repeated Email");
                 return true;
             }
             con.close();

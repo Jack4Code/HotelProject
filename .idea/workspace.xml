@@ -4,18 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/InputValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/InputValidationTest.java" afterDir="false" />
+    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Added email change ability. Still need RegEx and SQL insertion checks in modify.">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HotelProject.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/LoginRegisterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/LoginRegisterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/DataModels/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/LoginRegisterView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/LoginRegisterView$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/LoginRegisterView$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/LoginRegisterView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/Resources/CustomColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/InputValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/TableCellListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/InputValidationTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +68,8 @@
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="Sandbox" />
-      <option name="PROGRAM_PARAMETERS" value="clerk@test.com passwordct" />
+      <module name="HotelProject" />
+      <option name="PROGRAM_PARAMETERS" value="asdf asdf" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.*" />
@@ -136,5 +150,21 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added email change ability. Still need RegEx and SQL insertion checks in modify." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added email change ability. Still need RegEx and SQL insertion checks in modify." />
   </component>
 </project>
