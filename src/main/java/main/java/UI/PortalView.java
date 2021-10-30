@@ -37,6 +37,7 @@ public class PortalView extends JFrame implements ActionListener {
     JButton settingsSubmissionBtn, userCreateBtn;
     JTable roomsTable;
     ArrayList<Room> rooms;
+    JLabel invalidLoginAttemptTxt = new JLabel();
 
     //state
     String currentTab;
@@ -327,6 +328,11 @@ public class PortalView extends JFrame implements ActionListener {
         passwordLabel.setBounds(40, 415, 320, 24);
         passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
+        invalidLoginAttemptTxt.setText("Invalid email!");
+        invalidLoginAttemptTxt.setBounds(40, 73, 250, 30);
+        invalidLoginAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
+        invalidLoginAttemptTxt.setForeground(CustomColor.WARNING_RED);
+
         password = new JPasswordField(userManager.activeUser.password);
         password.setBounds(40, 440, 320, 40);
         password.setBackground(CustomColor.INPUT_BACKGROUND);
@@ -354,6 +360,9 @@ public class PortalView extends JFrame implements ActionListener {
         settingsContent.add(passwordLabel);
         settingsContent.add(password);
         settingsContent.add(settingsSubmissionBtn);
+        settingsContent.add(invalidLoginAttemptTxt);
+        invalidLoginAttemptTxt.setVisible(false);
+
         this.add(settingsContent);
         this.repaint();
     }
@@ -474,19 +483,31 @@ public class PortalView extends JFrame implements ActionListener {
             this.toggleRoomsView();
         } else if (e.getSource() == settingsSubmissionBtn) {
             try {
-                userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());
-                JFrame modal = new JFrame(); //TODO: For 2nd release implement true modal functionality
+                boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());
 
-                JLabel successMessage = new JLabel("Account modified!");
-                successMessage.setFont(new Font("serif", Font.PLAIN, 20));
+                if (is_modified)
+                {
+                    invalidLoginAttemptTxt.setVisible(false);
+                    settingsContent.repaint();
 
-                modal.add(successMessage);
-                modal.setTitle("Hotel J3");
-                ImageIcon mainIcon = new ImageIcon("hotel2.png");
-                modal.setIconImage(mainIcon.getImage());
-                modal.setSize(200, 200);
-                modal.setLocationRelativeTo(null);
-                modal.setVisible(true);
+                    JFrame modal = new JFrame(); //TODO: For 2nd release implement true modal functionality
+
+                    JLabel successMessage = new JLabel("Account modified!");
+                    successMessage.setFont(new Font("serif", Font.PLAIN, 20));
+
+                    modal.add(successMessage);
+                    modal.setTitle("Hotel J3");
+                    ImageIcon mainIcon = new ImageIcon("hotel2.png");
+                    modal.setIconImage(mainIcon.getImage());
+                    modal.setSize(200, 200);
+                    modal.setLocationRelativeTo(null);
+                    modal.setVisible(true);
+                }
+                else
+                {
+                    invalidLoginAttemptTxt.setVisible(true);
+                    settingsContent.repaint();
+                }
             } catch (Exception ignore) {
             }
 

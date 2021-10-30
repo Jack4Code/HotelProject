@@ -64,19 +64,21 @@ public class UserManager {
     }
 
     //Modify a User
-    public User modifyUser(User activeUser, String newFirstName, String newLastName, String newEmail, String newPassword)
+    public boolean modifyUser(User activeUser, String newFirstName, String newLastName, String newEmail, String newPassword)
     {
         if(activeUser == null)
         {
-            return null;
+            return false;
         }
-
+        //TODO: Add RegEx check for email input
         if(SqlConnection.isRepeatUser(newEmail))
         {
-            return null;
+            return false;
         }
 
-        return SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+        SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+
+        return true;
     }
 
     //Modify User Type, only Sys Admin can modify

@@ -245,9 +245,28 @@ public class SqlConnection {
     //Check for repeated email usage
     public static boolean isRepeatUser(String newEmail){
 
-//        Int repeat SELECT COUNT(1)
-//        FROM users
-//        WHERE Email = 'asd';
+        int is_repeated = -1;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(1) FROM users WHERE Email = '" + newEmail + "'");
+
+            while (rs.next()) {
+                is_repeated = rs.getInt("COUNT(1)");
+            }
+
+            if (is_repeated == 1)
+            {
+                System.out.println("Repeated Email");
+                return true;
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
         return false;
     }
