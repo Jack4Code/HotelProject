@@ -1,11 +1,13 @@
 package main.java.Managers;
 
 import main.java.DataModels.User;
+import main.java.Utilities.InputValidator;
 import main.java.Utilities.SqlConnection;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserManager {
 
@@ -27,17 +29,22 @@ public class UserManager {
 
     public static boolean registerUser(String firstname, String lastname, String email, String password) {//for sign up as guest
         boolean isRegisterSuccesss = true;
+
+        if(!InputValidator.isValidEmail(email)){
+            return false;
+        }
+
         User userToSignup = new User(1, firstname, lastname, email, password);
         try{
-            SqlConnection.createUser(userToSignup);
+            isRegisterSuccesss = SqlConnection.createUser(userToSignup);
         }
         catch(Exception ex){
             isRegisterSuccesss = false;
         }
 
-        if(userToSignup.id == 0){
-            isRegisterSuccesss = false;
-        }
+//        if(userToSignup.id == 0){
+//            isRegisterSuccesss = false;
+//        }
 
         return isRegisterSuccesss;
     }
@@ -55,6 +62,9 @@ public class UserManager {
     //create a hotel clerk account
     public boolean createClerkUser(User activeUser, String firstName, String lastName, String email, String password) //TODO: refactor...don't need to pass activeUser
     {
+        if(!InputValidator.isValidEmail(email)){
+            return false;
+        }
         if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin"))
         {
             return false;

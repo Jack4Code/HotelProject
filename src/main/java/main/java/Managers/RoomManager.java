@@ -8,10 +8,9 @@ import java.util.ArrayList;
 
 public class RoomManager {
 
-    //Todo: First check to see if the hotel clerk is the user logged in
-    //Todo: Do we want extra functionality to create and delete rooms? Not needed but...
 
     public static Room lookUpRoomById(int roomId) {
+        //Todo: Is this being used?
         return SqlConnection.getRoomById(roomId);
     }
 

@@ -2,12 +2,16 @@ package main.java.UI;
 
 import main.java.Managers.UserManager;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.InputValidator;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class LoginRegisterView extends JFrame implements ActionListener {
 
@@ -19,15 +23,16 @@ public class LoginRegisterView extends JFrame implements ActionListener {
     JPanel loginContainerPanel;
     JPanel registerContainerPanel;
 
+    JLabel invalidRegisterAttemptTxt = null;
+
     JTextField userNameTxtField, passwordTxtField, firstnameTxtField, lastnameTxtField;
 
+    String loginRegisterState;
+
     public LoginRegisterView() {
-
-
+        loginRegisterState = "LOGIN";
         loginContainerPanel = initializeLoginContainerPanel();
-
         this.add(loginContainerPanel);
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Hotel J3");
         ImageIcon mainIcon = new ImageIcon("hotel2.png");
@@ -36,7 +41,6 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         this.setLayout(null);
         this.setSize(600, 850);
         this.setResizable(false);
-        //showOnScreen(0, this); //TODO: Remove this and put in showOnScreen once showOnScreen works properly
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -48,8 +52,8 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         jpanel.setLayout(null);
 
         jpanel.add(getHeaderPane("Login", "Sign in to your account"));
-        jpanel.add(getInputComponent(185, "Email", false));
-        jpanel.add(getInputComponent(270, "Password", true));
+        jpanel.add(getInputComponent(185, "Email", false, true));
+        jpanel.add(getInputComponent(270, "Password", true, true));
 
         loginButton = new JButton("Login");
         loginButton.setFocusable(false);
@@ -80,10 +84,10 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         jpanel.setLayout(null);
 
         jpanel.add(getHeaderPane("Register", "Create new account"));
-        jpanel.add(getInputComponent(165, "First Name", false));
-        jpanel.add(getInputComponent(250, "Last Name", false));
-        jpanel.add(getInputComponent(335, "Email", false));
-        jpanel.add(getInputComponent(420, "Password", true));
+        jpanel.add(getInputComponent(165, "First Name", false, false));
+        jpanel.add(getInputComponent(250, "Last Name", false, false));
+        jpanel.add(getInputComponent(335, "Email", false, false));
+        jpanel.add(getInputComponent(420, "Password", true, false));
 
 
         registerButton = new JButton("Create Account");
@@ -144,7 +148,7 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         return wrapper;
     }
 
-    public JPanel getInputComponent(int yPosition, String placeholderTxt, boolean isPassword) {
+    public JPanel getInputComponent(int yPosition, String placeholderTxt, boolean isPassword, boolean includeIcon) {
         JPanel panel = new JPanel();
         panel.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
         panel.setBounds(0, yPosition, 400, 75);
@@ -168,9 +172,57 @@ public class LoginRegisterView extends JFrame implements ActionListener {
 
         switch (placeholderTxt) {
             case "Email":
+                if (includeIcon) {
+                    JPanel userNameIconContainer = new JPanel();
+                    userNameIconContainer.setBounds(1, 4, 30, 75);
+                    userNameIconContainer.setBackground(CustomColor.INPUT_BACKGROUND);
+                    ImageIcon usernameIcon = new ImageIcon("username_icon_purple.png");
+                    Image image = usernameIcon.getImage();
+                    Image newImage = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+                    usernameIcon = new ImageIcon(newImage);
+                    JLabel usernameIconLabel = new JLabel(usernameIcon);
+                    userNameIconContainer.add(usernameIconLabel);
+                    textField.add(userNameIconContainer);
+                    textField.setBorder(BorderFactory.createEmptyBorder(5, 35, 5, 5));
+                }
                 userNameTxtField = textField;
                 break;
             case "Password":
+                if (includeIcon) {
+                    JPanel passwordIconContainer = new JPanel();
+                    passwordIconContainer.setBounds(1, 4, 30, 75);
+                    passwordIconContainer.setBackground(CustomColor.INPUT_BACKGROUND);
+                    ImageIcon passwordIcon = new ImageIcon("password_icon_purple.png");
+                    Image image = passwordIcon.getImage();
+                    Image newImage = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+                    passwordIcon = new ImageIcon(newImage);
+                    JLabel usernameIconLabel = new JLabel(passwordIcon);
+                    passwordIconContainer.add(usernameIconLabel);
+                    textField.add(passwordIconContainer);
+                    textField.setBorder(BorderFactory.createEmptyBorder(5, 35, 5, 5));
+                }
+                textField.addKeyListener(new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent evt) {
+
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent evt) {
+                        if (evt.getKeyCode() == 10) {
+                            if (loginRegisterState.equals("LOGIN")) {
+                                handleLogin();
+                            } else if (loginRegisterState.equals("REGISTER")) {
+                                handleRegister();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent evt) {
+
+                    }
+                });
                 passwordTxtField = textField;
                 break;
             case "First Name":
@@ -188,66 +240,98 @@ public class LoginRegisterView extends JFrame implements ActionListener {
         return panel;
     }
 
+    public void renderInvalidRegisterAttempt() {
+        if (invalidRegisterAttemptTxt == null) {
+
+            invalidRegisterAttemptTxt = new JLabel("Invalid register attempt!");
+            invalidRegisterAttemptTxt.setBounds(165, 30, 250, 30);
+            invalidRegisterAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
+            invalidRegisterAttemptTxt.setForeground(CustomColor.WARNING_RED);
+
+            this.add(invalidRegisterAttemptTxt);
+            this.repaint();
+        }
+    }
+
     public void switchToRegisterView() {
+        loginRegisterState = "REGISTER";
         this.remove(loginContainerPanel);
         registerContainerPanel = initializeRegisterContainerPanel();
         this.add(registerContainerPanel);
         this.repaint();
+        firstnameTxtField.requestFocus();
     }
 
     public void switchToLoginView() {
+        if (invalidRegisterAttemptTxt != null) {
+            this.remove(invalidRegisterAttemptTxt);
+            invalidRegisterAttemptTxt = null;
+        }
+        loginRegisterState = "LOGIN";
         this.remove(registerContainerPanel);
         loginContainerPanel = initializeLoginContainerPanel();
         this.add(loginContainerPanel);
         this.repaint();
+        //Having to trick it in order to repaint the icons...such a shame
+        userNameTxtField.setText("Email");
+        passwordTxtField.setText("Password");
+        userNameTxtField.setText("");
+        passwordTxtField.setText("");
+        userNameTxtField.requestFocus();
     }
 
-
-    public static void showOnScreen(int screen, JFrame frame) {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gd = ge.getScreenDevices();
-        if (screen > -1 && screen < gd.length) {
-            frame.setLocation(gd[screen].getDefaultConfiguration().getBounds().x, gd[0].getDefaultConfiguration().getBounds().y + frame.getY());
-        } else if (gd.length > 0) {
-            frame.setLocation(gd[0].getDefaultConfiguration().getBounds().x, gd[0].getDefaultConfiguration().getBounds().y + frame.getY());
-        } else {
-            throw new RuntimeException("No Screens Found");
-        }
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loginButton) {
-            System.out.println("Login button pressed!");
-            UserManager userManager = new UserManager(userNameTxtField.getText(), passwordTxtField.getText()); //TODO: Sanitize inputs! Don't allow SQL Injection!
-            if(userManager.activeUser != null){
-                userManager.activeUser.password = passwordTxtField.getText(); //TODO: Hacky, modify this later
+    public void handleLogin() {
+        new Thread(() -> {
+            UserManager userManager = new UserManager(userNameTxtField.getText(), passwordTxtField.getText());
+            if (userManager.activeUser != null) {
+                userManager.activeUser.password = passwordTxtField.getText();
             }
-
             if (userManager.activeUser != null) {
                 new PortalView(userManager);
                 this.dispose();
             } else {
-                //Invalid login attempt
                 JLabel invalidLoginAttemptTxt = new JLabel("Invalid signin attempt!");
                 invalidLoginAttemptTxt.setBounds(40, 152, 250, 30);
                 invalidLoginAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
                 invalidLoginAttemptTxt.setForeground(CustomColor.WARNING_RED);
-
                 loginContainerPanel.add(invalidLoginAttemptTxt);
                 this.repaint();
             }
-        } else if (e.getSource() == registerButton) {
+        }).start();
+    }
+
+    public void handleRegister() {
+        new Thread(() -> {
             try {
-                if (!userNameTxtField.getText().equals("")) {
-                    UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText());
-                    this.switchToLoginView();
+                if (!userNameTxtField.getText().equals("") && InputValidator.isValidEmail(userNameTxtField.getText())) {
+                    if (UserManager.registerUser(firstnameTxtField.getText(), lastnameTxtField.getText(), userNameTxtField.getText(), passwordTxtField.getText())) {
+                        this.switchToLoginView();
+                    } else {
+                        renderInvalidRegisterAttempt();
+                    }
+                } else {
+                    renderInvalidRegisterAttempt();
                 }
             } catch (Exception ex) {
-                System.out.println("User already exists or another error!");
+                renderInvalidRegisterAttempt();
             }
+        }).start();
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == loginButton) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    handleLogin();
+                }
+            });
+        } else if (e.getSource() == registerButton) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    handleRegister();
+                }
+            });
         } else if (e.getSource() == toggleRegisterPage) {
             System.out.println("toggleRegisterPage button pressed!");
             this.switchToRegisterView();
@@ -256,5 +340,4 @@ public class LoginRegisterView extends JFrame implements ActionListener {
             this.switchToLoginView();
         }
     }
-
 }
