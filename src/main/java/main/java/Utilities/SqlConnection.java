@@ -233,6 +233,12 @@ public class SqlConnection {
         return rooms;
     }
 
+    //TODO: Figure out the sql and put it in here
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate){
+        ArrayList<Room> rooms = new ArrayList<>();
+        return rooms;
+    }
+
     public static Room getRoomById(int roomId){
         //Todo: Is this method being used?
         Room room = new Room();
