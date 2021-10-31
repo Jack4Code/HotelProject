@@ -5,6 +5,7 @@ import main.java.Utilities.SqlConnection;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ReservationManager {
 
@@ -22,7 +23,22 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    //getAllAvailableRoomsByDateRange(DateTime fromDate, DateTime toDate) { //returns list of available rooms available at that time. It will call SqlConnection method }
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate) {
+        //From UI, enter date parameters
+        // Pass them in here, to Sqlconnection
+        // Which will return an array list of available rooms
+        // Todo: Do we want the array list to JUSt return the room Id's, or all it's info?
+        //Then move to makeReservation
+
+        //fromDate = 2021-12-02;
+        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange();
+
+        if (availableRooms.isEmpty()){
+            System.out.println("No rooms are available within those dates.");
+        }
+
+        return availableRooms;
+    }
 
     //makeReservation(fromDate, toDate, ) returns String: reservationCode ... needs coresponding SqlConnection method
 

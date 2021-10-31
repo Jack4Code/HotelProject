@@ -5,6 +5,7 @@ import main.java.DataModels.UserType;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
 
@@ -232,10 +233,60 @@ public class SqlConnection {
 
         return rooms;
     }
-
+//public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate)
     //TODO: Figure out the sql and put it in here
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate){
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(){
         ArrayList<Room> rooms = new ArrayList<>();
+        String query = "SELECT r.Id as RoomId, isAvailable, NextAvailableDate, RoomType, NumBeds, BedType, isSmoking FROM Room r " +
+                "LEFT JOIN ReservationRoom rr on r.Id = rr.RoomId " +
+                "LEFT JOIN Reservation res on res.Id = rr.ReservationId " +
+                "AND res.CheckInDate >= '2021-12-01 00:00:00' " +
+                "AND res.CheckOutDate <= '2021-12-05 00:00:00' " +
+                "WHERE r.isAvailable = 1 AND res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+           // PreparedStatement prepStmt = con.prepareStatement(statement);
+            //prepStmt.setInt(1, roomId);
+            //ResultSet rs = prepStmt.executeQuery();
+
+
+            while(rs.next()){
+                Room room = new Room();
+                room.id = rs.getInt("RoomId");
+                room.isAvailable = rs.getInt("isAvailable");
+                room.nextAvailableDate = rs.getDate("NextAvailableDate");
+                room.roomType = rs.getString("RoomType");
+                room.numBeds = rs.getInt("NumBeds");
+                room.bedType = rs.getString("BedType");
+                room.isSmoking = rs.getInt("isSmoking");
+
+                rooms.add(room);
+            }
+            con.close();
+
+        }
+
+
+
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        System.out.println(Arrays.toString(rooms.toArray()));
+
+
+        for (int i = 0; i < rooms.size(); i++){
+
+            System.out.println(rooms.get(i));
+        }
+
+
+
         return rooms;
     }
 

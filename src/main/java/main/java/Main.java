@@ -19,7 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ArrayList<Room> availableRes = ReservationManager.getAllCurrentlyAvailableRooms();
+        //ArrayList<Room> availableRes = ReservationManager.getAllCurrentlyAvailableRooms();
+        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange();
 
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
