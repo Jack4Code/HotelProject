@@ -73,15 +73,25 @@ public class UserManager {
         return SqlConnection.createUser(clerk);
     }
 
-    public User modifyUser(User activeUser, String newFirstName, String newLastName, String newEmail, String newPassword)
+    //Modify a User
+    public boolean modifyUser(User activeUser, String newFirstName, String newLastName, String newEmail, String newPassword)
     {
         if(activeUser == null)
         {
-            return null;
+            return false;
         }
-        return SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+        //TODO: Add RegEx check for email input
+        if(SqlConnection.isRepeatUser(newEmail) || !InputValidator.isValidEmail(newEmail))
+        {
+            return false;
+        }
+
+        SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+
+        return true;
     }
 
+    //Modify User Type, only Sys Admin can modify
     public User modifyUserType(User activeUser, String usernameToChange, int newUserType)
     {
         if(activeUser != null && activeUser.userTypeId != userTypeIdMapping.get("SysAdmin")) //TODO: 2nd release, sysAdmin can change userTypes
@@ -91,7 +101,5 @@ public class UserManager {
         User userToChange = SqlConnection.getUserByUsername(usernameToChange);
         return SqlConnection.modifyUserType(userToChange, newUserType);
     }
-
-
 
 }

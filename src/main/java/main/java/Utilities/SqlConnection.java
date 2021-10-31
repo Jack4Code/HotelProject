@@ -345,4 +345,33 @@ public class SqlConnection {
         }
         return isUpdateSuccessful;
     }
+
+    //Check for repeated email usage
+    public static boolean isRepeatUser(String newEmail){
+
+        int is_repeated = -1;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(1) FROM users WHERE Email = ?");
+            pstmt.setString(1, newEmail);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                is_repeated = rs.getInt("COUNT(1)");
+            }
+
+            if (is_repeated == 1)
+            {
+                return true;
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return false;
+    }
 }

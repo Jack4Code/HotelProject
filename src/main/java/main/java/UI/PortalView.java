@@ -37,6 +37,7 @@ public class PortalView extends JFrame implements ActionListener {
     JButton settingsSubmissionBtn, userCreateBtn;
     JTable roomsTable;
     ArrayList<Room> rooms;
+    JLabel invalidLoginAttemptTxt = new JLabel();
 
     //state
     String currentTab;
@@ -312,13 +313,28 @@ public class PortalView extends JFrame implements ActionListener {
         lastName.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
         lastName.setMargin(new Insets(0, 10, 0, 0));
 
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setBounds(40, 315, 320, 24);
+        emailLabel.setFont(new Font("serif", Font.PLAIN, 20));
+
+        email = new JTextField(userManager.activeUser.email);
+        email.setBounds(40, 340, 320, 40);
+        email.setBackground(CustomColor.INPUT_BACKGROUND);
+        email.setFont(new Font("serif", Font.PLAIN, 20));
+        email.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        email.setMargin(new Insets(0, 10, 0, 0));
 
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(40, 315, 320, 24);
+        passwordLabel.setBounds(40, 415, 320, 24);
         passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
+        invalidLoginAttemptTxt.setText("Invalid email!");
+        invalidLoginAttemptTxt.setBounds(40, 73, 250, 30);
+        invalidLoginAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
+        invalidLoginAttemptTxt.setForeground(CustomColor.WARNING_RED);
+
         password = new JPasswordField(userManager.activeUser.password);
-        password.setBounds(40, 340, 320, 40);
+        password.setBounds(40, 440, 320, 40);
         password.setBackground(CustomColor.INPUT_BACKGROUND);
         password.setFont(new Font("serif", Font.PLAIN, 20));
         password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
@@ -327,7 +343,7 @@ public class PortalView extends JFrame implements ActionListener {
 
         settingsSubmissionBtn = new JButton("Modify");
         settingsSubmissionBtn.setFocusable(false);
-        settingsSubmissionBtn.setBounds(40, 440, 320, 40);
+        settingsSubmissionBtn.setBounds(40, 540, 320, 40);
         settingsSubmissionBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         settingsSubmissionBtn.setFont(new Font("serif", Font.PLAIN, 20));
         settingsSubmissionBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
@@ -339,9 +355,14 @@ public class PortalView extends JFrame implements ActionListener {
         settingsContent.add(firstName);
         settingsContent.add(lastNameLabel);
         settingsContent.add(lastName);
+        settingsContent.add(email);
+        settingsContent.add(emailLabel);
         settingsContent.add(passwordLabel);
         settingsContent.add(password);
         settingsContent.add(settingsSubmissionBtn);
+        settingsContent.add(invalidLoginAttemptTxt);
+        invalidLoginAttemptTxt.setVisible(false);
+
         this.add(settingsContent);
         this.repaint();
     }
@@ -462,19 +483,31 @@ public class PortalView extends JFrame implements ActionListener {
             this.toggleRoomsView();
         } else if (e.getSource() == settingsSubmissionBtn) {
             try {
-                userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), userManager.activeUser.email, password.getText());
-                JFrame modal = new JFrame(); //TODO: For 2nd release implement true modal functionality
+                boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());
 
-                JLabel successMessage = new JLabel("Account modified!");
-                successMessage.setFont(new Font("serif", Font.PLAIN, 20));
+                if (is_modified)
+                {
+                    invalidLoginAttemptTxt.setVisible(false);
+                    settingsContent.repaint();
 
-                modal.add(successMessage);
-                modal.setTitle("Hotel J3");
-                ImageIcon mainIcon = new ImageIcon("hotel2.png");
-                modal.setIconImage(mainIcon.getImage());
-                modal.setSize(200, 200);
-                modal.setLocationRelativeTo(null);
-                modal.setVisible(true);
+                    JFrame modal = new JFrame(); //TODO: For 2nd release implement true modal functionality
+
+                    JLabel successMessage = new JLabel("Account modified!");
+                    successMessage.setFont(new Font("serif", Font.PLAIN, 20));
+
+                    modal.add(successMessage);
+                    modal.setTitle("Hotel J3");
+                    ImageIcon mainIcon = new ImageIcon("hotel2.png");
+                    modal.setIconImage(mainIcon.getImage());
+                    modal.setSize(200, 200);
+                    modal.setLocationRelativeTo(null);
+                    modal.setVisible(true);
+                }
+                else
+                {
+                    invalidLoginAttemptTxt.setVisible(true);
+                    settingsContent.repaint();
+                }
             } catch (Exception ignore) {
             }
 
