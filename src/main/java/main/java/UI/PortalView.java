@@ -5,6 +5,8 @@ import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
+import main.java.UI.HomeTab.HomePage;
+import main.java.UI.ReservationTab.ReservationPage;
 import main.java.UI.Resources.CustomColor;
 import main.java.Utilities.TableCellListener;
 
@@ -222,7 +224,7 @@ public class PortalView extends JFrame implements ActionListener {
 
         this.homeContent = generateBlankContentCanvas();
 
-        //
+        homeContent.add(HomePage.generateRoomSelectionContentArea());
 
         this.add(homeContent);
         this.repaint();
@@ -293,12 +295,9 @@ public class PortalView extends JFrame implements ActionListener {
 
     public void toggleReservationsView() {
         this.regenerateSideNav();
-
-        this.homeContent = generateBlankContentCanvas();
-
-        //
-
-        this.add(homeContent);
+        this.reservationsContent = generateBlankContentCanvas();
+        reservationsContent.add(ReservationPage.generateTable());
+        this.add(reservationsContent);
         this.repaint();
     }
 
