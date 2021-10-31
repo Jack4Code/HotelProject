@@ -80,7 +80,6 @@ public class UserManager {
         {
             return false;
         }
-        //TODO: Add RegEx check for email input
         if(SqlConnection.isRepeatUser(newEmail) || !InputValidator.isValidEmail(newEmail))
         {
             return false;

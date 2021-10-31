@@ -24,15 +24,15 @@ public class PortalView extends JFrame implements ActionListener {
 
     //Side nav stuff
     JPanel sideNavContainer = null;
-    JPanel homeOption, userOption, settingsOption, roomOption;
-    JButton homeOptionButton, userOptionButton, settingsOptionButton, roomOptionButton;
+    JPanel homeOption, userOption, reservationsOption, settingsOption, roomOption;
+    JButton homeOptionButton, userOptionButton, reservationsOptionButton, settingsOptionButton, roomOptionButton;
 
     //Top bar stuff
     JPanel topBarContainer;
     JButton logoutButton;
 
     //page content stuff
-    JPanel homeContent, userContent, settingsContent, roomContent = null;
+    JPanel homeContent, userContent, reservationsContent, settingsContent, roomContent = null;
     JTextField firstName, lastName, password, email;
     JButton settingsSubmissionBtn, userCreateBtn;
     JTable roomsTable;
@@ -73,18 +73,21 @@ public class PortalView extends JFrame implements ActionListener {
         panel.setLayout(null);
 
         homeOption = this.generateSideNavOption("Home", 160);
-        settingsOption = this.generateSideNavOption("Settings", 220);
+        reservationsOption = this.generateSideNavOption("Reservations", 220);
+        settingsOption = this.generateSideNavOption("Settings", 280);
 
 
         panel.add(homeOption);
 
         if (userManager.activeUser.userTypeId == 2) {
-            roomOption = this.generateSideNavOption("Rooms", 280);
+            roomOption = this.generateSideNavOption("Rooms", 340);
             panel.add(roomOption);
         } else if (userManager.activeUser.userTypeId == 3) {
-            userOption = this.generateSideNavOption("Users", 280);
+            userOption = this.generateSideNavOption("Users", 340);
             panel.add(userOption);
         }
+
+        panel.add(reservationsOption);
 
         panel.add(settingsOption);
 
@@ -128,6 +131,11 @@ public class PortalView extends JFrame implements ActionListener {
                 userOptionButton = btn;
                 userOptionButton.addActionListener(this);
                 panel.add(userOptionButton);
+                break;
+            case "Reservations":
+                reservationsOptionButton = btn;
+                reservationsOptionButton.addActionListener(this);
+                panel.add(reservationsOptionButton);
                 break;
             case "Settings":
                 settingsOptionButton = btn;
@@ -178,6 +186,9 @@ public class PortalView extends JFrame implements ActionListener {
         }
         if (userContent != null) {
             this.remove(userContent);
+        }
+        if (reservationsContent !=null) {
+            this.remove((reservationsContent));
         }
         if (homeContent != null) {
             this.remove(homeContent);
@@ -277,6 +288,17 @@ public class PortalView extends JFrame implements ActionListener {
         userContent.add(email);
         userContent.add(userCreateBtn);
         this.add(userContent);
+        this.repaint();
+    }
+
+    public void toggleReservationsView() {
+        this.regenerateSideNav();
+
+        this.homeContent = generateBlankContentCanvas();
+
+        //
+
+        this.add(homeContent);
         this.repaint();
     }
 
@@ -475,6 +497,9 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == userOptionButton) {
             this.currentTab = "Users";
             this.toggleUserView();
+        } else if (e.getSource() == reservationsOptionButton) {
+            this.currentTab = "Reservations";
+            this.toggleReservationsView();
         } else if (e.getSource() == settingsOptionButton) {
             this.currentTab = "Settings";
             this.toggleSettingsView();
