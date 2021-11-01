@@ -2,6 +2,7 @@ package main.java.Managers;
 
 import main.java.DataModels.Room;
 import main.java.Utilities.SqlConnection;
+import main.java.DataModels.Reservation;
 
 import java.lang.reflect.Array;
 import java.security.SecureRandom;
@@ -62,6 +63,10 @@ public class ReservationManager {
             tempString.append(charList.charAt(sr.nextInt(charList.length())));
         return tempString.toString();
 
+    }
+
+    public static ArrayList<Reservation> getAllReservations(String reservationCode, String email){
+        return SqlConnection.getAllReservations(reservationCode, email);
     }
 
     //returns String: reservationCode ... needs coresponding SqlConnection method

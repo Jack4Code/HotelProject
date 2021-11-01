@@ -76,16 +76,18 @@ public class PortalView extends JFrame implements ActionListener {
 
         homeOption = this.generateSideNavOption("Home", 160);
         reservationsOption = this.generateSideNavOption("Reservations", 220);
-        settingsOption = this.generateSideNavOption("Settings", 280);
-
 
         panel.add(homeOption);
 
-        if (userManager.activeUser.userTypeId == 2) {
-            roomOption = this.generateSideNavOption("Rooms", 340);
+        if (userManager.activeUser.userTypeId == 1) {
+            settingsOption = this.generateSideNavOption("Settings", 280);
+        } else if (userManager.activeUser.userTypeId == 2) {
+            roomOption = this.generateSideNavOption("Rooms", 280);
+            settingsOption = this.generateSideNavOption("Settings", 340);
             panel.add(roomOption);
         } else if (userManager.activeUser.userTypeId == 3) {
-            userOption = this.generateSideNavOption("Users", 340);
+            userOption = this.generateSideNavOption("Users", 280);
+            settingsOption = this.generateSideNavOption("Settings", 340);
             panel.add(userOption);
         }
 
@@ -298,6 +300,13 @@ public class PortalView extends JFrame implements ActionListener {
         this.reservationsContent = generateBlankContentCanvas();
         reservationsContent.add(ReservationPage.generateTable());
         this.add(reservationsContent);
+
+        JLabel tableTitle = new JLabel("Active Reservations: ");
+        tableTitle.setFont(new Font("serif", Font.PLAIN, 24));
+        tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        tableTitle.setBounds(30, 120, 700, 35);
+
+        reservationsContent.add(tableTitle);
         this.repaint();
     }
 

@@ -2,6 +2,7 @@ package main.java.Utilities;
 import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.DataModels.UserType;
+import main.java.DataModels.Reservation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -233,6 +234,55 @@ public class SqlConnection {
 
         return rooms;
     }
+
+    public static ArrayList<Reservation> getAllReservations(String reservationCode, String email){
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        ResultSet rs;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+
+            if (reservationCode.equals("") && email.equals(""))
+            {
+                rs = stmt.executeQuery("SELECT * FROM reservation");
+            } else if (!reservationCode.equals(""))
+            {
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE ");
+            } else if(!email.equals(""))
+            {
+                rs = stmt.executeQuery("SELECT * FROM reservation");
+            }
+            else {
+                rs = stmt.executeQuery("SELECT * FROM reservation");
+            }
+
+            while(rs.next()){
+                Reservation reservation = new Reservation();
+                reservation.ID = rs.getInt("Id");
+                reservation.reservationCode = rs.getString("ReservationCode");
+                reservation.userEmail = rs.getString("Email");
+                reservation.firstName = rs.getString("FirstName");
+                reservation.lastName = rs.getString("LastName");
+                reservation.checkInDate = rs.getDate("CheckInDate");
+                reservation.checkOutDate = rs.getDate("CheckOutDate");
+                reservation.roomType = rs.getString("RoomType");
+                reservation.numberOfBeds = rs.getInt("NumberOfBeds");
+                reservation.bedType = rs.getString("BedType");
+                reservation.isSmoking = rs.getInt("isSmoking");
+
+                reservations.add(reservation);
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return reservations;
+    }
+
 //public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate)
     //TODO: Figure out the sql and put it in here
     public static ArrayList<Room> getAllAvailableRoomsByDateRange(){
