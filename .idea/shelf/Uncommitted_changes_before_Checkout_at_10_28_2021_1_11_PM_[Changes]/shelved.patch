@@ -1,0 +1,163 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"ba1d6a34-d254-4325-9858-bbd1ec92bc5b\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/main/java/Utilities/InputValidator.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/test/java/InputValidationTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/main/java/UI/LoginRegisterView.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/main/java/UI/LoginRegisterView.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/DataModels/User.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/DataModels/User.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/Main.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/Main.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitSEFilterConfiguration\">\r\n    <file-type-list>\r\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\r\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\r\n      <filtered-out-file-type name=\"TAG\" />\r\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\r\n    </file-type-list>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"206aZl1RDgGta2rV9jUHxsbNsgx\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"MavenSettings\" />\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.Main\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.java.Main\" />\r\n      <module name=\"Sandbox\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"clerk@test.com passwordct\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"main.java.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"InputValidationTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Sandbox\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"InputValidationTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"InputValidationTest.ValidEmailTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Sandbox\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"InputValidationTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"ValidEmailTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"InputValidationTest.invalidEmailTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Sandbox\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"InputValidationTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"invalidEmailTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"InputValidationTest.validEmailTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Sandbox\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"InputValidationTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"validEmailTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.Main\" />\r\n      <item itemvalue=\"JUnit.InputValidationTest\" />\r\n      <item itemvalue=\"JUnit.InputValidationTest.invalidEmailTest\" />\r\n      <item itemvalue=\"JUnit.InputValidationTest.ValidEmailTest\" />\r\n      <item itemvalue=\"JUnit.InputValidationTest.validEmailTest\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.Main\" />\r\n        <item itemvalue=\"JUnit.InputValidationTest\" />\r\n        <item itemvalue=\"JUnit.InputValidationTest.validEmailTest\" />\r\n        <item itemvalue=\"JUnit.InputValidationTest.invalidEmailTest\" />\r\n        <item itemvalue=\"JUnit.InputValidationTest.ValidEmailTest\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"ba1d6a34-d254-4325-9858-bbd1ec92bc5b\" name=\"Changes\" comment=\"\" />\r\n      <created>1635367551170</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1635367551170</updated>\r\n      <workItem from=\"1635367555149\" duration=\"4980000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,43 +4,22 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/InputValidator.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/test/java/InputValidationTest.java" afterDir="false" />
++    <list default="true" id="5d63cb5d-9763-4a0d-ab29-ed2d9fa5f79b" name="Changes" comment="">
++      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/LoginRegisterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/LoginRegisterView.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/DataModels/User.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/DataModels/UserType.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Main.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/HotelProject.iml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/RoomManager.class" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/UserManager.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="Class" />
+-      </list>
+-    </option>
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitSEFilterConfiguration">
+-    <file-type-list>
+-      <filtered-out-file-type name="LOCAL_BRANCH" />
+-      <filtered-out-file-type name="REMOTE_BRANCH" />
+-      <filtered-out-file-type name="TAG" />
+-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+-    </file-type-list>
+-  </component>
+-  <component name="ProjectId" id="206aZl1RDgGta2rV9jUHxsbNsgx" />
++  <component name="ProjectId" id="206yNltEE4ll94qsaEAaVCEcoaC" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+@@ -48,14 +27,11 @@
+   <component name="PropertiesComponent">
+     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+-    <property name="WebServerToolWindowFactoryState" value="false" />
+-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+   </component>
+-  <component name="RunManager" selected="Application.Main">
++  <component name="RunManager">
+     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
+-      <module name="Sandbox" />
+-      <option name="PROGRAM_PARAMETERS" value="clerk@test.com passwordct" />
++      <module name="HotelProject" />
+       <extension name="coverage">
+         <pattern>
+           <option name="PATTERN" value="main.java.*" />
+@@ -66,75 +42,32 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="InputValidationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Sandbox" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
+-      <option name="TEST_OBJECT" value="class" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="InputValidationTest.ValidEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Sandbox" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
+-      <option name="METHOD_NAME" value="ValidEmailTest" />
+-      <option name="TEST_OBJECT" value="method" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="InputValidationTest.invalidEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Sandbox" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
+-      <option name="METHOD_NAME" value="invalidEmailTest" />
+-      <option name="TEST_OBJECT" value="method" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="InputValidationTest.validEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Sandbox" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
+-      <option name="METHOD_NAME" value="validEmailTest" />
+-      <option name="TEST_OBJECT" value="method" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <list>
+-      <item itemvalue="Application.Main" />
+-      <item itemvalue="JUnit.InputValidationTest" />
+-      <item itemvalue="JUnit.InputValidationTest.invalidEmailTest" />
+-      <item itemvalue="JUnit.InputValidationTest.ValidEmailTest" />
+-      <item itemvalue="JUnit.InputValidationTest.validEmailTest" />
+-    </list>
+     <recent_temporary>
+       <list>
+         <item itemvalue="Application.Main" />
+-        <item itemvalue="JUnit.InputValidationTest" />
+-        <item itemvalue="JUnit.InputValidationTest.validEmailTest" />
+-        <item itemvalue="JUnit.InputValidationTest.invalidEmailTest" />
+-        <item itemvalue="JUnit.InputValidationTest.ValidEmailTest" />
+       </list>
+     </recent_temporary>
+   </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+-      <changelist id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="" />
+-      <created>1635367551170</created>
++      <changelist id="5d63cb5d-9763-4a0d-ab29-ed2d9fa5f79b" name="Changes" comment="" />
++      <created>1635379296925</created>
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+-      <updated>1635367551170</updated>
+-      <workItem from="1635367555149" duration="4980000" />
++      <updated>1635379296925</updated>
+     </task>
+     <servers />
+   </component>
+-  <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="3" />
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+ </project>
+\ No newline at end of file
