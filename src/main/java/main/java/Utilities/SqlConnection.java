@@ -3,6 +3,7 @@ import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.DataModels.UserType;
 import main.java.DataModels.Reservation;
+import main.java.Managers.UserManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -235,16 +236,19 @@ public class SqlConnection {
         return rooms;
     }
 
-    public static ArrayList<Reservation> getAllReservations(String reservationCode, String email){
+    public static ArrayList<Reservation> getAllReservations(User activeUser, String reservationCode, String email){
         ArrayList<Reservation> reservations = new ArrayList<>();
         ResultSet rs;
 
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
 
-            if (reservationCode.equals("") && email.equals(""))
+
+            if (activeUser.userTypeId == 1){
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "'");
+            } else if (reservationCode.equals("") && email.equals(""))
             {
                 rs = stmt.executeQuery("SELECT * FROM reservation");
             } else if (!reservationCode.equals(""))

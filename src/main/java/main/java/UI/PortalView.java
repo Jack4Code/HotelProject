@@ -44,6 +44,11 @@ public class PortalView extends JFrame implements ActionListener {
     //state
     String currentTab;
 
+    //Reservation Tab
+    JButton cancelReservationButton;
+    JButton modifyReservationButton;
+    JButton searchReservationButton;
+
     public PortalView(UserManager loggedInUser) {
         this.userManager = loggedInUser;
 
@@ -92,7 +97,6 @@ public class PortalView extends JFrame implements ActionListener {
         }
 
         panel.add(reservationsOption);
-
         panel.add(settingsOption);
 
         return panel;
@@ -298,15 +302,14 @@ public class PortalView extends JFrame implements ActionListener {
     public void toggleReservationsView() {
         this.regenerateSideNav();
         this.reservationsContent = generateBlankContentCanvas();
-        reservationsContent.add(ReservationPage.generateTable());
+        reservationsContent.add(ReservationPage.generateTable(this.userManager.activeUser));
+        reservationsContent.add(ReservationPage.addTitle());
+
+        modifyReservationButton = (ReservationPage.addModifyButton());
+        modifyReservationButton.addActionListener(this);
+        reservationsContent.add(modifyReservationButton);
+
         this.add(reservationsContent);
-
-        JLabel tableTitle = new JLabel("Active Reservations: ");
-        tableTitle.setFont(new Font("serif", Font.PLAIN, 24));
-        tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
-        tableTitle.setBounds(30, 120, 700, 35);
-
-        reservationsContent.add(tableTitle);
         this.repaint();
     }
 
@@ -514,6 +517,10 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == roomOptionButton) {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
+        }  else if (e.getSource() == modifyReservationButton){
+            System.out.println(ReservationPage.selectedReservationCode());
+            this.currentTab = "Home";
+            this.toggleHomeView();
         } else if (e.getSource() == settingsSubmissionBtn) {
             try {
                 boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());

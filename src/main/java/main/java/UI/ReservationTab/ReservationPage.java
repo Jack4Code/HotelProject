@@ -1,24 +1,30 @@
 package main.java.UI.ReservationTab;
 
 import main.java.Managers.ReservationManager;
+import main.java.DataModels.User;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 import main.java.DataModels.Reservation;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.TableCellListener;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class ReservationPage {
 
+    static String reservationCode;
     static ArrayList<Reservation> reservations;
 
-    public static JScrollPane generateTable(){
+    public static JScrollPane generateTable(User activeUser){
         JScrollPane pane;
         JTable reservationTable;
 
-        reservations = ReservationManager.getAllReservations("", "");
+        reservations = ReservationManager.getAllReservations(activeUser, "", "");
 
         //Implement the table
         String[] reservationColumnNames = {
@@ -54,7 +60,7 @@ public class ReservationPage {
         reservationTable = new JTable(data, reservationColumnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column != 0;
+                return false;
             }
         };
 
@@ -81,6 +87,44 @@ public class ReservationPage {
         pane = new JScrollPane(reservationTable);
         pane.setBounds(25, 160, 1150, 440);
 
+        //Selects reservation on click
+        reservationTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+
+                int selectedRow;
+
+                selectedRow = reservationTable.getSelectedRow();
+                reservationCode = reservationTable.getValueAt(selectedRow, 1).toString();
+            }
+        });
+
         return pane;
+    }
+
+    public static JLabel addTitle()
+    {
+        JLabel tableTitle = new JLabel("Active Reservations: ");
+        tableTitle.setFont(new Font("serif", Font.PLAIN, 24));
+        tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        tableTitle.setBounds(30, 120, 700, 35);
+
+        return tableTitle;
+    }
+
+    public static JButton addModifyButton()
+    {
+        JButton modifyReservation = new JButton("Modify");
+        modifyReservation.setFocusable(false);
+        modifyReservation.setFont(new Font("serif", Font.PLAIN, 30));
+        modifyReservation.setBounds(80, 625, 320, 50);
+        modifyReservation.setBackground(CustomColor.PURPLE_THEME_TXT);
+        modifyReservation.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+
+        return modifyReservation;
+    }
+
+    public static String selectedReservationCode()
+    {
+        return reservationCode;
     }
 }
