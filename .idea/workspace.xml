@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Beginning reservation manager">
+    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Commit to Pull.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/InputValidationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/InputValidationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/InputValidationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/InputValidationTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/2/J3-11/make-reservation" />
+        <entry key="$PROJECT_DIR$" value="development" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,7 +56,7 @@
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="Sandbox" />
+      <module name="HotelProject" />
       <option name="PROGRAM_PARAMETERS" value="clerk@test.com passwordct" />
       <extension name="coverage">
         <pattern>

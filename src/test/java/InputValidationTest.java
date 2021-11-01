@@ -3,6 +3,7 @@ import main.java.Utilities.InputValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+
 public class InputValidationTest {
 
     @Test

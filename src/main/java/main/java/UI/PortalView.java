@@ -224,8 +224,8 @@ public class PortalView extends JFrame implements ActionListener {
 
         this.homeContent = generateBlankContentCanvas();
 
-        homeContent.add(HomePage.generateRoomSelectionContentArea());
-
+        //Todo: jake - homeContent.add(HomePage.generateRoomSelectionContentArea());
+        homeContent.add(HomePage.testHomePanel());
         this.add(homeContent);
         this.repaint();
     }

@@ -8,6 +8,48 @@ import java.util.Date;
 
 public class HomePage {
 
+
+    public static JPanel testHomePanel() {
+        //Background panel
+        JPanel bgPanel = new JPanel();
+        bgPanel.setLayout(null);
+        bgPanel.setBounds(0, 0, 1400, 1400);
+        bgPanel.setBackground(Color.RED);
+        bgPanel.setVisible(true);
+
+        //Right half panel
+        JPanel rightPanel = new JPanel();
+        rightPanel.setBounds(600, 0, 600, 1400);
+        rightPanel.setBackground(Color.GREEN);
+        rightPanel.setVisible(true);
+
+        //Left half panel
+        //JPanel leftPanel = new JPanel();
+        JPanel leftPanel = leftHalf();
+        leftPanel.setBounds(0, 0, 599, 1400);
+        leftPanel.setBackground(Color.BLUE);
+        leftPanel.setVisible(true);
+
+        bgPanel.add(leftPanel);
+        bgPanel.add(rightPanel);
+
+
+        return bgPanel;
+    }
+
+    public static JPanel leftHalf(){
+        JPanel panel = new JPanel();
+
+        String[] bedTypes = {"King", "Queen", "Full", "Twin"};
+        JComboBox comboBox1 = new JComboBox(bedTypes);
+        String[] roomTypes = {"Executive", "Middle Class", "Poor", "I don't remmber these types"};
+        JComboBox comboBox2 = new JComboBox(roomTypes);
+        panel.add(comboBox1);
+        panel.add(comboBox2);
+
+        return panel;
+    }
+
     public static JLayeredPane generateRoomSelectionContentArea() {
 //        JPanel contentArea = new JPanel();
 //
@@ -33,6 +75,9 @@ public class HomePage {
 //        scrollFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 //
 //        contentArea.add(scrollFrame, BorderLayout.CENTER);
+
+
+
 
         JLayeredPane contentArea = new JLayeredPane();
         contentArea.setBounds(600, 0, 600, 1400);
@@ -77,6 +122,10 @@ public class HomePage {
 
         contentArea.add(scrollFrame);
         return contentArea;
+
+
+
+
     }
 
     public static JPanel generateRoomSelectionBox(int bedCnt, String roomType, Date fromDate, Date toDate, boolean isSmoking, int top) {
