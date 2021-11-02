@@ -39,7 +39,7 @@ public class HomePage {
 
         localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         //Changes this from "Tue Nov 02 08:34:57 CDT 2021" to "2021-11-02"
-
+        //Todo: Eventually change dates to a JCalendar or JDateChooser? Involved important files...
 
         //Calendar c = Calendar.getInstance();
         //c.add(Calendar.DATE, 1);
@@ -82,6 +82,11 @@ public class HomePage {
 
     public void displayResultsInTable(){
         //resultsContentArea.Add()
+
+
+
+
+
     }
 
 
@@ -146,27 +151,12 @@ public class HomePage {
 
                     System.out.println("Pressing search them rooms button!");
                     System.out.println("From Date String: " + fromDate + "; To Date Str: " + toDate);
-                    //System.out.println(fromDateInput); //1635905766395
-                    //System.out.println(toDateInput); //2021-11-02
-                    //call some method in here => which calls a method in a manger => which calls a method in SqlConnection
+
                     getAvailableRooms(fromDate, toDate);
                     //displayResultsInTable();
 
                 }
-                /*
-                timeFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                String fromDateInput = timeFormat.format(fromDate.getTime());
-                String toDateInput = timeFormat.format(toDate.getTime());
-
-                System.out.println("Pressing search them rooms button!");
-
-                //System.out.println(fromDateInput); //1635905766395
-                //System.out.println(toDateInput); //2021-11-02
-                //call some method in here => which calls a method in a manger => which calls a method in SqlConnection
-                getAvailableRooms(fromDateInput, toDateInput);
-                //displayResultsInTable();
-                */
             }
         });
 
@@ -179,6 +169,29 @@ public class HomePage {
 
 
     //right side
+    /*
+    public static JScrollPane generateRoomSelectionContentArea(){
+        JScrollPane pane;
+        JTable availableRoomsTable;
+        //String allAvailableRooms;
+        ArrayList<AvailableRoom> allAvailableRooms;
+        allAvailableRooms = getAvailableRooms();
+       // allAvailableRooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
+        String[] availableRoomsColumnNames = {
+                "Room Type",
+                "Bed Type",
+                "Bed Count",
+                "Smoking Available"
+
+        };
+
+
+
+        return pane;
+    }
+    */
+
+
     public JPanel generateRoomSelectionContentArea() {
 
         resultsContentArea = new JPanel();
@@ -196,9 +209,8 @@ public class HomePage {
 
             resultsContentArea.add(panel);
         }
-
-
         return resultsContentArea;
+
     }
 
     public JPanel generateRoomSelectionBox(int bedCnt, String roomType, Date fromDate, Date toDate, boolean isSmoking, int top) {
@@ -210,6 +222,8 @@ public class HomePage {
 
         return box;
     }
+
+
 
 
 }

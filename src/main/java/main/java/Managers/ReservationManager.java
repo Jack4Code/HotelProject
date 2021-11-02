@@ -29,7 +29,7 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDateInput, String toDateInput) {
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
         //From UI, enter date parameters
         // Pass them in here, to Sqlconnection
         // Which will return an array list of available rooms
@@ -50,7 +50,7 @@ public class ReservationManager {
         //java.sql.Date stDate = new java.sql.Date(tDate.getTime());
         System.out.println("test- got to reservation manager");
 
-        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDateInput, toDateInput);
+        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
 
         //if (availableRooms.isEmpty()){
             //System.out.println("No rooms are available within those dates.");

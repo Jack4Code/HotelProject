@@ -289,7 +289,7 @@ public class SqlConnection {
     }
 
 
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDateInput, String toDateInput){
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
         ArrayList<Room> rooms = new ArrayList<>();
 
         System.out.println("test- got to sql connector");
@@ -303,7 +303,8 @@ public class SqlConnection {
                 "WHERE res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
         */
 
-        String query2 = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking FROM Room r LEFT JOIN ReservationRoom rr on r.Id = rr.RoomId LEFT JOIN Reservation res on res.Id = rr.ReservationId AND res.CheckInDate >= ? AND res.CheckOutDate <= ? WHERE res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
+
+        String query = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking FROM Room r LEFT JOIN ReservationRoom rr on r.Id = rr.RoomId LEFT JOIN Reservation res on res.Id = rr.ReservationId AND res.CheckInDate >= ? AND res.CheckOutDate <= ? WHERE res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
@@ -312,10 +313,10 @@ public class SqlConnection {
             //ResultSet rs = stmt.executeQuery(query);
 
 
-            PreparedStatement prepStmt = con.prepareStatement(query2);
+            PreparedStatement prepStmt = con.prepareStatement(query);
 
-            prepStmt.setString(1, fromDateInput);
-            prepStmt.setString(2, toDateInput);
+            prepStmt.setString(1, fromDate);
+            prepStmt.setString(2, toDate);
 
             ResultSet rs = prepStmt.executeQuery();
 
