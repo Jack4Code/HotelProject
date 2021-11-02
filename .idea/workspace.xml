@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Add JTable, etc. to home page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,8 +54,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="HotelProject" />
-      <option name="PROGRAM_PARAMETERS" value="clerk@test.com passwordct" />
+      <module name="Sandbox" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.*" />
@@ -200,16 +197,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Main.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>162</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
           <line>349</line>
           <option name="timeStamp" value="17" />
@@ -226,13 +213,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="20" />
+          <line>310</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>309</line>
-          <option name="timeStamp" value="21" />
+          <line>196</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

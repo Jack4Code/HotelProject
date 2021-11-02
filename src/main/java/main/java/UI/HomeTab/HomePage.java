@@ -195,9 +195,10 @@ public class HomePage {
         //ReservationManager.getAvaiableRoomCombos();
 
         String[] availableRoomColumnNames = {
+                "Rooms Available",
                 "Room Type",
-                "Bed Type",
                 "Bed Count",
+                "Bed Type",
                 "Smoking Available"
 
         };
