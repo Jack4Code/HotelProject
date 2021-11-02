@@ -189,9 +189,11 @@ public class HomePage {
     public static JScrollPane generateRoomSelectionContentArea(){
         JScrollPane pane;
         JTable availableRoomTable;
-        //ArrayList<AvailableRoom> availableRoom;
+        ArrayList<Room> availableRoom;
 
-        availableRoom = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
+        //availableRoom = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
+        //ReservationManager.getAvaiableRoomCombos();
+
         String[] availableRoomColumnNames = {
                 "Room Type",
                 "Bed Type",
@@ -199,13 +201,17 @@ public class HomePage {
                 "Smoking Available"
 
         };
-        Object[][] data = new Object[availableRoom.size()][5];
+        //Object[][] data = new Object[availableRoom.size()][5];
+        Object[][] data = ReservationManager.getAvaiableRoomCombos();
+
+       /*
         for (int i = 0; i < availableRoom.size(); i++) {
+
             data[i][0] = availableRoom.get(i).roomType.substring(0, 1).toUpperCase() + availableRoom.get(i).roomType.substring(1).toLowerCase();
             data[i][1] = availableRoom.get(i).bedType.substring(0, 1).toUpperCase() + availableRoom.get(i).bedType.substring(1).toLowerCase();
             data[i][2] = availableRoom.get(i).numBeds;
             data[i][3] = availableRoom.get(i).isSmoking == 1 ? "Yes" : "No";
-        }
+        }*/
 
         availableRoomTable = new JTable(data, availableRoomColumnNames) {
             @Override
@@ -214,28 +220,12 @@ public class HomePage {
             }
         };
 
-        //availableRoomTable.setBounds(25, 160, 1150, 440);
 
-       //availableRoomTable.setBounds(600, 0, 600, 1400);
         availableRoomTable.setBounds(600, 0, 600, 900); //900
         availableRoomTable.setFont(new Font("serif", Font.PLAIN, 18));
         availableRoomTable.setRowHeight(25);
 
-        //Column Widths
-        //TableColumn column1 = availableRoomTable.getColumnModel().getColumn(0);
-        //column1.setPreferredWidth(15);
 
-       // TableColumn column8 = availableRoomTable.getColumnModel().getColumn(7);
-       // column8.setPreferredWidth(40);
-
-        //TableColumn column9 = availableRoomTable.getColumnModel().getColumn(8);
-        //column9.setPreferredWidth(30);
-
-        //TableColumn column10 = reservationTable.getColumnModel().getColumn(9);
-        //column10.setPreferredWidth(30);
-
-        //TableColumn column3 = reservationTable.getColumnModel().getColumn(2);
-        //column3.setPreferredWidth(150);
 
         pane = new JScrollPane(availableRoomTable);
         pane.setBounds(600, 100, 500, 500); //640
