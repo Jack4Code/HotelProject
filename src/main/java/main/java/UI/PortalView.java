@@ -49,6 +49,9 @@ public class PortalView extends JFrame implements ActionListener {
     JButton modifyReservationButton;
     JButton searchReservationButton;
 
+
+    HomePage homepage = null;
+
     public PortalView(UserManager loggedInUser) {
         this.userManager = loggedInUser;
 
@@ -227,10 +230,12 @@ public class PortalView extends JFrame implements ActionListener {
 
     public void toggleHomeView() {
         this.regenerateSideNav();
-
         this.homeContent = generateBlankContentCanvas();
 
-        homeContent.add(HomePage.generateRoomSelectionContentArea());
+        homepage = new HomePage();
+
+        homeContent.add(homepage.generateRoomSearchContentArea()); //left side
+        homeContent.add(homepage.generateRoomSelectionContentArea()); //right side
 
         this.add(homeContent);
         this.repaint();
