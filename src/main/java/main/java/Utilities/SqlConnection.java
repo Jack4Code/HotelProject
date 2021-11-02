@@ -442,4 +442,36 @@ public class SqlConnection {
 
         return false;
     }
+    public static ArrayList<Room> getRoomCombos() {
+
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumBeds, BedType, isSmoking FROM room GROUP BY BedType, RoomType, NumBeds, isSmoking ORDER BY RoomType, NumBeds, isSmoking;");
+
+            while (rs.next()) {
+                Room room = new Room();
+                room.isAvailable = rs.getInt("COUNT(*)");
+                room.roomType = rs.getString("RoomType");
+                room.numBeds = rs.getInt("NumBeds");
+                room.bedType = rs.getString("BedType");
+                room.isSmoking = rs.getInt("isSmoking");
+
+                rooms.add(room);
+            }
+            con.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return rooms;
+    }
+
+
+
+
 }
