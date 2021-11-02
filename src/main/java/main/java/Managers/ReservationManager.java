@@ -115,16 +115,36 @@ public class ReservationManager {
             roomCombosFromReservationsData[i][4] = roomCombosFromReservations.get(i).isSmoking;
         }
 
-        Object[][] availableRoomCombos = new Object[allRoomCombosAvailable.size()][5];
+        int deleteCount = -1;
 
         for(int i = 0; i < allRoomCombosAvailable.size(); i++) {
 
+            deleteCount++;
+
             for(int j = 0; j < roomCombosFromReservations.size(); j++) {
 
-                if(allRoomCombosData[i][1] == roomCombosFromReservationsData[j][1] && allRoomCombosData[i][2] == roomCombosFromReservationsData[j][2] && allRoomCombosData[i][3] == roomCombosFromReservationsData[j][3] && allRoomCombosData[i][4] == roomCombosFromReservationsData[j][4]) {
+                if(allRoomCombosData[i][1].equals(roomCombosFromReservationsData[j][1]) && allRoomCombosData[i][2] == roomCombosFromReservationsData[j][2] && allRoomCombosData[i][3].equals(roomCombosFromReservationsData[j][3]) && allRoomCombosData[i][4] == roomCombosFromReservationsData[j][4]) {
 
+                    if(allRoomCombosData[i][0] == roomCombosFromReservationsData[j][0]) {
+                        deleteCount--;
+                        allRoomCombosAvailable.remove(deleteCount);
+                        break;
+                    }
+                    else {
+                        break;
+                    }
                 }
             }
+        }
+
+        Object[][] availableRoomCombos = new Object[allRoomCombosAvailable.size()][5];
+
+        for (int i = 0; i < allRoomCombosAvailable.size(); i++) {
+            availableRoomCombos[i][0] = allRoomCombosAvailable.get(i).isAvailable;
+            availableRoomCombos[i][1] = allRoomCombosAvailable.get(i).roomType;
+            availableRoomCombos[i][2] = allRoomCombosAvailable.get(i).numBeds;
+            availableRoomCombos[i][3] = allRoomCombosAvailable.get(i).bedType;
+            availableRoomCombos[i][4] = allRoomCombosAvailable.get(i).isSmoking;
         }
 
         return availableRoomCombos;
