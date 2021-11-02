@@ -23,56 +23,46 @@ public class HomePage {
 
     ArrayList<AvailableRoom> availableRooms;
 
-    Date fromDate, toDate;
+    Date currentDate;
+    SimpleDateFormat timeFormat;
+    LocalDate localFromDate;
+
+    String fromDate, toDate;
 
 
     JPanel resultsContentArea;
     JButton searchAvailableRoomsBtn;
-    SimpleDateFormat timeFormat;
-    LocalDate localFromDate, localToDate;
+
 
     public HomePage() {
-        fromDate = new Date();
+        currentDate = new Date(); //Initializes date and sets it to current time
 
-        //Attempting to get Year-Month-Date and nothing else
-        localFromDate = fromDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        System.out.println("Local From Date: " + localFromDate);
-        int year = localFromDate.getYear();
-        int month = localFromDate.getMonthValue();
-        int day = localFromDate.getDayOfMonth();
-        System.out.println("Year: " + year);
-        System.out.println("Month: "+ month);
-        System.out.println("Day: " + day);
+        localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //Changes this from "Tue Nov 02 08:34:57 CDT 2021" to "2021-11-02"
 
-        Calendar c = Calendar.getInstance();
 
-        //Calendar c1 = new GregorianCalendar();
-        //c1.setLenient(true);
-        //fromDate = c1.getTime();
-        //SimpleDateFormat timeFormat;
-        //timeFormat = new SimpleDateFormat("yyyy-MM-dd");
-        c.add(Calendar.DATE, 1);
-        localToDate = c.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        toDate = c.getTime();
+        //Calendar c = Calendar.getInstance();
+        //c.add(Calendar.DATE, 1);
+        //toDate = c.getTime();
 
     }
 
 
-    public ArrayList<AvailableRoom> getAvailableRooms(String fromDateInput, String toDateInput) {
+    public ArrayList<AvailableRoom> getAvailableRooms(String fromDate, String toDate) {
         try{
-            //Date fDate = timeFormat.parse(fromDateInput);
-            //Date tDate = timeFormat.parse(toDateInput);
-            System.out.println("test-Got to getAvailableRooms");
+            //Parsing a string needs a try catch
+
+            //System.out.println("test-Got to getAvailableRooms");
             ArrayList<AvailableRoom> availableRooms = new ArrayList<>();
-            ArrayList<Room> rooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDateInput, toDateInput);
+            ArrayList<Room> rooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
             for (int i = 0; i < rooms.size(); i++) {
                 AvailableRoom availableRoom = new AvailableRoom();
                 availableRoom.roomId = rooms.get(i).id;
                 availableRoom.bedType = rooms.get(i).bedType;
                 availableRoom.roomType = rooms.get(i).roomType;
                 availableRoom.numBeds = rooms.get(i).numBeds;
-                availableRoom.checkInDate = timeFormat.parse(fromDateInput);
-                availableRoom.checkOutDate = timeFormat.parse(toDateInput);
+                availableRoom.checkInDate = timeFormat.parse(fromDate);
+                availableRoom.checkOutDate = timeFormat.parse(toDate);
                 availableRooms.add(availableRoom);
 
             }
@@ -84,22 +74,8 @@ public class HomePage {
             System.out.println(ex.getMessage());
         }
 
-        /*
-        ArrayList<AvailableRoom> availableRooms = new ArrayList<>();
-        ArrayList<Room> rooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDateInput, toDateInput);
-        for (int i = 0; i < rooms.size(); i++) {
-            AvailableRoom availableRoom = new AvailableRoom();
-            availableRoom.roomId = rooms.get(i).id;
-            availableRoom.bedType = rooms.get(i).bedType;
-            availableRoom.roomType = rooms.get(i).roomType;
-            availableRoom.numBeds = rooms.get(i).numBeds;
-            //availableRoom.checkInDate = fromDateInput;
-            availableRoom.checkOutDate = toDate;
-            availableRooms.add(availableRoom);
-        }
-        return availableRooms;
 
-        */
+
 
         return availableRooms;
     }
@@ -122,8 +98,7 @@ public class HomePage {
         fromDateArea.setBounds(50, 50, 250, 75);
         fromDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
-        //JTextField fromDateTxt = new JTextField(fromDate.toString());
-        JTextField fromDateTxt = new JTextField(localFromDate.toString());
+        JTextField fromDateTxt = new JTextField(localFromDate.toString()); //Starts with the current date in yyyy-MM-dd format
         fromDateTxt.setLayout(null);
         fromDateTxt.setBounds(0, 12, 250, 50);
         fromDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
@@ -139,8 +114,8 @@ public class HomePage {
         toDateArea.setBounds(350, 50, 250, 75);
         toDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
-        //JTextField toDateTxt = new JTextField(toDate.toString());
-        JTextField toDateTxt = new JTextField(localToDate.toString());
+        //Todo: Automatically adding a check-out date causes issues. Here, just showing a week out from starting date
+        JTextField toDateTxt = new JTextField("2021-11-09");
         toDateTxt.setLayout(null);
         toDateTxt.setBounds(0, 12, 250, 50);
         toDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
@@ -163,17 +138,18 @@ public class HomePage {
                 if (e.getSource() == searchAvailableRoomsBtn){
                     timeFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                    //String fromDateInput = timeFormat.format(fromDate.getTime());
-                    String fromDateInput = localFromDate.toString();
-                   //String toDateInput = timeFormat.format(toDate.getTime());
-                    String toDateInput = localToDate.toString();
+                    //Getting the text from inputs
+                    //String fromDateInput = fromDateTxt.getText();
+                   // String toDateInput = toDateTxt.getText();
+                    fromDate = fromDateTxt.getText();
+                    toDate = toDateTxt.getText();
 
                     System.out.println("Pressing search them rooms button!");
-
+                    System.out.println("From Date String: " + fromDate + "; To Date Str: " + toDate);
                     //System.out.println(fromDateInput); //1635905766395
                     //System.out.println(toDateInput); //2021-11-02
                     //call some method in here => which calls a method in a manger => which calls a method in SqlConnection
-                    getAvailableRooms(fromDateInput, toDateInput);
+                    getAvailableRooms(fromDate, toDate);
                     //displayResultsInTable();
 
                 }
