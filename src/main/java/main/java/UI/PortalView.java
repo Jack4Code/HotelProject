@@ -234,8 +234,8 @@ public class PortalView extends JFrame implements ActionListener {
 
         homepage = new HomePage();
 
-        homeContent.add(homepage.generateRoomSearchContentArea()); //left side
-        homeContent.add(homepage.generateRoomSelectionContentArea()); //right side
+        homeContent.add(homepage.generateRoomSearchContentArea()); //Searching for rooms
+        homeContent.add(homepage.generateRoomSelectionContentArea()); //Listing and reserving rooms
 
         this.add(homeContent);
         this.repaint();

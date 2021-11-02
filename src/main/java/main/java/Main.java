@@ -12,15 +12,52 @@ import main.java.Managers.UserManager;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
 import java.awt.*;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        /*
+        SimpleDateFormat timeFormat;
+        timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //ArrayList<Room> availableRes = ReservationManager.getAllCurrentlyAvailableRooms();
-        //ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange();
+        String fromDateInput = "2021-11-01 00:00:00";
+        String toDateInput = "2021-11-03 00:00:00";
+        //Date fDate = timeFormat.parse(fromDateInput);
+        //java.util.Date tDate = timeFormat.parse(toDateInput);
+        //LocalDate fromDate = LocalDate.parse(fromDateInput);
+        //LocalDate toDate = LocalDate.parse(toDateInput);
+        //Date fromDate1 = Date.valueOf(fromDate);
+        //Date toDate1 = Date.valueOf(toDate);
+        //System.out.println(fDate);
+       // System.out.println(tDate);
+
+
+        //java.sql.Date sfDate = new java.sql.Date(fDate.getTime());
+        //java.sql.Date stDate = new java.sql.Date(tDate.getTime());
+        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDateInput, toDateInput);
+
+        //System.out.println(Arrays.toString(availableRooms.toArray()));
+
+
+        for (int i = 0; i < availableRooms.size(); i++){
+            System.out.println("Room ID: " + availableRooms.get(i).id);
+            System.out.println("Room Type: " + availableRooms.get(i).roomType);
+            System.out.println("Number of Beds: " + availableRooms.get(i).numBeds);
+            System.out.println("Bed Type " + availableRooms.get(i).bedType);
+            System.out.println("Is Smoking: " + availableRooms.get(i).isSmoking);
+
+
+
+        }
+*/
+
 
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)

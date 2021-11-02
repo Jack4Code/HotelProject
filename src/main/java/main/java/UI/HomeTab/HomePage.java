@@ -9,48 +9,84 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class HomePage {
 
 
     ArrayList<AvailableRoom> availableRooms;
 
-    Date fromDate, toDate;
+    Date currentDate;
+    SimpleDateFormat timeFormat;
+    LocalDate localFromDate;
+
+    String fromDate, toDate;
+
 
     JPanel resultsContentArea;
     JButton searchAvailableRoomsBtn;
 
+
     public HomePage() {
-        fromDate = new Date();
-        Calendar c = Calendar.getInstance();
+        currentDate = new Date(); //Initializes date and sets it to current time
 
-        c.add(Calendar.DATE, 1);
+        localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //Changes this from "Tue Nov 02 08:34:57 CDT 2021" to "2021-11-02"
+        //Todo: Eventually change dates to a JCalendar or JDateChooser? Involved important files...
 
-        toDate = c.getTime();
+        //Calendar c = Calendar.getInstance();
+        //c.add(Calendar.DATE, 1);
+        //toDate = c.getTime();
+
     }
 
 
-    public ArrayList<AvailableRoom> getAvailableRooms() {
-        ArrayList<AvailableRoom> availableRooms = new ArrayList<>();
-        ArrayList<Room> rooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
-        for (int i = 0; i < rooms.size(); i++) {
-            AvailableRoom availableRoom = new AvailableRoom();
-            availableRoom.roomId = rooms.get(i).id;
-            availableRoom.bedType = rooms.get(i).bedType;
-            availableRoom.roomType = rooms.get(i).roomType;
-            availableRoom.numBeds = rooms.get(i).numBeds;
-            availableRoom.checkInDate = fromDate;
-            availableRoom.checkOutDate = toDate;
-            availableRooms.add(availableRoom);
+    public ArrayList<AvailableRoom> getAvailableRooms(String fromDate, String toDate) {
+        try{
+            //Parsing a string needs a try catch
+
+            //System.out.println("test-Got to getAvailableRooms");
+            ArrayList<AvailableRoom> availableRooms = new ArrayList<>();
+            ArrayList<Room> rooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
+            for (int i = 0; i < rooms.size(); i++) {
+                AvailableRoom availableRoom = new AvailableRoom();
+                availableRoom.roomId = rooms.get(i).id;
+                availableRoom.bedType = rooms.get(i).bedType;
+                availableRoom.roomType = rooms.get(i).roomType;
+                availableRoom.numBeds = rooms.get(i).numBeds;
+                availableRoom.checkInDate = timeFormat.parse(fromDate);
+                availableRoom.checkOutDate = timeFormat.parse(toDate);
+                availableRooms.add(availableRoom);
+
+            }
+
+
+
         }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+
+
+
         return availableRooms;
     }
 
     public void displayResultsInTable(){
         //resultsContentArea.Add()
+
+
+
+
+
     }
 
 
@@ -67,7 +103,7 @@ public class HomePage {
         fromDateArea.setBounds(50, 50, 250, 75);
         fromDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
-        JTextField fromDateTxt = new JTextField(fromDate.toString());
+        JTextField fromDateTxt = new JTextField(localFromDate.toString()); //Starts with the current date in yyyy-MM-dd format
         fromDateTxt.setLayout(null);
         fromDateTxt.setBounds(0, 12, 250, 50);
         fromDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
@@ -76,11 +112,22 @@ public class HomePage {
         fromDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
         fromDateArea.add(fromDateTxt);
 
+
+
         JPanel toDateArea = new JPanel();
         toDateArea.setLayout(null);
         toDateArea.setBounds(350, 50, 250, 75);
-        toDateArea.setBackground(Color.GREEN);
+        toDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
+        //Todo: Automatically adding a check-out date causes issues. Here, just showing a week out from starting date
+        JTextField toDateTxt = new JTextField("2021-11-09");
+        toDateTxt.setLayout(null);
+        toDateTxt.setBounds(0, 12, 250, 50);
+        toDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        toDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        toDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
+        toDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        toDateArea.add(toDateTxt);
 
         //search button
         searchAvailableRoomsBtn = new JButton("Search");
@@ -92,10 +139,24 @@ public class HomePage {
         searchAvailableRoomsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println("Pressing search them rooms button!");
-                //call some method in here => which calls a method in a manger => which calls a method in SqlConnection
-                getAvailableRooms();
-                displayResultsInTable();
+                //Listens for events
+                if (e.getSource() == searchAvailableRoomsBtn){
+                    timeFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                    //Getting the text from inputs
+                    //String fromDateInput = fromDateTxt.getText();
+                   // String toDateInput = toDateTxt.getText();
+                    fromDate = fromDateTxt.getText();
+                    toDate = toDateTxt.getText();
+
+                    System.out.println("Pressing search them rooms button!");
+                    System.out.println("From Date String: " + fromDate + "; To Date Str: " + toDate);
+
+                    getAvailableRooms(fromDate, toDate);
+                    //displayResultsInTable();
+
+                }
+
             }
         });
 
@@ -108,6 +169,29 @@ public class HomePage {
 
 
     //right side
+    /*
+    public static JScrollPane generateRoomSelectionContentArea(){
+        JScrollPane pane;
+        JTable availableRoomsTable;
+        //String allAvailableRooms;
+        ArrayList<AvailableRoom> allAvailableRooms;
+        allAvailableRooms = getAvailableRooms();
+       // allAvailableRooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
+        String[] availableRoomsColumnNames = {
+                "Room Type",
+                "Bed Type",
+                "Bed Count",
+                "Smoking Available"
+
+        };
+
+
+
+        return pane;
+    }
+    */
+
+
     public JPanel generateRoomSelectionContentArea() {
 
         resultsContentArea = new JPanel();
@@ -125,9 +209,8 @@ public class HomePage {
 
             resultsContentArea.add(panel);
         }
-
-
         return resultsContentArea;
+
     }
 
     public JPanel generateRoomSelectionBox(int bedCnt, String roomType, Date fromDate, Date toDate, boolean isSmoking, int top) {
@@ -139,6 +222,8 @@ public class HomePage {
 
         return box;
     }
+
+
 
 
 }

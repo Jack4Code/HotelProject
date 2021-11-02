@@ -6,6 +6,7 @@ import main.java.DataModels.Reservation;
 import main.java.Managers.UserManager;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -287,33 +288,44 @@ public class SqlConnection {
         return reservations;
     }
 
-//public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate)
-    //TODO: Figure out the sql and put it in here
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(){
+
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
         ArrayList<Room> rooms = new ArrayList<>();
-        String query = "SELECT r.Id as RoomId, isAvailable, NextAvailableDate, RoomType, NumBeds, BedType, isSmoking FROM Room r " +
+
+        System.out.println("test- got to sql connector");
+
+
+       /* String query = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking " +
+                "FROM Room r " +
                 "LEFT JOIN ReservationRoom rr on r.Id = rr.RoomId " +
                 "LEFT JOIN Reservation res on res.Id = rr.ReservationId " +
-                "AND res.CheckInDate >= '2021-12-01 00:00:00' " +
-                "AND res.CheckOutDate <= '2021-12-05 00:00:00' " +
-                "WHERE r.isAvailable = 1 AND res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
+                "AND res.CheckInDate >= '2021-12-01 00:00:00' AND res.CheckOutDate <= '2021-12-05 00:00:00' " +
+                "WHERE res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
+        */
 
+
+        String query = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking FROM Room r LEFT JOIN ReservationRoom rr on r.Id = rr.RoomId LEFT JOIN Reservation res on res.Id = rr.ReservationId AND res.CheckInDate >= ? AND res.CheckOutDate <= ? WHERE res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
 
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-           // PreparedStatement prepStmt = con.prepareStatement(statement);
-            //prepStmt.setInt(1, roomId);
-            //ResultSet rs = prepStmt.executeQuery();
+            //Statement stmt = con.createStatement();
+            //ResultSet rs = stmt.executeQuery(query);
+
+
+            PreparedStatement prepStmt = con.prepareStatement(query);
+
+            prepStmt.setString(1, fromDate);
+            prepStmt.setString(2, toDate);
+
+            ResultSet rs = prepStmt.executeQuery();
 
 
             while(rs.next()){
                 Room room = new Room();
                 room.id = rs.getInt("RoomId");
-                room.isAvailable = rs.getInt("isAvailable");
-                room.nextAvailableDate = rs.getDate("NextAvailableDate");
+                //room.isAvailable = rs.getInt("isAvailable");
+                //room.nextAvailableDate = rs.getDate("NextAvailableDate");
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
@@ -331,12 +343,14 @@ public class SqlConnection {
             System.out.println(ex.getMessage());
         }
 
-        System.out.println(Arrays.toString(rooms.toArray()));
+
+        //System.out.println(Arrays.toString(rooms.toArray()));
 
 
         for (int i = 0; i < rooms.size(); i++){
 
-            System.out.println(rooms.get(i));
+            System.out.println("Room ID: " + rooms.get(i).id);
+            System.out.println("Room Type:" + rooms.get(i).roomType);
         }
 
 
