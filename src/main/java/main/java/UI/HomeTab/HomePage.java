@@ -31,9 +31,9 @@ public class HomePage {
     LocalDate localFromDate;
 
     static String fromDate, toDate;
-    static ArrayList<AvailableRoom> availableRoom;
-
-
+    //static ArrayList<AvailableRoom> availableRoom;
+    static ArrayList<Room> availableRoom;
+    static String reservationCode;
     JPanel resultsContentArea;
     JButton searchAvailableRoomsBtn;
 
@@ -109,7 +109,8 @@ public class HomePage {
         JPanel fromDateArea = new JPanel();
         //JLabel checkInLabel = new JLabel("Check In:");
         fromDateArea.setLayout(null);
-        fromDateArea.setBounds(50, 50, 250, 75);
+        //fromDateArea.setBounds(50, 50, 250, 75);
+        fromDateArea.setBounds(25, 25, 225, 50);
         fromDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
         //checkInLabel.setBounds(50, 20, 250, 20);
        // checkInLabel.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
@@ -118,7 +119,8 @@ public class HomePage {
         JTextField fromDateTxt = new JTextField(localFromDate.toString()); //Starts with the current date in yyyy-MM-dd format
 
         fromDateTxt.setLayout(null);
-        fromDateTxt.setBounds(0, 12, 250, 50);
+        fromDateTxt.setBounds(0, 9, 225, 25);
+        //fromDateTxt.setBounds(0, 12, 250, 50);
         fromDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
         fromDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         fromDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
@@ -129,14 +131,17 @@ public class HomePage {
 
         JPanel toDateArea = new JPanel();
         toDateArea.setLayout(null);
+        toDateArea.setBounds(300, 25, 250, 50);
         //toDateArea.setBounds(350, 50, 250, 75);
-        toDateArea.setBounds(50, 150, 250, 75);
+
+
         toDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
         //Todo: Automatically adding a check-out date causes issues. Here, just showing a week out from starting date
         JTextField toDateTxt = new JTextField("2021-11-09");
         toDateTxt.setLayout(null);
-        toDateTxt.setBounds(0, 12, 250, 50);
+        //toDateTxt.setBounds(0, 12, 250, 50);
+        toDateTxt.setBounds(0, 9, 225, 25);
         toDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
         toDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         toDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
@@ -146,7 +151,8 @@ public class HomePage {
         //search button
         searchAvailableRoomsBtn = new JButton("Search");
         searchAvailableRoomsBtn.setFocusable(false);
-        searchAvailableRoomsBtn.setBounds(50, 600, 200, 40);
+
+        searchAvailableRoomsBtn.setBounds(300, 150, 250, 50);
         searchAvailableRoomsBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         searchAvailableRoomsBtn.setFont(new Font("serif", Font.PLAIN, 20));
         searchAvailableRoomsBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
@@ -211,7 +217,7 @@ public class HomePage {
         //availableRoomTable.setBounds(25, 160, 1150, 440);
 
        //availableRoomTable.setBounds(600, 0, 600, 1400);
-        availableRoomTable.setBounds(600, 0, 600, 900);
+        availableRoomTable.setBounds(600, 0, 600, 900); //900
         availableRoomTable.setFont(new Font("serif", Font.PLAIN, 18));
         availableRoomTable.setRowHeight(25);
 
@@ -232,7 +238,7 @@ public class HomePage {
         //column3.setPreferredWidth(150);
 
         pane = new JScrollPane(availableRoomTable);
-        pane.setBounds(600, 100, 500, 640);
+        pane.setBounds(600, 100, 500, 500); //640
         //pane.setBounds(600, 0, 600, 1400);
         availableRoomTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
@@ -240,7 +246,7 @@ public class HomePage {
                 int selectedRow;
 
                 selectedRow = availableRoomTable.getSelectedRow();
-               // reservationCode = availableRoomTable.getValueAt(selectedRow, 1).toString();
+                reservationCode = availableRoomTable.getValueAt(selectedRow, 1).toString();
             }
         });
 
@@ -261,8 +267,8 @@ public class HomePage {
     {
         JButton makeReservationBtn = new JButton("Reserve!");
         makeReservationBtn.setFocusable(false);
-        makeReservationBtn.setFont(new Font("serif", Font.PLAIN, 30));
-        makeReservationBtn.setBounds(800, 20, 300, 50);
+        makeReservationBtn.setFont(new Font("serif", Font.PLAIN, 20));
+        makeReservationBtn.setBounds(600, 600, 250, 50);
         makeReservationBtn.setBackground(CustomColor.PURPLE_THEME_TXT);
         makeReservationBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
 

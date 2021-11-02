@@ -30,14 +30,13 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static ArrayList<AvailableRoom> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
+
+        //ArrayList<AvailableRoom> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
+        //ArrayList<Room> availableRooms = SqlConnection.getCombosFromReservations(fromDate, toDate);
+        ArrayList<Room> availableRooms = SqlConnection.getRoomCombos();
 
 
-        ArrayList<AvailableRoom> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
-
-        //if (availableRooms.isEmpty()){
-            //System.out.println("No rooms are available within those dates.");
-        //}
 
         return availableRooms;
     }
