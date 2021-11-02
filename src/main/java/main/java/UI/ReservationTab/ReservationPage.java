@@ -64,7 +64,7 @@ public class ReservationPage {
             }
         };
 
-        reservationTable.setBounds(25, 160, 1150, 440);
+        //reservationTable.setBounds(25, 160, 1150, 440);
         reservationTable.setFont(new Font("serif", Font.PLAIN, 18));
         reservationTable.setRowHeight(25);
 
