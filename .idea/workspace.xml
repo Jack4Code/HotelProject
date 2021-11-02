@@ -6,13 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Modifying inputted dates, added connections from UI to sql connector">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/DataModels/AvailableRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/DataModels/AvailableRoom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/DataModels/AvailableRoom.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/DataModels/AvailableRoom.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,6 +143,8 @@
       <updated>1635367551170</updated>
       <workItem from="1635367555149" duration="4980000" />
       <workItem from="1635549739249" duration="12807000" />
+      <workItem from="1635875977825" duration="8242000" />
+      <workItem from="1635885029594" duration="310000" />
     </task>
     <task id="LOCAL-00001" summary="Modifying inputted dates, added connections from UI to sql connector">
       <created>1635854996211</created>
@@ -152,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635860904329</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Modifying inputted dates, added connections from UI to sql connector">
+      <created>1635865265916</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1635865265916</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,12 +200,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>142</line>
+          <line>156</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>154</line>
+          <line>162</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -200,22 +215,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>323</line>
+          <line>319</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>333</line>
+          <line>329</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>37</line>
+          <line>41</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>233</line>
+          <line>313</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>

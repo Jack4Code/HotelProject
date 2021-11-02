@@ -1,8 +1,5 @@
 package main.java.Utilities;
-import main.java.DataModels.Room;
-import main.java.DataModels.User;
-import main.java.DataModels.UserType;
-import main.java.DataModels.Reservation;
+import main.java.DataModels.*;
 import main.java.Managers.UserManager;
 
 import java.sql.*;
@@ -289,10 +286,9 @@ public class SqlConnection {
     }
 
 
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
-        ArrayList<Room> rooms = new ArrayList<>();
-
-        System.out.println("test- got to sql connector");
+    public static ArrayList<AvailableRoom> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
+        ArrayList<AvailableRoom> rooms = new ArrayList<>();
+       // System.out.println("test- got to sql connector");
 
 
        /* String query = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking " +
@@ -322,16 +318,20 @@ public class SqlConnection {
 
 
             while(rs.next()){
-                Room room = new Room();
-                room.id = rs.getInt("RoomId");
+
+                AvailableRoom room = new AvailableRoom();
+                room.roomId = rs.getInt("RoomId");
                 //room.isAvailable = rs.getInt("isAvailable");
                 //room.nextAvailableDate = rs.getDate("NextAvailableDate");
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
                 room.isSmoking = rs.getInt("isSmoking");
-
                 rooms.add(room);
+
+
+
+
             }
             con.close();
 
@@ -346,13 +346,13 @@ public class SqlConnection {
 
         //System.out.println(Arrays.toString(rooms.toArray()));
 
-
+        /*
         for (int i = 0; i < rooms.size(); i++){
 
             System.out.println("Room ID: " + rooms.get(i).id);
             System.out.println("Room Type:" + rooms.get(i).roomType);
         }
-
+        */
 
 
         return rooms;

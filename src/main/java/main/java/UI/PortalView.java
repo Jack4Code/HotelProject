@@ -2,6 +2,7 @@ package main.java.UI;
 
 import jdk.jshell.spi.ExecutionControlProvider;
 import main.java.DataModels.Room;
+import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.User;
 import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
@@ -48,6 +49,9 @@ public class PortalView extends JFrame implements ActionListener {
     JButton cancelReservationButton;
     JButton modifyReservationButton;
     JButton searchReservationButton;
+
+    //Home Tab
+    JButton selectAvailableRoomBtn;
 
 
     HomePage homepage = null;
@@ -236,6 +240,13 @@ public class PortalView extends JFrame implements ActionListener {
 
         homeContent.add(homepage.generateRoomSearchContentArea()); //Searching for rooms
         homeContent.add(homepage.generateRoomSelectionContentArea()); //Listing and reserving rooms
+        homeContent.add(homepage.addTitle());
+        selectAvailableRoomBtn = (HomePage.selectAvailableRoomButton());
+        selectAvailableRoomBtn.addActionListener(this); //Todo: Check this....
+        homeContent.add(selectAvailableRoomBtn);
+        //modifyReservationButton = (ReservationPage.addModifyButton());
+        //modifyReservationButton.addActionListener(this);
+        //reservationsContent.add(modifyReservationButton);
 
         this.add(homeContent);
         this.repaint();

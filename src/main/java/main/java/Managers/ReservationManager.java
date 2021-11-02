@@ -1,5 +1,6 @@
 package main.java.Managers;
 
+import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.Room;
 import main.java.Utilities.SqlConnection;
 import main.java.DataModels.Reservation;
@@ -29,28 +30,10 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
-        //From UI, enter date parameters
-        // Pass them in here, to Sqlconnection
-        // Which will return an array list of available rooms
-        // Todo: Do we want the array list to JUSt return the room Id's, or all it's info?
-        //Then move to makeReservation
-
-        //fromDate = 2021-12-02;
-
-        //LocalDate fromDate = LocalDate.parse(fromDateInput);
-        //LocalDate toDate = LocalDate.parse(toDateInput);
-        //System.out.println(fromDate);
-        //System.out.println(toDate);
-        //Date fromDate1 = valueOf(fromDate);
-        //Date toDate1 = valueOf(toDate);
+    public static ArrayList<AvailableRoom> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
 
 
-        //java.sql.Date sfDate = new java.sql.Date(fDate.getTime());
-        //java.sql.Date stDate = new java.sql.Date(tDate.getTime());
-        System.out.println("test- got to reservation manager");
-
-        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
+        ArrayList<AvailableRoom> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
 
         //if (availableRooms.isEmpty()){
             //System.out.println("No rooms are available within those dates.");

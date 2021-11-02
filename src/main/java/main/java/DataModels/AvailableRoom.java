@@ -5,7 +5,8 @@ import java.util.Date;
 public class AvailableRoom {
 
     public int roomId, //don't show
-            numBeds;
+            numBeds,
+            isSmoking;
     public String roomType;
     public String bedType;
     public Date checkInDate; //don't show
