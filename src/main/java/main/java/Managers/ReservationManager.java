@@ -7,8 +7,11 @@ import main.java.DataModels.User;
 
 import java.lang.reflect.Array;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static java.sql.Date.valueOf;
 
 public class ReservationManager {
 
@@ -26,7 +29,7 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(Date fromDate, Date toDate) {
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDateInput, String toDateInput) {
         //From UI, enter date parameters
         // Pass them in here, to Sqlconnection
         // Which will return an array list of available rooms
@@ -34,11 +37,24 @@ public class ReservationManager {
         //Then move to makeReservation
 
         //fromDate = 2021-12-02;
-        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange();
 
-        if (availableRooms.isEmpty()){
-            System.out.println("No rooms are available within those dates.");
-        }
+        //LocalDate fromDate = LocalDate.parse(fromDateInput);
+        //LocalDate toDate = LocalDate.parse(toDateInput);
+        //System.out.println(fromDate);
+        //System.out.println(toDate);
+        //Date fromDate1 = valueOf(fromDate);
+        //Date toDate1 = valueOf(toDate);
+
+
+        //java.sql.Date sfDate = new java.sql.Date(fDate.getTime());
+        //java.sql.Date stDate = new java.sql.Date(tDate.getTime());
+        System.out.println("test- got to reservation manager");
+
+        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDateInput, toDateInput);
+
+        //if (availableRooms.isEmpty()){
+            //System.out.println("No rooms are available within those dates.");
+        //}
 
         return availableRooms;
     }
