@@ -3,11 +3,13 @@ package main.java.UI;
 import jdk.jshell.spi.ExecutionControlProvider;
 import main.java.DataModels.Room;
 import main.java.DataModels.User;
+import main.java.Managers.ReservationManager;
 import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
 import main.java.UI.HomeTab.HomePage;
 import main.java.UI.ReservationTab.ReservationPage;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.SqlConnection;
 import main.java.Utilities.TableCellListener;
 
 import javax.swing.*;
@@ -523,6 +525,7 @@ public class PortalView extends JFrame implements ActionListener {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
         }  else if (e.getSource() == modifyReservationButton){
+            ReservationManager.getAvaiableRoomCombos();
             System.out.println(ReservationPage.selectedReservationCode());
             this.currentTab = "Home";
             this.toggleHomeView();

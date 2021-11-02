@@ -86,6 +86,49 @@ public class ReservationManager {
         return SqlConnection.getAllReservations(activeUser, reservationCode, email);
     }
 
+    public static Object[][] getAvaiableRoomCombos(){
+
+        ArrayList<Room> allRoomCombosAvailable;
+        ArrayList<Room> roomCombosFromReservations;
+
+        allRoomCombosAvailable = SqlConnection.getRoomCombos();
+
+        Object[][] allRoomCombosData = new Object[allRoomCombosAvailable.size()][5];
+
+        for (int i = 0; i < allRoomCombosAvailable.size(); i++) {
+            allRoomCombosData[i][0] = allRoomCombosAvailable.get(i).isAvailable;
+            allRoomCombosData[i][1] = allRoomCombosAvailable.get(i).roomType;
+            allRoomCombosData[i][2] = allRoomCombosAvailable.get(i).numBeds;
+            allRoomCombosData[i][3] = allRoomCombosAvailable.get(i).bedType;
+            allRoomCombosData[i][4] = allRoomCombosAvailable.get(i).isSmoking;
+        }
+
+        roomCombosFromReservations = SqlConnection.getCombosFromReservations("2021-12-2" , "2021-12-6");
+
+        Object[][] roomCombosFromReservationsData = new Object[roomCombosFromReservations.size()][5];
+
+        for (int i = 0; i < roomCombosFromReservations.size(); i++) {
+            roomCombosFromReservationsData[i][0] = roomCombosFromReservations.get(i).isAvailable;
+            roomCombosFromReservationsData[i][1] = roomCombosFromReservations.get(i).roomType;
+            roomCombosFromReservationsData[i][2] = roomCombosFromReservations.get(i).numBeds;
+            roomCombosFromReservationsData[i][3] = roomCombosFromReservations.get(i).bedType;
+            roomCombosFromReservationsData[i][4] = roomCombosFromReservations.get(i).isSmoking;
+        }
+
+        Object[][] availableRoomCombos = new Object[allRoomCombosAvailable.size()][5];
+
+        for(int i = 0; i < allRoomCombosAvailable.size(); i++) {
+
+            for(int j = 0; j < roomCombosFromReservations.size(); j++) {
+
+                if(allRoomCombosData[i][1] == roomCombosFromReservationsData[j][1] && allRoomCombosData[i][2] == roomCombosFromReservationsData[j][2] && allRoomCombosData[i][3] == roomCombosFromReservationsData[j][3] && allRoomCombosData[i][4] == roomCombosFromReservationsData[j][4]) {
+
+                }
+            }
+        }
+
+        return availableRoomCombos;
+    }
     //returns String: reservationCode ... needs coresponding SqlConnection method
 
     //upateReservation(reservationCode, whatever we can update) ... needs corresponding SqlConnection method
