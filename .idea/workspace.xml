@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Commit to Pull.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/DataModels/AvailableRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/ReservationTab/ReservationPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/ReservationTab/ReservationPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/ReservationTab/ReservationPage$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/ReservationTab/ReservationPage$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/ReservationTab/ReservationPage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/ReservationTab/ReservationPage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +65,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="HotelProject" />
+      <module name="Sandbox" />
       <option name="PROGRAM_PARAMETERS" value="clerk@test.com passwordct" />
       <extension name="coverage">
         <pattern>
@@ -166,19 +169,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Main.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
           <line>294</line>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Main.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
