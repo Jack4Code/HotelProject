@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Add JTable, etc. to home page">
+      <change afterPath="$PROJECT_DIR$/src/test/java/ReservationManagerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM_[Changes]1/RoomManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM_[Changes]1/SqlConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/2/J3-5/modify-reservation" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,40 +70,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerTests.validateReservationCodeWorking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sandbox" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InputValidationTest.ValidEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Sandbox" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="METHOD_NAME" value="ValidEmailTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="validateReservationCodeWorking" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidationTest.invalidEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerTests.verifyCreateReservationCodeReturns" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sandbox" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="METHOD_NAME" value="invalidEmailTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="verifyCreateReservationCodeReturns" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidationTest.validEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerTests.verifyMakeReservationFails" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sandbox" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="METHOD_NAME" value="validEmailTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="verifyMakeReservationFails" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReservationManagerTests.verifyMakeReservationSucceeds" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sandbox" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="verifyMakeReservationSucceeds" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -106,18 +112,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.InputValidationTest" />
-      <item itemvalue="JUnit.InputValidationTest.invalidEmailTest" />
-      <item itemvalue="JUnit.InputValidationTest.ValidEmailTest" />
-      <item itemvalue="JUnit.InputValidationTest.validEmailTest" />
+      <item itemvalue="JUnit.ReservationManagerTests.validateReservationCodeWorking" />
+      <item itemvalue="JUnit.ReservationManagerTests.verifyCreateReservationCodeReturns" />
+      <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationFails" />
+      <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationSucceeds" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.InputValidationTest" />
-        <item itemvalue="JUnit.InputValidationTest.validEmailTest" />
-        <item itemvalue="JUnit.InputValidationTest.invalidEmailTest" />
-        <item itemvalue="JUnit.InputValidationTest.ValidEmailTest" />
+        <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationSucceeds" />
+        <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationFails" />
+        <item itemvalue="JUnit.ReservationManagerTests.verifyCreateReservationCodeReturns" />
+        <item itemvalue="JUnit.ReservationManagerTests.validateReservationCodeWorking" />
       </list>
     </recent_temporary>
   </component>
@@ -133,6 +139,9 @@
       <workItem from="1635549739249" duration="12807000" />
       <workItem from="1635875977825" duration="8242000" />
       <workItem from="1635885029594" duration="1302000" />
+      <workItem from="1636229569059" duration="1323000" />
+      <workItem from="1636923313673" duration="1117000" />
+      <workItem from="1637018449301" duration="4178000" />
     </task>
     <task id="LOCAL-00001" summary="Modifying inputted dates, added connections from UI to sql connector">
       <created>1635854996211</created>
