@@ -525,7 +525,6 @@ public class PortalView extends JFrame implements ActionListener {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
         }  else if (e.getSource() == modifyReservationButton){
-            ReservationManager.getAvaiableRoomCombos();
             System.out.println(ReservationPage.selectedReservationCode());
             this.currentTab = "Home";
             this.toggleHomeView();
