@@ -59,8 +59,11 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public String makeReservation(Date fromDate, Date toDate)
+    public static String makeReservation(Date fromDate, Date toDate)
     {
+        if(toDate.compareTo(fromDate) < 0){
+            return "";
+        }
 
         String reservationCode = createReservationCode();
 
