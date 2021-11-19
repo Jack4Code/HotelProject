@@ -15,6 +15,8 @@ import static java.sql.Date.valueOf;
 
 public class ReservationManager {
 
+    public Reservation activeReservation = null;
+
     public static ArrayList<Room> getAllCurrentlyAvailableRooms()
     {
         //Get all rooms
@@ -89,7 +91,7 @@ public class ReservationManager {
         return SqlConnection.getAllReservations(activeUser, reservationCode, email);
     }
 
-    public static Object[][] getAvaiableRoomCombos(){
+    public static Object[][] getAvailableRoomCombos(LocalDate fromDate, LocalDate toDate){
 
         ArrayList<Room> allRoomCombosAvailable;
         ArrayList<Room> roomCombosFromReservations;
@@ -106,7 +108,10 @@ public class ReservationManager {
             allRoomCombosData[i][4] = allRoomCombosAvailable.get(i).isSmoking;
         }
 
-        roomCombosFromReservations = SqlConnection.getCombosFromReservations("2021-12-2" , "2021-12-6");
+        String fromDateString = fromDate.toString();
+        String toDateString = toDate.toString();
+
+        roomCombosFromReservations = SqlConnection.getCombosFromReservations(fromDateString , toDateString);
 
         Object[][] roomCombosFromReservationsData = new Object[roomCombosFromReservations.size()][5];
 
@@ -129,11 +134,12 @@ public class ReservationManager {
                 if(allRoomCombosData[i][1].equals(roomCombosFromReservationsData[j][1]) && allRoomCombosData[i][2] == roomCombosFromReservationsData[j][2] && allRoomCombosData[i][3].equals(roomCombosFromReservationsData[j][3]) && allRoomCombosData[i][4] == roomCombosFromReservationsData[j][4]) {
 
                     if(allRoomCombosData[i][0] == roomCombosFromReservationsData[j][0]) {
-                        deleteCount--;
                         allRoomCombosAvailable.remove(deleteCount);
+                        deleteCount--;
                         break;
                     }
                     else {
+                        allRoomCombosAvailable.get(deleteCount).isAvailable = Integer.parseInt(allRoomCombosData[i][0].toString()) - Integer.parseInt(roomCombosFromReservationsData[j][0].toString());
                         break;
                     }
                 }

@@ -5,14 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Add JTable, etc. to home page">
-      <change afterPath="$PROJECT_DIR$/src/test/java/ReservationManagerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM_[Changes]1/RoomManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM_[Changes]1/SqlConnection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/DataModels/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/DataModels/Reservation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/ReservationTab/ReservationPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/ReservationTab/ReservationPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Managers/ReservationManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +64,8 @@
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="Sandbox" />
+      <module name="HotelProject" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;asdf@gmail.com&quot; &quot;asdf&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.*" />
@@ -201,36 +207,5 @@
     <MESSAGE value="Modifying inputted dates, added connections from UI to sql connector" />
     <MESSAGE value="Add JTable, etc. to home page" />
     <option name="LAST_COMMIT_MESSAGE" value="Add JTable, etc. to home page" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>349</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>319</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>329</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>310</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>196</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

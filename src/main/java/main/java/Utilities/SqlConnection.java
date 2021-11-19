@@ -480,7 +480,8 @@ public class SqlConnection {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE CheckInDate >= '" + checkOutDate + "' OR CheckOutDate <= '" + checkInDate + "' GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE CheckInDate BETWEEN '" + checkInDate + "' AND '" +
+                    checkOutDate + "' OR CheckOutDate BETWEEN '" + checkInDate + "' AND '" + checkOutDate + "' GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
 
             while (rs.next()) {
                 Room room = new Room();

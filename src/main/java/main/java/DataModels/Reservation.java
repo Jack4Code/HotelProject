@@ -11,8 +11,7 @@ public class Reservation {
 
     }
 
-    public Reservation(int ID, String reservationCode, String userEmail, String firstName, String lastName, Date checkInDate, Date checkOutDate, String RoomType, int NumBeds, String BedType, int isSmoking){
-        this.ID = ID;
+    public Reservation(String reservationCode, String userEmail, String firstName, String lastName, Date checkInDate, Date checkOutDate, String RoomType, int NumBeds, String BedType, int isSmoking){
         this.reservationCode = reservationCode;
         this.userEmail = userEmail;
         this.firstName = firstName;

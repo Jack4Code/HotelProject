@@ -3,6 +3,7 @@ package main.java.UI.HomeTab;
 import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.Room;
 import main.java.Managers.ReservationManager;
+import main.java.UI.PortalView;
 import main.java.UI.Resources.CustomColor;
 
 import javax.swing.*;
@@ -28,21 +29,28 @@ public class HomePage {
 
     Date currentDate;
     SimpleDateFormat timeFormat;
-    LocalDate localFromDate;
+    static LocalDate localFromDate;
+    static LocalDate localToDate;
+    static JTable availableRoomTable;
 
-    static String fromDate, toDate;
-    //static ArrayList<AvailableRoom> availableRoom;
     static ArrayList<Room> availableRoom;
-    static String reservationCode;
+    static String selectedRoomString;
+    static Object[][] data;
     JPanel resultsContentArea;
-    JButton searchAvailableRoomsBtn;
+    static String[] availableRoomColumnNames = {
+            "Rooms Available",
+            "Room Type",
+            "Bed Count",
+            "Bed Type",
+            "Smoking Available"
+    };
 
 
     public HomePage() {
         currentDate = new Date(); //Initializes date and sets it to current time
 
         localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        //Changes this from "Tue Nov 02 08:34:57 CDT 2021" to "2021-11-02"
+        localToDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1);
         //Todo: Eventually change dates to a JCalendar or JDateChooser? Involved important files...
 
         //Calendar c = Calendar.getInstance();
@@ -128,17 +136,15 @@ public class HomePage {
         fromDateArea.add(fromDateTxt);
        // fromDateArea.add(checkInLabel);
 
-
         JPanel toDateArea = new JPanel();
         toDateArea.setLayout(null);
         toDateArea.setBounds(300, 25, 250, 50);
         //toDateArea.setBounds(350, 50, 250, 75);
 
-
         toDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
         //Todo: Automatically adding a check-out date causes issues. Here, just showing a week out from starting date
-        JTextField toDateTxt = new JTextField("2021-11-09");
+        JTextField toDateTxt = new JTextField(localToDate.toString());
         toDateTxt.setLayout(null);
         //toDateTxt.setBounds(0, 12, 250, 50);
         toDateTxt.setBounds(0, 9, 225, 25);
@@ -148,71 +154,17 @@ public class HomePage {
         toDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
         toDateArea.add(toDateTxt);
 
-        //search button
-        searchAvailableRoomsBtn = new JButton("Search");
-        searchAvailableRoomsBtn.setFocusable(false);
-
-        searchAvailableRoomsBtn.setBounds(300, 150, 250, 50);
-        searchAvailableRoomsBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
-        searchAvailableRoomsBtn.setFont(new Font("serif", Font.PLAIN, 20));
-        searchAvailableRoomsBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
-        searchAvailableRoomsBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Listens for events
-                if (e.getSource() == searchAvailableRoomsBtn){
-                    timeFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-                    fromDate = fromDateTxt.getText();
-                    toDate = toDateTxt.getText();
-
-                    //getAvailableRooms(fromDate, toDate);
-                  //  ArrayList<AvailableRoom> availableRoomList = getAvailableRooms(fromDate, toDate);
-                    //displayResultsInTable();
-                    //generateRoomSelectionContentArea(availableRoomList);
-
-                }
-
-            }
-        });
-
         contentArea.add(fromDateArea);
         contentArea.add(toDateArea);
-        contentArea.add(searchAvailableRoomsBtn);
 
         return contentArea;
     }
 
-
-
     //right side
     public static JScrollPane generateRoomSelectionContentArea(){
         JScrollPane pane;
-        JTable availableRoomTable;
-        ArrayList<Room> availableRoom;
 
-        //availableRoom = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
-        //ReservationManager.getAvaiableRoomCombos();
-
-        String[] availableRoomColumnNames = {
-                "Rooms Available",
-                "Room Type",
-                "Bed Count",
-                "Bed Type",
-                "Smoking Available"
-
-        };
-        //Object[][] data = new Object[availableRoom.size()][5];
-        Object[][] data = ReservationManager.getAvaiableRoomCombos();
-
-       /*
-        for (int i = 0; i < availableRoom.size(); i++) {
-
-            data[i][0] = availableRoom.get(i).roomType.substring(0, 1).toUpperCase() + availableRoom.get(i).roomType.substring(1).toLowerCase();
-            data[i][1] = availableRoom.get(i).bedType.substring(0, 1).toUpperCase() + availableRoom.get(i).bedType.substring(1).toLowerCase();
-            data[i][2] = availableRoom.get(i).numBeds;
-            data[i][3] = availableRoom.get(i).isSmoking == 1 ? "Yes" : "No";
-        }*/
+        data = ReservationManager.getAvailableRoomCombos(localFromDate, localToDate);
 
         availableRoomTable = new JTable(data, availableRoomColumnNames) {
             @Override
@@ -221,23 +173,20 @@ public class HomePage {
             }
         };
 
-
         availableRoomTable.setBounds(600, 0, 600, 900); //900
         availableRoomTable.setFont(new Font("serif", Font.PLAIN, 18));
         availableRoomTable.setRowHeight(25);
 
-
-
         pane = new JScrollPane(availableRoomTable);
         pane.setBounds(600, 100, 500, 500); //640
-        //pane.setBounds(600, 0, 600, 1400);
+
         availableRoomTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
 
                 int selectedRow;
 
                 selectedRow = availableRoomTable.getSelectedRow();
-                reservationCode = availableRoomTable.getValueAt(selectedRow, 1).toString();
+                selectedRoomString = availableRoomTable.getValueAt(selectedRow, 1).toString();
             }
         });
 
@@ -254,9 +203,9 @@ public class HomePage {
         return tableTitle;
     }
 
-    public static JButton selectAvailableRoomButton()
+    public static JButton addCreateReservationButton()
     {
-        JButton makeReservationBtn = new JButton("Reserve!");
+        JButton makeReservationBtn = new JButton("Reserve");
         makeReservationBtn.setFocusable(false);
         makeReservationBtn.setFont(new Font("serif", Font.PLAIN, 20));
         makeReservationBtn.setBounds(600, 600, 250, 50);
@@ -266,8 +215,22 @@ public class HomePage {
         return makeReservationBtn;
     }
 
+    public static JButton addSearchAvailableRoomsButton() {
 
+        JButton searchAvailableRoomsBtn = new JButton("Search");
+        searchAvailableRoomsBtn.setFocusable(false);
+        searchAvailableRoomsBtn.setBounds(300, 150, 250, 50);
+        searchAvailableRoomsBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        searchAvailableRoomsBtn.setFont(new Font("serif", Font.PLAIN, 20));
+        searchAvailableRoomsBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
+        return searchAvailableRoomsBtn;
+    }
+
+    public static String selectedRoom()
+    {
+        return selectedRoomString;
+    }
 /*
     public JPanel generateRoomSelectionContentArea() {
 

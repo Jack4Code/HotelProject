@@ -1,24 +1,28 @@
 package main.java.UI.ReservationTab;
 
 import main.java.Managers.ReservationManager;
+import main.java.DataModels.Reservation;
 import main.java.DataModels.User;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
-import main.java.DataModels.Reservation;
 import main.java.UI.Resources.CustomColor;
 import main.java.Utilities.TableCellListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ReservationPage {
 
-    static String reservationCode;
     static ArrayList<Reservation> reservations;
+    static ArrayList<String> reservationDetailsString;
+    static ArrayList<Integer> reservationDetailsInt;
+    static ArrayList<Date> reservationDetailsDate;
+
 
     public static JScrollPane generateTable(User activeUser){
         JScrollPane pane;
@@ -88,13 +92,38 @@ public class ReservationPage {
         pane.setBounds(25, 160, 1150, 440);
 
         //Selects reservation on click
+        //TODO Why is this code repeated twice??
         reservationTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
 
                 int selectedRow;
+                reservationDetailsString = new ArrayList<String>(6);
+                reservationDetailsDate = new ArrayList<Date>(2);
+                reservationDetailsInt = new ArrayList<Integer>(2);
 
                 selectedRow = reservationTable.getSelectedRow();
-                reservationCode = reservationTable.getValueAt(selectedRow, 1).toString();
+                reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 1).toString());
+                reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 2).toString());
+                reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 3).toString());
+                reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 4).toString());
+                Date tempDateIn = (Date) reservationTable.getValueAt(selectedRow, 5);
+                reservationDetailsDate.add(tempDateIn);
+                Date tempDateOut = (Date) reservationTable.getValueAt(selectedRow, 6);
+                reservationDetailsDate.add(tempDateOut);
+                reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 7).toString());
+                int tempInt1 = (int) reservationTable.getValueAt(selectedRow, 8);
+                reservationDetailsInt.add(tempInt1);
+                reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 9).toString());
+                String smoking = reservationTable.getValueAt(selectedRow, 10).toString();
+                if (smoking.equals("Yes"))
+                {
+                    int tempInt2 = 1;
+                    reservationDetailsInt.add(tempInt2);
+                }
+                else {
+                    int tempInt2 = 0;
+                    reservationDetailsInt.add(tempInt2);
+                }
             }
         });
 
@@ -123,8 +152,10 @@ public class ReservationPage {
         return modifyReservation;
     }
 
-    public static String selectedReservationCode()
+    public static Reservation selectedReservation()
     {
-        return reservationCode;
+        Reservation activeReservation = new Reservation(reservationDetailsString.get(0), reservationDetailsString.get(1), reservationDetailsString.get(2), reservationDetailsString.get(3), reservationDetailsDate.get(0), reservationDetailsDate.get(1), reservationDetailsString.get(4), reservationDetailsInt.get(0), reservationDetailsString.get(5), reservationDetailsInt.get(1));
+
+        return activeReservation;
     }
 }

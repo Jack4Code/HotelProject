@@ -53,7 +53,9 @@ public class PortalView extends JFrame implements ActionListener {
     JButton searchReservationButton;
 
     //Home Tab
-    JButton selectAvailableRoomBtn;
+    JButton createReservationBtn;
+    JButton searchAvailableRoomsBtn;
+    JScrollPane roomSelectionContentArea;
 
 
     HomePage homepage = null;
@@ -240,15 +242,19 @@ public class PortalView extends JFrame implements ActionListener {
 
         homepage = new HomePage();
 
+        roomSelectionContentArea = homepage.generateRoomSelectionContentArea();
+
+        searchAvailableRoomsBtn = (homepage.addSearchAvailableRoomsButton());
+        searchAvailableRoomsBtn.addActionListener(this);
+        homeContent.add(searchAvailableRoomsBtn);
+
         homeContent.add(homepage.generateRoomSearchContentArea()); //Searching for rooms
-        homeContent.add(homepage.generateRoomSelectionContentArea()); //Listing and reserving rooms
+        homeContent.add(roomSelectionContentArea); //Listing and reserving rooms
         homeContent.add(homepage.addTitle());
-        selectAvailableRoomBtn = (HomePage.selectAvailableRoomButton());
-        selectAvailableRoomBtn.addActionListener(this); //Todo: Check this....
-        homeContent.add(selectAvailableRoomBtn);
-        //modifyReservationButton = (ReservationPage.addModifyButton());
-        //modifyReservationButton.addActionListener(this);
-        //reservationsContent.add(modifyReservationButton);
+
+        createReservationBtn = (homepage.addCreateReservationButton());
+        createReservationBtn.addActionListener(this);
+        homeContent.add(createReservationBtn);
 
         this.add(homeContent);
         this.repaint();
@@ -535,10 +541,17 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == roomOptionButton) {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
-        }  else if (e.getSource() == modifyReservationButton){
-            System.out.println(ReservationPage.selectedReservationCode());
+        } else if (e.getSource() == createReservationBtn) {
+            System.out.println(HomePage.selectedRoom());
+        } else if (e.getSource() == modifyReservationButton) {
+            ReservationPage.selectedReservation();
             this.currentTab = "Home";
             this.toggleHomeView();
+        } else if (e.getSource() == searchAvailableRoomsBtn) {
+            this.homeContent.remove(roomSelectionContentArea);
+            roomSelectionContentArea = HomePage.generateRoomSelectionContentArea();
+            homeContent.add(roomSelectionContentArea);
+            this.repaint();
         } else if (e.getSource() == settingsSubmissionBtn) {
             try {
                 boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());
