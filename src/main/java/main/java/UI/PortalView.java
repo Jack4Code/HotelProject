@@ -19,6 +19,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -56,6 +58,11 @@ public class PortalView extends JFrame implements ActionListener {
     JButton createReservationBtn;
     JButton searchAvailableRoomsBtn;
     JScrollPane roomSelectionContentArea;
+    JPanel roomSearchArea;
+    JTextField fromDateText, toDateText;
+    Date currentDate;
+    static LocalDate localFromDate, localToDate;
+    LocalDate fromDate, toDate;
 
 
     HomePage homepage = null;
@@ -82,6 +89,11 @@ public class PortalView extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         System.out.println("Logged in as user: " + userManager.activeUser.email);
+
+        currentDate = new Date(); //Initializes date and sets it to current time
+
+        localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        localToDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1);
     }
 
     public JPanel initSideNav() {
@@ -242,13 +254,21 @@ public class PortalView extends JFrame implements ActionListener {
 
         homepage = new HomePage();
 
-        roomSelectionContentArea = homepage.generateRoomSelectionContentArea();
+        roomSelectionContentArea = homepage.generateRoomSelectionContentArea(localFromDate, localToDate);
 
         searchAvailableRoomsBtn = (homepage.addSearchAvailableRoomsButton());
         searchAvailableRoomsBtn.addActionListener(this);
         homeContent.add(searchAvailableRoomsBtn);
 
-        homeContent.add(homepage.generateRoomSearchContentArea()); //Searching for rooms
+        roomSearchArea = homepage.generateRoomSearchContentArea();
+
+        fromDateText = homepage.addFromDateText();
+        toDateText = homepage.addToDateText();
+        homeContent.add(fromDateText);
+        homeContent.add(toDateText);
+
+        homeContent.add(roomSearchArea); //Searching for rooms
+
         homeContent.add(roomSelectionContentArea); //Listing and reserving rooms
         homeContent.add(homepage.addTitle());
 
@@ -549,7 +569,9 @@ public class PortalView extends JFrame implements ActionListener {
             this.toggleHomeView();
         } else if (e.getSource() == searchAvailableRoomsBtn) {
             this.homeContent.remove(roomSelectionContentArea);
-            roomSelectionContentArea = HomePage.generateRoomSelectionContentArea();
+            fromDate = LocalDate.parse(fromDateText.getText());
+            toDate = LocalDate.parse(toDateText.getText());
+            roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
             homeContent.add(roomSelectionContentArea);
             this.repaint();
         } else if (e.getSource() == settingsSubmissionBtn) {

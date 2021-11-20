@@ -1,17 +1,18 @@
 package main.java.DataModels;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Reservation {
     public int ID, numberOfBeds, isSmoking;
     public String userEmail, reservationCode, roomType, bedType, firstName, lastName;
-    public Date checkInDate, checkOutDate;
+    public LocalDate checkInDate, checkOutDate;
 
     public Reservation(){
 
     }
 
-    public Reservation(String reservationCode, String userEmail, String firstName, String lastName, Date checkInDate, Date checkOutDate, String RoomType, int NumBeds, String BedType, int isSmoking){
+    public Reservation(String reservationCode, String userEmail, String firstName, String lastName, LocalDate checkInDate, LocalDate checkOutDate, String RoomType, int NumBeds, String BedType, int isSmoking){
         this.reservationCode = reservationCode;
         this.userEmail = userEmail;
         this.firstName = firstName;

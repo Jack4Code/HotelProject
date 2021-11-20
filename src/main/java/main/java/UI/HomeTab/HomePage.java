@@ -29,8 +29,7 @@ public class HomePage {
 
     Date currentDate;
     SimpleDateFormat timeFormat;
-    static LocalDate localFromDate;
-    static LocalDate localToDate;
+    static LocalDate localFromDate, localToDate;
     static JTable availableRoomTable;
 
     static ArrayList<Room> availableRoom;
@@ -56,9 +55,6 @@ public class HomePage {
         //Calendar c = Calendar.getInstance();
         //c.add(Calendar.DATE, 1);
         //toDate = c.getTime();
-
-
-
     }
 
 
@@ -124,18 +120,6 @@ public class HomePage {
        // checkInLabel.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
         //checkInLabel.setForeground(Color.RED);
 
-        JTextField fromDateTxt = new JTextField(localFromDate.toString()); //Starts with the current date in yyyy-MM-dd format
-
-        fromDateTxt.setLayout(null);
-        fromDateTxt.setBounds(0, 9, 225, 25);
-        //fromDateTxt.setBounds(0, 12, 250, 50);
-        fromDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
-        fromDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
-        fromDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
-        fromDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        fromDateArea.add(fromDateTxt);
-       // fromDateArea.add(checkInLabel);
-
         JPanel toDateArea = new JPanel();
         toDateArea.setLayout(null);
         toDateArea.setBounds(300, 25, 250, 50);
@@ -144,15 +128,6 @@ public class HomePage {
         toDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
         //Todo: Automatically adding a check-out date causes issues. Here, just showing a week out from starting date
-        JTextField toDateTxt = new JTextField(localToDate.toString());
-        toDateTxt.setLayout(null);
-        //toDateTxt.setBounds(0, 12, 250, 50);
-        toDateTxt.setBounds(0, 9, 225, 25);
-        toDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
-        toDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
-        toDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
-        toDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        toDateArea.add(toDateTxt);
 
         contentArea.add(fromDateArea);
         contentArea.add(toDateArea);
@@ -161,10 +136,10 @@ public class HomePage {
     }
 
     //right side
-    public static JScrollPane generateRoomSelectionContentArea(){
+    public static JScrollPane generateRoomSelectionContentArea(LocalDate fromDate, LocalDate toDate){
         JScrollPane pane;
 
-        data = ReservationManager.getAvailableRoomCombos(localFromDate, localToDate);
+        data = ReservationManager.getAvailableRoomCombos(fromDate, toDate);
 
         availableRoomTable = new JTable(data, availableRoomColumnNames) {
             @Override
@@ -225,6 +200,35 @@ public class HomePage {
         searchAvailableRoomsBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
 
         return searchAvailableRoomsBtn;
+    }
+
+    public static JTextField addFromDateText()
+
+    {
+        JTextField fromDateTxt = new JTextField(localFromDate.toString());
+
+        fromDateTxt.setLayout(null);
+        fromDateTxt.setBounds(25, 35, 225, 25);
+        fromDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        fromDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        fromDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
+        fromDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+
+        return fromDateTxt;
+    }
+
+    public static JTextField addToDateText() {
+
+        JTextField toDateTxt = new JTextField(localToDate.toString());
+
+        toDateTxt.setLayout(null);
+        toDateTxt.setBounds(305, 35, 225, 25);
+        toDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        toDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        toDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
+        toDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+
+        return toDateTxt;
     }
 
     public static String selectedRoom()

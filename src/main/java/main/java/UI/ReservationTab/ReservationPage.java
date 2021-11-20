@@ -13,6 +13,7 @@ import main.java.Utilities.TableCellListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,7 +22,7 @@ public class ReservationPage {
     static ArrayList<Reservation> reservations;
     static ArrayList<String> reservationDetailsString;
     static ArrayList<Integer> reservationDetailsInt;
-    static ArrayList<Date> reservationDetailsDate;
+    static ArrayList<LocalDate> reservationDetailsDate;
 
 
     public static JScrollPane generateTable(User activeUser){
@@ -98,7 +99,7 @@ public class ReservationPage {
 
                 int selectedRow;
                 reservationDetailsString = new ArrayList<String>(6);
-                reservationDetailsDate = new ArrayList<Date>(2);
+                reservationDetailsDate = new ArrayList<LocalDate>(2);
                 reservationDetailsInt = new ArrayList<Integer>(2);
 
                 selectedRow = reservationTable.getSelectedRow();
@@ -106,9 +107,9 @@ public class ReservationPage {
                 reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 2).toString());
                 reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 3).toString());
                 reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 4).toString());
-                Date tempDateIn = (Date) reservationTable.getValueAt(selectedRow, 5);
+                LocalDate tempDateIn = (LocalDate) reservationTable.getValueAt(selectedRow, 5);
                 reservationDetailsDate.add(tempDateIn);
-                Date tempDateOut = (Date) reservationTable.getValueAt(selectedRow, 6);
+                LocalDate tempDateOut = (LocalDate) reservationTable.getValueAt(selectedRow, 6);
                 reservationDetailsDate.add(tempDateOut);
                 reservationDetailsString.add(reservationTable.getValueAt(selectedRow, 7).toString());
                 int tempInt1 = (int) reservationTable.getValueAt(selectedRow, 8);

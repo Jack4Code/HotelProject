@@ -61,7 +61,7 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static String makeReservation(Date fromDate, Date toDate)
+    public static String makeReservation(User activeUser, LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, String isSmoking)
     {
         if(toDate.compareTo(fromDate) < 0){
             return "";

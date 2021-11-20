@@ -270,8 +270,8 @@ public class SqlConnection {
                 reservation.userEmail = rs.getString("Email");
                 reservation.firstName = rs.getString("FirstName");
                 reservation.lastName = rs.getString("LastName");
-                reservation.checkInDate = rs.getDate("CheckInDate");
-                reservation.checkOutDate = rs.getDate("CheckOutDate");
+                reservation.checkInDate = LocalDate.parse(rs.getString("CheckInDate"));
+                reservation.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate"));
                 reservation.roomType = rs.getString("RoomType");
                 reservation.numberOfBeds = rs.getInt("NumberOfBeds");
                 reservation.bedType = rs.getString("BedType");
@@ -405,7 +405,6 @@ public class SqlConnection {
             prepStmt.setString(6, room.bedType);
             prepStmt.setInt(7, room.id);
             prepStmt.executeUpdate();
-
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
