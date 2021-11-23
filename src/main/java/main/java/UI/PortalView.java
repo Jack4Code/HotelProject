@@ -562,7 +562,12 @@ public class PortalView extends JFrame implements ActionListener {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
         } else if (e.getSource() == createReservationBtn) {
-            System.out.println(HomePage.selectedRoom());
+            fromDate = LocalDate.parse(fromDateText.getText());
+            toDate = LocalDate.parse(toDateText.getText());
+            Object[][] selectedRoomValues;
+            selectedRoomValues = HomePage.selectedRoom();
+            ReservationManager.makeReservation(userManager.activeUser, fromDate, toDate, selectedRoomValues[0][0].toString(), (Integer) selectedRoomValues[0][1], selectedRoomValues[0][2].toString(), (Integer) selectedRoomValues[0][3]);
+            System.out.println("Success?");
         } else if (e.getSource() == modifyReservationButton) {
             ReservationPage.selectedReservation();
             this.currentTab = "Home";

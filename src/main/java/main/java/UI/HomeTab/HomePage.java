@@ -33,7 +33,7 @@ public class HomePage {
     static JTable availableRoomTable;
 
     static ArrayList<Room> availableRoom;
-    static String selectedRoomString;
+    static Object[][] selectedRoomValues;
     static Object[][] data;
     JPanel resultsContentArea;
     static String[] availableRoomColumnNames = {
@@ -161,13 +161,17 @@ public class HomePage {
                 int selectedRow;
 
                 selectedRow = availableRoomTable.getSelectedRow();
-                selectedRoomString = availableRoomTable.getValueAt(selectedRow, 1).toString();
+                selectedRoomValues = new Object[1][4];
+                selectedRoomValues[0][0] = availableRoomTable.getValueAt(selectedRow, 1);
+                selectedRoomValues[0][1] = availableRoomTable.getValueAt(selectedRow, 2);
+                selectedRoomValues[0][2] = availableRoomTable.getValueAt(selectedRow, 3);
+                selectedRoomValues[0][3] = availableRoomTable.getValueAt(selectedRow, 4);
             }
         });
 
-
         return pane;
     }
+
     public static JLabel addTitle()
     {
         JLabel tableTitle = new JLabel("Currently Available Rooms: ");
@@ -231,9 +235,9 @@ public class HomePage {
         return toDateTxt;
     }
 
-    public static String selectedRoom()
+    public static Object[][] selectedRoom()
     {
-        return selectedRoomString;
+        return selectedRoomValues;
     }
 /*
     public JPanel generateRoomSelectionContentArea() {

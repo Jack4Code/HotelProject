@@ -61,7 +61,7 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static String makeReservation(User activeUser, LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, String isSmoking)
+    public static String makeReservation(User activeUser, LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, int isSmoking)
     {
         if(toDate.compareTo(fromDate) < 0){
             return "";
@@ -69,7 +69,7 @@ public class ReservationManager {
 
         String reservationCode = createReservationCode();
 
-        System.out.println(reservationCode);
+        SqlConnection.createReservation(reservationCode, activeUser.firstName, activeUser.lastName, fromDate, toDate, roomType, numberOfBeds, bedType, isSmoking, activeUser.email);
 
         return reservationCode;
     }
