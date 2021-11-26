@@ -559,11 +559,11 @@ public class PortalView extends JFrame implements ActionListener {
     }
 
 
-
+    //Todo: Billing content--------------------------------------------------
     public void toggleBillingView() {
         this.regenerateSideNav();
         this.billingContent = generateBlankContentCanvas();
-        //reservationsContent.add(ReservationPage.generateTable(this.userManager.activeUser));
+        billingContent.add(BillingPage.generateBillingTable());
         billingContent.add(BillingPage.addTitle());
         generateUserBillButton = (BillingPage.addGetUserBillButton());
         generateAllBillsButton = (BillingPage.addGetAllBillsButton());
