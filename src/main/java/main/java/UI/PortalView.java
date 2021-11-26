@@ -7,6 +7,7 @@ import main.java.DataModels.User;
 import main.java.Managers.ReservationManager;
 import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
+import main.java.UI.BillingTab.BillingPage;
 import main.java.UI.HomeTab.HomePage;
 import main.java.UI.ReservationTab.ReservationPage;
 import main.java.UI.Resources.CustomColor;
@@ -31,15 +32,15 @@ public class PortalView extends JFrame implements ActionListener {
 
     //Side nav stuff
     JPanel sideNavContainer = null;
-    JPanel homeOption, userOption, reservationsOption, settingsOption, roomOption;
-    JButton homeOptionButton, userOptionButton, reservationsOptionButton, settingsOptionButton, roomOptionButton;
+    JPanel homeOption, userOption, reservationsOption, settingsOption, roomOption, billingOption;
+    JButton homeOptionButton, userOptionButton, reservationsOptionButton, settingsOptionButton, roomOptionButton, billingOptionButton;
 
     //Top bar stuff
     JPanel topBarContainer;
     JButton logoutButton;
 
     //page content stuff
-    JPanel homeContent, userContent, reservationsContent, settingsContent, roomContent = null;
+    JPanel homeContent, userContent, reservationsContent, settingsContent, billingContent, roomContent = null;
     JTextField firstName, lastName, password, email;
     JButton settingsSubmissionBtn, userCreateBtn;
     JTable roomsTable;
@@ -53,6 +54,9 @@ public class PortalView extends JFrame implements ActionListener {
     JButton cancelReservationButton;
     JButton modifyReservationButton;
     JButton searchReservationButton;
+
+    //Billing Tab
+    JButton generateUserBillButton, generateAllBillsButton;
 
     //Home Tab
     JButton createReservationBtn;
@@ -112,7 +116,11 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (userManager.activeUser.userTypeId == 2) {
             roomOption = this.generateSideNavOption("Rooms", 280);
             settingsOption = this.generateSideNavOption("Settings", 340);
+            billingOption = this.generateSideNavOption("Billing", 400);
+
             panel.add(roomOption);
+            panel.add(billingOption);
+
         } else if (userManager.activeUser.userTypeId == 3) {
             userOption = this.generateSideNavOption("Users", 280);
             settingsOption = this.generateSideNavOption("Settings", 340);
@@ -178,6 +186,12 @@ public class PortalView extends JFrame implements ActionListener {
                 roomOptionButton.addActionListener(this);
                 panel.add(roomOptionButton);
                 break;
+            case "Billing":
+                billingOptionButton = btn;
+                billingOptionButton.addActionListener(this);
+                panel.add(billingOptionButton);
+                break;
+
             default:
                 break;
         }
@@ -226,6 +240,9 @@ public class PortalView extends JFrame implements ActionListener {
         }
         if (roomContent != null) {
             this.remove(roomContent);
+        }
+        if (billingContent != null) {
+            this.remove(billingContent);
         }
         this.repaint();
 
@@ -541,6 +558,25 @@ public class PortalView extends JFrame implements ActionListener {
         this.repaint();
     }
 
+
+
+    public void toggleBillingView() {
+        this.regenerateSideNav();
+        this.billingContent = generateBlankContentCanvas();
+        //reservationsContent.add(ReservationPage.generateTable(this.userManager.activeUser));
+        billingContent.add(BillingPage.addTitle());
+        generateUserBillButton = (BillingPage.addGetUserBillButton());
+        generateAllBillsButton = (BillingPage.addGetAllBillsButton());
+
+        //modifyReservationButton.addActionListener(this);
+        billingContent.add(generateUserBillButton);
+        billingContent.add(generateAllBillsButton);
+        //reservationsContent.add(modifyReservationButton);
+
+        this.add(billingContent);
+        this.repaint();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == logoutButton) {
@@ -561,6 +597,10 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == roomOptionButton) {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
+        } else if (e.getSource() == billingOptionButton) {
+            this.currentTab = "Billing";
+            this.toggleBillingView();
+
         } else if (e.getSource() == createReservationBtn) {
             System.out.println(HomePage.selectedRoom());
         } else if (e.getSource() == modifyReservationButton) {
