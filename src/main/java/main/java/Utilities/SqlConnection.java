@@ -1,8 +1,5 @@
 package main.java.Utilities;
-import main.java.DataModels.Room;
-import main.java.DataModels.User;
-import main.java.DataModels.UserType;
-import main.java.DataModels.Reservation;
+import main.java.DataModels.*;
 import main.java.Managers.UserManager;
 
 import java.sql.*;
@@ -497,36 +494,57 @@ public class SqlConnection {
         return rooms;
     }
 
-    public static String createReservation(String reservationCode, String firstName, String lastName, LocalDate checkInDate, LocalDate checkOutDate, String roomType, int numberOfBeds, String bedType, int isSmoking, String email) {
+
+
+    //getUsersForBilling()
+    //getUserBilling()
+    //getAllBilling()
+
+    public static ArrayList<Billing> getBillingForAllUsers(String billingCode, String email){
+        ArrayList<Billing> billingList = new ArrayList<>();
+        ResultSet rs;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
 
-            PreparedStatement prepStmt = con.prepareStatement("INSERT INTO reservation (ReservationCode, FirstName, LastName, CheckInDate, CheckOutDate, RoomType, NumberOfBeds, BedType, IsSmoking, Email) VALUES (" + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+           // String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
+            String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount" +
+                    " FROM billing b" +
+                    " LEFT JOIN reservation r on ReservationId = r.Id;";
+            //Todo: test this first
+            rs = stmt.executeQuery(statement);
 
-            prepStmt.setString(1, reservationCode);
-            prepStmt.setString(2, firstName);
-            prepStmt.setString(3, lastName);
-            java.sql.Date sqlCheckInDate = new java.sql.Date(Date.from(checkInDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
-            prepStmt.setDate(4,  sqlCheckInDate);
-            java.sql.Date sqlCheckOutDate = new java.sql.Date(Date.from(checkOutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
-            prepStmt.setDate(5, sqlCheckOutDate);
-            prepStmt.setString(6, roomType);
-            prepStmt.setInt(7, numberOfBeds);
-            prepStmt.setString(8, bedType);
-            prepStmt.setInt(9, isSmoking);
-            prepStmt.setString(10, email);
 
-            prepStmt.execute();
+            while(rs.next()){
+                Billing billing = new Billing();
+                billing.ID = rs.getInt("ID");
+                billing.firstName = rs.getString("FirstName");
+                billing.lastName = rs.getString("LastName");
+                billing.userEmail = rs.getString("Email");
+                billing.reservationCode = rs.getString("ReservationCode");
+                //billing.checkInDate = LocalDate.parse(rs.getString("CheckInDate"));
+                //billing.checkInDate = LocalDate.parse(rs.getString("CheckInDate"), DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+                //billing.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate")); //Todo: Verify these dates work
+                //billing.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate"), DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+                billing.checkInDate = rs.getDate("CheckInDate").toLocalDate();
+                billing.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
+                billing.billingCode = rs.getString("BillingCode");
+                billing.totalCost = rs.getFloat("Amount");
 
+                billingList.add(billing);
+
+            }
             con.close();
-
-
-        } catch (Exception ex) {
+        }
+        catch(Exception ex){
             System.out.println(ex.getMessage());
         }
 
-        return reservationCode;
+        return billingList;
+
     }
+
+
 }
