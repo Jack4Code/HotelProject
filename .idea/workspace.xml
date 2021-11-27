@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Commit for Call.">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" afterDir="false" />
+    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Add billing page for hotel clerk">
+      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/DataModels/Billing.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/BillingManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/BillingTab/BillingPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/BillingTab/BillingPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/2/J3-5/modify-reservation" />
+        <entry key="$PROJECT_DIR$" value="feature/3/J3-2/clean-up" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,15 +53,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="HotelProject" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;asdf@gmail.com&quot; &quot;asdf&quot;" />
+      <module name="Sandbox" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;jakeformico@gmail.com&quot; &quot;password&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.*" />
@@ -142,6 +145,9 @@
       <workItem from="1636229569059" duration="1323000" />
       <workItem from="1636923313673" duration="1117000" />
       <workItem from="1637018449301" duration="4178000" />
+      <workItem from="1637674483049" duration="9390000" />
+      <workItem from="1637796243681" duration="3845000" />
+      <workItem from="1637934722409" duration="16722000" />
     </task>
     <task id="LOCAL-00001" summary="Modifying inputted dates, added connections from UI to sql connector">
       <created>1635854996211</created>
@@ -185,12 +191,12 @@
       <option name="project" value="LOCAL" />
       <updated>1637294371084</updated>
     </task>
-    <task id="LOCAL-00007" summary="Commit for Call.">
-      <created>1637366954170</created>
+    <task id="LOCAL-00007" summary="Add billing page for hotel clerk">
+      <created>1637935545137</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1637366954170</updated>
+      <updated>1637935545137</updated>
     </task>
     <option name="localTasksCounter" value="8" />
     <servers />
@@ -215,7 +221,37 @@
     <MESSAGE value="Modifying inputted dates, added connections from UI to sql connector" />
     <MESSAGE value="Add JTable, etc. to home page" />
     <MESSAGE value="Commit for End of Day." />
-    <MESSAGE value="Commit for Call." />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit for Call." />
+    <MESSAGE value="Add billing page for hotel clerk" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add billing page for hotel clerk" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
+          <line>524</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
+          <line>521</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/java/Main.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/java/Main.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
