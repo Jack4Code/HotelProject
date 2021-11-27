@@ -11,6 +11,7 @@ import main.java.UI.BillingTab.BillingPage;
 import main.java.UI.HomeTab.HomePage;
 import main.java.UI.ReservationTab.ReservationPage;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.InputValidator;
 import main.java.Utilities.SqlConnection;
 import main.java.Utilities.TableCellListener;
 
@@ -360,17 +361,39 @@ public class PortalView extends JFrame implements ActionListener {
     }
 
     public void toggleReservationsView() {
-        this.regenerateSideNav();
-        this.reservationsContent = generateBlankContentCanvas();
-        reservationsContent.add(ReservationPage.generateTable(this.userManager.activeUser));
-        reservationsContent.add(ReservationPage.addTitle());
+//        this.regenerateSideNav();
+//        this.reservationsContent = generateBlankContentCanvas();
+//        reservationsContent.add(ReservationPage.generateTable(this.userManager.activeUser));
+//        reservationsContent.add(ReservationPage.addTitle());
+//
+//        modifyReservationButton = (ReservationPage.addModifyButton());
+//        modifyReservationButton.addActionListener(this);
+//        reservationsContent.add(modifyReservationButton);
+//
+//        this.add(reservationsContent);
+//        this.repaint();
 
-        modifyReservationButton = (ReservationPage.addModifyButton());
-        modifyReservationButton.addActionListener(this);
-        reservationsContent.add(modifyReservationButton);
 
-        this.add(reservationsContent);
-        this.repaint();
+        new Thread(() -> {
+            this.reservationsContent = generateBlankContentCanvas();
+            this.regenerateSideNav();
+
+            reservationsContent.add(ReservationPage.generateTable(this.userManager.activeUser));
+            reservationsContent.add(ReservationPage.addTitle());
+
+            modifyReservationButton = (ReservationPage.addModifyButton());
+            modifyReservationButton.addActionListener(this);
+//            modifyReservationButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    toggleReservationsView();
+//                }
+//            });
+            reservationsContent.add(modifyReservationButton);
+
+            this.add(reservationsContent);
+            this.repaint();
+        }).start();
     }
 
     public void toggleSettingsView() {
@@ -587,7 +610,8 @@ public class PortalView extends JFrame implements ActionListener {
             this.toggleUserView();
         } else if (e.getSource() == reservationsOptionButton) {
             this.currentTab = "Reservations";
-            this.toggleReservationsView();
+            //this.toggleReservationsView();
+            SwingUtilities.invokeLater(this::toggleReservationsView);
         } else if (e.getSource() == settingsOptionButton) {
             this.currentTab = "Settings";
             this.toggleSettingsView();
