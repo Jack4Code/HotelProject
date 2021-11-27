@@ -40,7 +40,7 @@ public class PortalView extends JFrame implements ActionListener {
 
     //page content stuff
     JPanel homeContent, userContent, reservationsContent, settingsContent, roomContent = null;
-    JTextField firstName, lastName, password, email;
+    JTextField firstName, lastName, passwordInput, email;
     JButton settingsSubmissionBtn, userCreateBtn;
     JTable roomsTable;
     ArrayList<Room> rooms;
@@ -94,6 +94,8 @@ public class PortalView extends JFrame implements ActionListener {
 
         localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         localToDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1);
+
+        this.toggleHomeView();
     }
 
     public JPanel initSideNav() {
@@ -405,17 +407,17 @@ public class PortalView extends JFrame implements ActionListener {
         passwordLabel.setBounds(40, 415, 320, 24);
         passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
-        invalidLoginAttemptTxt.setText("Invalid email!");
+        invalidLoginAttemptTxt.setText("Invalid attempt!");
         invalidLoginAttemptTxt.setBounds(40, 73, 250, 30);
         invalidLoginAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
         invalidLoginAttemptTxt.setForeground(CustomColor.WARNING_RED);
 
-        password = new JPasswordField(userManager.activeUser.password);
-        password.setBounds(40, 440, 320, 40);
-        password.setBackground(CustomColor.INPUT_BACKGROUND);
-        password.setFont(new Font("serif", Font.PLAIN, 20));
-        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        password.setMargin(new Insets(0, 10, 0, 0));
+        passwordInput = new JPasswordField(userManager.activeUser.password);
+        passwordInput.setBounds(40, 440, 320, 40);
+        passwordInput.setBackground(CustomColor.INPUT_BACKGROUND);
+        passwordInput.setFont(new Font("serif", Font.PLAIN, 20));
+        passwordInput.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        passwordInput.setMargin(new Insets(0, 10, 0, 0));
 
 
         settingsSubmissionBtn = new JButton("Modify");
@@ -435,7 +437,7 @@ public class PortalView extends JFrame implements ActionListener {
         settingsContent.add(email);
         settingsContent.add(emailLabel);
         settingsContent.add(passwordLabel);
-        settingsContent.add(password);
+        settingsContent.add(passwordInput);
         settingsContent.add(settingsSubmissionBtn);
         settingsContent.add(invalidLoginAttemptTxt);
         invalidLoginAttemptTxt.setVisible(false);
@@ -567,7 +569,13 @@ public class PortalView extends JFrame implements ActionListener {
             Object[][] selectedRoomValues;
             selectedRoomValues = HomePage.selectedRoom();
             ReservationManager.makeReservation(userManager.activeUser, fromDate, toDate, selectedRoomValues[0][0].toString(), (Integer) selectedRoomValues[0][1], selectedRoomValues[0][2].toString(), (Integer) selectedRoomValues[0][3]);
-            System.out.println("Success?");
+
+            //search button refresh after making reservation
+            this.homeContent.remove(roomSelectionContentArea);
+            fromDate = LocalDate.parse(fromDateText.getText());
+            toDate = LocalDate.parse(toDateText.getText());
+            roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
+            homeContent.add(roomSelectionContentArea);
         } else if (e.getSource() == modifyReservationButton) {
             ReservationPage.selectedReservation();
             this.currentTab = "Home";
@@ -581,7 +589,7 @@ public class PortalView extends JFrame implements ActionListener {
             this.repaint();
         } else if (e.getSource() == settingsSubmissionBtn) {
             try {
-                boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());
+                boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), passwordInput.getText());
 
                 if (is_modified)
                 {

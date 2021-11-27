@@ -80,12 +80,25 @@ public class UserManager {
         {
             return false;
         }
-        if(SqlConnection.isRepeatUser(newEmail) || !InputValidator.isValidEmail(newEmail))
+        if(!InputValidator.isValidEmail(newEmail))
         {
             return false;
         }
 
+        if(activeUser.firstName.equals(newFirstName) && activeUser.lastName.equals(newLastName) && activeUser.password.equals(newPassword) && SqlConnection.isRepeatUser(newEmail)){
+            return false;
+        }
+
+        if(newFirstName.isBlank() || newLastName.isBlank() || newPassword.isBlank()){
+            return false;
+        }
+
         SqlConnection.modifyUser(activeUser, newFirstName, newLastName, newEmail, newPassword);
+
+        activeUser.firstName = newFirstName;
+        activeUser.lastName = newLastName;
+        activeUser.email = newEmail;
+        activeUser.password = newPassword;
 
         return true;
     }
