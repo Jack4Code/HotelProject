@@ -61,7 +61,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="HotelProject" />
+      <module name="Sandbox" />
       <option name="PROGRAM_PARAMETERS" value="&quot;jakeformico@gmail.com&quot; &quot;password&quot;" />
       <extension name="coverage">
         <pattern>
