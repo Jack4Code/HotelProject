@@ -4,7 +4,7 @@ import main.java.Managers.UserManager;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -201,10 +201,6 @@ public class SqlConnection {
         return user;
     }
 
-
-
-
-
     public static ArrayList<Room> getAllRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
 
@@ -268,8 +264,8 @@ public class SqlConnection {
                 reservation.userEmail = rs.getString("Email");
                 reservation.firstName = rs.getString("FirstName");
                 reservation.lastName = rs.getString("LastName");
-                reservation.checkInDate = LocalDate.parse(rs.getString("CheckInDate"));
-                reservation.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate"));
+                reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 reservation.roomType = rs.getString("RoomType");
                 reservation.numberOfBeds = rs.getInt("NumberOfBeds");
                 reservation.bedType = rs.getString("BedType");
@@ -285,7 +281,6 @@ public class SqlConnection {
 
         return reservations;
     }
-
 
     public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
         ArrayList<Room> rooms = new ArrayList<>();
@@ -477,8 +472,8 @@ public class SqlConnection {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE CheckInDate BETWEEN '" + checkInDate + "' AND '" +
-                    checkOutDate + "' OR CheckOutDate BETWEEN '" + checkInDate + "' AND '" + checkOutDate + "' GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE (CheckInDate >= '" + checkInDate + "' AND CheckInDate < '" +
+                    checkOutDate + "') OR (CheckOutDate > '" + checkInDate + "' AND CheckOutDate <= '" + checkOutDate + "') GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
 
             while (rs.next()) {
                 Room room = new Room();
