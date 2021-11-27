@@ -242,19 +242,19 @@ public class SqlConnection {
 
 
             if (activeUser.userTypeId == 1){
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "'");
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "' AND (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (reservationCode.equals("") && email.equals(""))
             {
-                rs = stmt.executeQuery("SELECT * FROM reservation");
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (!reservationCode.equals(""))
             {
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE ");
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if(!email.equals(""))
             {
-                rs = stmt.executeQuery("SELECT * FROM reservation");
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             }
             else {
-                rs = stmt.executeQuery("SELECT * FROM reservation");
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             }
 
             while(rs.next()){
