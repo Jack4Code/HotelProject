@@ -4,6 +4,7 @@ import main.java.Managers.UserManager;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -200,10 +201,6 @@ public class SqlConnection {
         return user;
     }
 
-
-
-
-
     public static ArrayList<Room> getAllRooms(){
         ArrayList<Room> rooms = new ArrayList<>();
 
@@ -267,8 +264,8 @@ public class SqlConnection {
                 reservation.userEmail = rs.getString("Email");
                 reservation.firstName = rs.getString("FirstName");
                 reservation.lastName = rs.getString("LastName");
-                reservation.checkInDate = rs.getDate("CheckInDate");
-                reservation.checkOutDate = rs.getDate("CheckOutDate");
+                reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 reservation.roomType = rs.getString("RoomType");
                 reservation.numberOfBeds = rs.getInt("NumberOfBeds");
                 reservation.bedType = rs.getString("BedType");
@@ -285,10 +282,10 @@ public class SqlConnection {
         return reservations;
     }
 
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
+        ArrayList<Room> rooms = new ArrayList<>();
 
-    public static ArrayList<AvailableRoom> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
-        ArrayList<AvailableRoom> rooms = new ArrayList<>();
-       // System.out.println("test- got to sql connector");
+        System.out.println("test- got to sql connector");
 
 
        /* String query = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking " +
@@ -318,20 +315,16 @@ public class SqlConnection {
 
 
             while(rs.next()){
-
-                AvailableRoom room = new AvailableRoom();
-                room.roomId = rs.getInt("RoomId");
+                Room room = new Room();
+                room.id = rs.getInt("RoomId");
                 //room.isAvailable = rs.getInt("isAvailable");
                 //room.nextAvailableDate = rs.getDate("NextAvailableDate");
                 room.roomType = rs.getString("RoomType");
                 room.numBeds = rs.getInt("NumBeds");
                 room.bedType = rs.getString("BedType");
                 room.isSmoking = rs.getInt("isSmoking");
+
                 rooms.add(room);
-
-
-
-
             }
             con.close();
 
@@ -346,13 +339,13 @@ public class SqlConnection {
 
         //System.out.println(Arrays.toString(rooms.toArray()));
 
-        /*
+
         for (int i = 0; i < rooms.size(); i++){
 
             System.out.println("Room ID: " + rooms.get(i).id);
             System.out.println("Room Type:" + rooms.get(i).roomType);
         }
-        */
+
 
 
         return rooms;
@@ -405,7 +398,6 @@ public class SqlConnection {
             prepStmt.setString(6, room.bedType);
             prepStmt.setInt(7, room.id);
             prepStmt.executeUpdate();
-
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -442,6 +434,7 @@ public class SqlConnection {
 
         return false;
     }
+
     public static ArrayList<Room> getRoomCombos() {
 
         ArrayList<Room> rooms = new ArrayList<>();
@@ -479,7 +472,8 @@ public class SqlConnection {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE CheckInDate >= '" + checkOutDate + "' OR CheckOutDate <= '" + checkInDate + "' GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE (CheckInDate >= '" + checkInDate + "' AND CheckInDate < '" +
+                    checkOutDate + "') OR (CheckOutDate > '" + checkInDate + "' AND CheckOutDate <= '" + checkOutDate + "') GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
 
             while (rs.next()) {
                 Room room = new Room();
@@ -501,6 +495,56 @@ public class SqlConnection {
     }
 
 
+
+    //getUsersForBilling()
+    //getUserBilling()
+    //getAllBilling()
+
+    public static ArrayList<Billing> getBillingForAllUsers(String billingCode, String email){
+        ArrayList<Billing> billingList = new ArrayList<>();
+        ResultSet rs;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+
+           // String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
+            String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount" +
+                    " FROM billing b" +
+                    " LEFT JOIN reservation r on ReservationId = r.Id;";
+            //Todo: test this first
+            rs = stmt.executeQuery(statement);
+
+
+            while(rs.next()){
+                Billing billing = new Billing();
+                billing.ID = rs.getInt("ID");
+                billing.firstName = rs.getString("FirstName");
+                billing.lastName = rs.getString("LastName");
+                billing.userEmail = rs.getString("Email");
+                billing.reservationCode = rs.getString("ReservationCode");
+                //billing.checkInDate = LocalDate.parse(rs.getString("CheckInDate"));
+                //billing.checkInDate = LocalDate.parse(rs.getString("CheckInDate"), DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+                //billing.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate")); //Todo: Verify these dates work
+                //billing.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate"), DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+                billing.checkInDate = rs.getDate("CheckInDate").toLocalDate();
+                billing.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
+                billing.billingCode = rs.getString("BillingCode");
+                billing.totalCost = rs.getFloat("Amount");
+
+                billingList.add(billing);
+
+            }
+            con.close();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return billingList;
+
+    }
 
 
 }

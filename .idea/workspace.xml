@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Add JTable, etc. to home page">
+    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Commit for Call.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_28_2021_1_11_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/HomeTab/HomePage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Managers/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/UI/PortalView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/UI/PortalView.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +58,8 @@
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="Sandbox" />
+      <module name="HotelProject" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;asdf@gmail.com&quot; &quot;asdf&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.*" />
@@ -65,40 +70,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerTests.validateReservationCodeWorking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sandbox" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InputValidationTest.ValidEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Sandbox" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="METHOD_NAME" value="ValidEmailTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="validateReservationCodeWorking" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidationTest.invalidEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerTests.verifyCreateReservationCodeReturns" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sandbox" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="METHOD_NAME" value="invalidEmailTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="verifyCreateReservationCodeReturns" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InputValidationTest.validEmailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerTests.verifyMakeReservationFails" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sandbox" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="InputValidationTest" />
-      <option name="METHOD_NAME" value="validEmailTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="verifyMakeReservationFails" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReservationManagerTests.verifyMakeReservationSucceeds" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sandbox" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerTests" />
+      <option name="METHOD_NAME" value="verifyMakeReservationSucceeds" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -106,18 +112,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.InputValidationTest" />
-      <item itemvalue="JUnit.InputValidationTest.invalidEmailTest" />
-      <item itemvalue="JUnit.InputValidationTest.ValidEmailTest" />
-      <item itemvalue="JUnit.InputValidationTest.validEmailTest" />
+      <item itemvalue="JUnit.ReservationManagerTests.validateReservationCodeWorking" />
+      <item itemvalue="JUnit.ReservationManagerTests.verifyCreateReservationCodeReturns" />
+      <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationFails" />
+      <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationSucceeds" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.InputValidationTest" />
-        <item itemvalue="JUnit.InputValidationTest.validEmailTest" />
-        <item itemvalue="JUnit.InputValidationTest.invalidEmailTest" />
-        <item itemvalue="JUnit.InputValidationTest.ValidEmailTest" />
+        <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationSucceeds" />
+        <item itemvalue="JUnit.ReservationManagerTests.verifyMakeReservationFails" />
+        <item itemvalue="JUnit.ReservationManagerTests.verifyCreateReservationCodeReturns" />
+        <item itemvalue="JUnit.ReservationManagerTests.validateReservationCodeWorking" />
       </list>
     </recent_temporary>
   </component>
@@ -133,6 +139,9 @@
       <workItem from="1635549739249" duration="12807000" />
       <workItem from="1635875977825" duration="8242000" />
       <workItem from="1635885029594" duration="1302000" />
+      <workItem from="1636229569059" duration="1323000" />
+      <workItem from="1636923313673" duration="1117000" />
+      <workItem from="1637018449301" duration="4178000" />
     </task>
     <task id="LOCAL-00001" summary="Modifying inputted dates, added connections from UI to sql connector">
       <created>1635854996211</created>
@@ -169,7 +178,21 @@
       <option name="project" value="LOCAL" />
       <updated>1635891126782</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Commit for End of Day.">
+      <created>1637294371084</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1637294371084</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Commit for Call.">
+      <created>1637366954170</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1637366954170</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,37 +214,8 @@
     <MESSAGE value="Commit to Pull." />
     <MESSAGE value="Modifying inputted dates, added connections from UI to sql connector" />
     <MESSAGE value="Add JTable, etc. to home page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add JTable, etc. to home page" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>349</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>319</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
-          <line>329</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>310</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/java/UI/HomeTab/HomePage.java</url>
-          <line>196</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Commit for End of Day." />
+    <MESSAGE value="Commit for Call." />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit for Call." />
   </component>
 </project>

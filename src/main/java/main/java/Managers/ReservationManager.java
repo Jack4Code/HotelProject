@@ -1,6 +1,5 @@
 package main.java.Managers;
 
-import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.Room;
 import main.java.Utilities.SqlConnection;
 import main.java.DataModels.Reservation;
@@ -15,6 +14,8 @@ import java.util.Date;
 import static java.sql.Date.valueOf;
 
 public class ReservationManager {
+
+    public Reservation activeReservation = null;
 
     public static ArrayList<Room> getAllCurrentlyAvailableRooms()
     {
@@ -31,22 +32,44 @@ public class ReservationManager {
     }
 
     public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
+        //From UI, enter date parameters
+        // Pass them in here, to Sqlconnection
+        // Which will return an array list of available rooms
+        // Todo: Do we want the array list to JUSt return the room Id's, or all it's info?
+        //Then move to makeReservation
 
-        //ArrayList<AvailableRoom> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
-        //ArrayList<Room> availableRooms = SqlConnection.getCombosFromReservations(fromDate, toDate);
-        ArrayList<Room> availableRooms = SqlConnection.getRoomCombos();
+        //fromDate = 2021-12-02;
+
+        //LocalDate fromDate = LocalDate.parse(fromDateInput);
+        //LocalDate toDate = LocalDate.parse(toDateInput);
+        //System.out.println(fromDate);
+        //System.out.println(toDate);
+        //Date fromDate1 = valueOf(fromDate);
+        //Date toDate1 = valueOf(toDate);
 
 
+        //java.sql.Date sfDate = new java.sql.Date(fDate.getTime());
+        //java.sql.Date stDate = new java.sql.Date(tDate.getTime());
+        System.out.println("test- got to reservation manager");
+
+        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDate, toDate);
+
+        //if (availableRooms.isEmpty()){
+            //System.out.println("No rooms are available within those dates.");
+        //}
 
         return availableRooms;
     }
 
-    public String makeReservation(Date fromDate, Date toDate)
+    public static String makeReservation(User activeUser, LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, int isSmoking)
     {
+        if(toDate.compareTo(fromDate) < 0){
+            return "";
+        }
 
         String reservationCode = createReservationCode();
 
-        System.out.println(reservationCode);
+        SqlConnection.createReservation(reservationCode, activeUser.firstName, activeUser.lastName, fromDate, toDate, roomType, numberOfBeds, bedType, isSmoking, activeUser.email);
 
         return reservationCode;
     }
@@ -68,8 +91,7 @@ public class ReservationManager {
         return SqlConnection.getAllReservations(activeUser, reservationCode, email);
     }
 
-
-    public static Object[][] getAvaiableRoomCombos(){
+    public static Object[][] getAvailableRoomCombos(LocalDate fromDate, LocalDate toDate){
 
         ArrayList<Room> allRoomCombosAvailable;
         ArrayList<Room> roomCombosFromReservations;
@@ -86,7 +108,10 @@ public class ReservationManager {
             allRoomCombosData[i][4] = allRoomCombosAvailable.get(i).isSmoking;
         }
 
-        roomCombosFromReservations = SqlConnection.getCombosFromReservations("2021-12-2" , "2021-12-6");
+        String fromDateString = fromDate.toString();
+        String toDateString = toDate.toString();
+
+        roomCombosFromReservations = SqlConnection.getCombosFromReservations(fromDateString , toDateString);
 
         Object[][] roomCombosFromReservationsData = new Object[roomCombosFromReservations.size()][5];
 
@@ -109,11 +134,12 @@ public class ReservationManager {
                 if(allRoomCombosData[i][1].equals(roomCombosFromReservationsData[j][1]) && allRoomCombosData[i][2] == roomCombosFromReservationsData[j][2] && allRoomCombosData[i][3].equals(roomCombosFromReservationsData[j][3]) && allRoomCombosData[i][4] == roomCombosFromReservationsData[j][4]) {
 
                     if(allRoomCombosData[i][0] == roomCombosFromReservationsData[j][0]) {
-                        deleteCount--;
                         allRoomCombosAvailable.remove(deleteCount);
+                        deleteCount--;
                         break;
                     }
                     else {
+                        allRoomCombosAvailable.get(deleteCount).isAvailable = Integer.parseInt(allRoomCombosData[i][0].toString()) - Integer.parseInt(roomCombosFromReservationsData[j][0].toString());
                         break;
                     }
                 }
@@ -132,7 +158,6 @@ public class ReservationManager {
 
         return availableRoomCombos;
     }
-
     //returns String: reservationCode ... needs coresponding SqlConnection method
 
     //upateReservation(reservationCode, whatever we can update) ... needs corresponding SqlConnection method

@@ -1,5 +1,19 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
 
-/.vs/ProjectSettings.json
+.idea/workspace.xml
+.idea/workspace.xml
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.idea/workspace.xml
+target/classes/main/java/DataModels/Billing.class
+target/classes/main/java/Main.class
+target/classes/main/java/Managers/BillingManager.class
+target/classes/main/java/UI/BillingTab/BillingPage$1.class
+target/classes/main/java/UI/BillingTab/BillingPage.class
+target/classes/main/java/UI/PortalView.class
+target/classes/main/java/Utilities/SqlConnection.class
+target/classes/main/java/UI/PortalView.class
+src/main/java/main/java/Utilities/SqlConnection.java
+target/classes/main/java/Main.class
+target/classes/main/java/UI/PortalView.class
+target/classes/main/java/Utilities/SqlConnection.class
+.idea/workspace.xml

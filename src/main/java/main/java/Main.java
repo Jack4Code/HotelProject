@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.DataModels.Billing;
 import main.java.DataModels.Room;
 import main.java.DataModels.User;
 import main.java.Managers.ReservationManager;
@@ -58,6 +59,14 @@ public class Main {
         }
 */
 
+/*        ArrayList<Billing> billingList = SqlConnection.getBillingForAllUsers("", "");
+
+        for (int i=0; i < billingList.size(); i++){
+            System.out.println("Id: " + billingList.get(i).ID);
+            System.out.println("Reservation Id: " + billingList.get(i).reservationCode);
+            System.out.println("First: " + billingList.get(i).firstName);
+            System.out.println("Last: " + billingList.get(i).lastName);
+        }*/
 
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)

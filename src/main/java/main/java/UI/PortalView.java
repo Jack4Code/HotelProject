@@ -4,11 +4,13 @@ import jdk.jshell.spi.ExecutionControlProvider;
 import main.java.DataModels.Room;
 import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.User;
+import main.java.Managers.ReservationManager;
 import main.java.Managers.RoomManager;
 import main.java.Managers.UserManager;
 import main.java.UI.HomeTab.HomePage;
 import main.java.UI.ReservationTab.ReservationPage;
 import main.java.UI.Resources.CustomColor;
+import main.java.Utilities.SqlConnection;
 import main.java.Utilities.TableCellListener;
 
 import javax.swing.*;
@@ -17,6 +19,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -36,7 +40,7 @@ public class PortalView extends JFrame implements ActionListener {
 
     //page content stuff
     JPanel homeContent, userContent, reservationsContent, settingsContent, roomContent = null;
-    JTextField firstName, lastName, password, email;
+    JTextField firstName, lastName, passwordInput, email;
     JButton settingsSubmissionBtn, userCreateBtn;
     JTable roomsTable;
     ArrayList<Room> rooms;
@@ -51,7 +55,14 @@ public class PortalView extends JFrame implements ActionListener {
     JButton searchReservationButton;
 
     //Home Tab
-    JButton selectAvailableRoomBtn;
+    JButton createReservationBtn;
+    JButton searchAvailableRoomsBtn;
+    JScrollPane roomSelectionContentArea;
+    JPanel roomSearchArea;
+    JTextField fromDateText, toDateText;
+    Date currentDate;
+    static LocalDate localFromDate, localToDate;
+    LocalDate fromDate, toDate;
 
 
     HomePage homepage = null;
@@ -78,6 +89,13 @@ public class PortalView extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         System.out.println("Logged in as user: " + userManager.activeUser.email);
+
+        currentDate = new Date(); //Initializes date and sets it to current time
+
+        localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        localToDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1);
+
+        this.toggleHomeView();
     }
 
     public JPanel initSideNav() {
@@ -238,15 +256,27 @@ public class PortalView extends JFrame implements ActionListener {
 
         homepage = new HomePage();
 
-        homeContent.add(homepage.generateRoomSearchContentArea()); //Searching for rooms
-        homeContent.add(homepage.generateRoomSelectionContentArea()); //Listing and reserving rooms
+        roomSelectionContentArea = homepage.generateRoomSelectionContentArea(localFromDate, localToDate);
+
+        searchAvailableRoomsBtn = (homepage.addSearchAvailableRoomsButton());
+        searchAvailableRoomsBtn.addActionListener(this);
+        homeContent.add(searchAvailableRoomsBtn);
+
+        roomSearchArea = homepage.generateRoomSearchContentArea();
+
+        fromDateText = homepage.addFromDateText();
+        toDateText = homepage.addToDateText();
+        homeContent.add(fromDateText);
+        homeContent.add(toDateText);
+
+        homeContent.add(roomSearchArea); //Searching for rooms
+
+        homeContent.add(roomSelectionContentArea); //Listing and reserving rooms
         homeContent.add(homepage.addTitle());
-        selectAvailableRoomBtn = (HomePage.selectAvailableRoomButton());
-        selectAvailableRoomBtn.addActionListener(this); //Todo: Check this....
-        homeContent.add(selectAvailableRoomBtn);
-        //modifyReservationButton = (ReservationPage.addModifyButton());
-        //modifyReservationButton.addActionListener(this);
-        //reservationsContent.add(modifyReservationButton);
+
+        createReservationBtn = (homepage.addCreateReservationButton());
+        createReservationBtn.addActionListener(this);
+        homeContent.add(createReservationBtn);
 
         this.add(homeContent);
         this.repaint();
@@ -377,17 +407,17 @@ public class PortalView extends JFrame implements ActionListener {
         passwordLabel.setBounds(40, 415, 320, 24);
         passwordLabel.setFont(new Font("serif", Font.PLAIN, 20));
 
-        invalidLoginAttemptTxt.setText("Invalid email!");
+        invalidLoginAttemptTxt.setText("Invalid attempt!");
         invalidLoginAttemptTxt.setBounds(40, 73, 250, 30);
         invalidLoginAttemptTxt.setFont(new Font("serif", Font.PLAIN, 25));
         invalidLoginAttemptTxt.setForeground(CustomColor.WARNING_RED);
 
-        password = new JPasswordField(userManager.activeUser.password);
-        password.setBounds(40, 440, 320, 40);
-        password.setBackground(CustomColor.INPUT_BACKGROUND);
-        password.setFont(new Font("serif", Font.PLAIN, 20));
-        password.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        password.setMargin(new Insets(0, 10, 0, 0));
+        passwordInput = new JPasswordField(userManager.activeUser.password);
+        passwordInput.setBounds(40, 440, 320, 40);
+        passwordInput.setBackground(CustomColor.INPUT_BACKGROUND);
+        passwordInput.setFont(new Font("serif", Font.PLAIN, 20));
+        passwordInput.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        passwordInput.setMargin(new Insets(0, 10, 0, 0));
 
 
         settingsSubmissionBtn = new JButton("Modify");
@@ -407,7 +437,7 @@ public class PortalView extends JFrame implements ActionListener {
         settingsContent.add(email);
         settingsContent.add(emailLabel);
         settingsContent.add(passwordLabel);
-        settingsContent.add(password);
+        settingsContent.add(passwordInput);
         settingsContent.add(settingsSubmissionBtn);
         settingsContent.add(invalidLoginAttemptTxt);
         invalidLoginAttemptTxt.setVisible(false);
@@ -533,13 +563,33 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == roomOptionButton) {
             this.currentTab = "Rooms";
             this.toggleRoomsView();
-        }  else if (e.getSource() == modifyReservationButton){
-            System.out.println(ReservationPage.selectedReservationCode());
+        } else if (e.getSource() == createReservationBtn) {
+            fromDate = LocalDate.parse(fromDateText.getText());
+            toDate = LocalDate.parse(toDateText.getText());
+            Object[][] selectedRoomValues;
+            selectedRoomValues = HomePage.selectedRoom();
+            ReservationManager.makeReservation(userManager.activeUser, fromDate, toDate, selectedRoomValues[0][0].toString(), (Integer) selectedRoomValues[0][1], selectedRoomValues[0][2].toString(), (Integer) selectedRoomValues[0][3]);
+
+            //search button refresh after making reservation
+            this.homeContent.remove(roomSelectionContentArea);
+            fromDate = LocalDate.parse(fromDateText.getText());
+            toDate = LocalDate.parse(toDateText.getText());
+            roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
+            homeContent.add(roomSelectionContentArea);
+        } else if (e.getSource() == modifyReservationButton) {
+            ReservationPage.selectedReservation();
             this.currentTab = "Home";
             this.toggleHomeView();
+        } else if (e.getSource() == searchAvailableRoomsBtn) {
+            this.homeContent.remove(roomSelectionContentArea);
+            fromDate = LocalDate.parse(fromDateText.getText());
+            toDate = LocalDate.parse(toDateText.getText());
+            roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
+            homeContent.add(roomSelectionContentArea);
+            this.repaint();
         } else if (e.getSource() == settingsSubmissionBtn) {
             try {
-                boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), password.getText());
+                boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), passwordInput.getText());
 
                 if (is_modified)
                 {
