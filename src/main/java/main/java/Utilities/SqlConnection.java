@@ -494,7 +494,38 @@ public class SqlConnection {
         return rooms;
     }
 
+    public static String createReservation(String reservationCode, String firstName, String lastName, LocalDate checkInDate, LocalDate checkOutDate, String roomType, int numberOfBeds, String bedType, int isSmoking, String email) {
 
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+
+            PreparedStatement prepStmt = con.prepareStatement("INSERT INTO reservation (ReservationCode, FirstName, LastName, CheckInDate, CheckOutDate, RoomType, NumberOfBeds, BedType, IsSmoking, Email) VALUES (" + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            prepStmt.setString(1, reservationCode);
+            prepStmt.setString(2, firstName);
+            prepStmt.setString(3, lastName);
+            java.sql.Date sqlCheckInDate = new java.sql.Date(Date.from(checkInDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
+            prepStmt.setDate(4,  sqlCheckInDate);
+            java.sql.Date sqlCheckOutDate = new java.sql.Date(Date.from(checkOutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
+            prepStmt.setDate(5, sqlCheckOutDate);
+            prepStmt.setString(6, roomType);
+            prepStmt.setInt(7, numberOfBeds);
+            prepStmt.setString(8, bedType);
+            prepStmt.setInt(9, isSmoking);
+            prepStmt.setString(10, email);
+
+            prepStmt.execute();
+
+            con.close();
+
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return reservationCode;
+    }
 
     //getUsersForBilling()
     //getUserBilling()
