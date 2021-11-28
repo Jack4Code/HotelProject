@@ -4,17 +4,32 @@ import main.java.DataModels.Billing;
 import main.java.DataModels.User;
 import main.java.Utilities.SqlConnection;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class BillingManager {
 
+   /* public static ArrayList<Billing> getBillingForOneUser(String email){
+
+        return SqlConnection.getBillingForOneUser(email);
+
+    }*/
+
     public static ArrayList<Billing> getBillingForAllUsers(String billingCode, String email){
-        //Todo: Active User must be clerk
+
         return SqlConnection.getBillingForAllUsers(billingCode, email);
 
-        //Todo: We have a billing code...
-        //Todo: This is just pulling a list. Should we have billing code created at check out, or during payment?
-        //Todo: This would generate code everytime page is refreshed
+    }
+
+    public static String createBillingCode(){
+        String charList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        SecureRandom sr = new SecureRandom();
+        StringBuilder tempString = new StringBuilder(6);
+        for (int i=0; i < 6; i++){
+            tempString.append(charList.charAt(sr.nextInt(charList.length())));
+
+        }
+        return tempString.toString();
     }
 
 

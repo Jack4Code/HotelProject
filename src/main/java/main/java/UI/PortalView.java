@@ -1,6 +1,7 @@
 package main.java.UI;
 
 import jdk.jshell.spi.ExecutionControlProvider;
+import main.java.DataModels.Billing;
 import main.java.DataModels.Room;
 import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.User;
@@ -57,6 +58,8 @@ public class PortalView extends JFrame implements ActionListener {
 
     //Billing Tab
     JButton generateUserBillButton, generateAllBillsButton;
+    JTextField billingEmailInput;
+    String billingEmail;
 
     //Home Tab
     JButton createReservationBtn;
@@ -560,15 +563,22 @@ public class PortalView extends JFrame implements ActionListener {
     public void toggleBillingView() {
         this.regenerateSideNav();
         this.billingContent = generateBlankContentCanvas();
-        billingContent.add(BillingPage.generateBillingTable());
+        billingContent.add(BillingPage.generateAllUsersBillingTable()); //Todo: Make one table- give it a parameter of a int 1 or 0: generate 1 user or All based on taht
         billingContent.add(BillingPage.addTitle());
         generateUserBillButton = (BillingPage.addGetUserBillButton());
+
         generateAllBillsButton = (BillingPage.addGetAllBillsButton());
 
-        //modifyReservationButton.addActionListener(this);
+
         billingContent.add(generateUserBillButton);
         billingContent.add(generateAllBillsButton);
-        //reservationsContent.add(modifyReservationButton);
+
+        //Input user email to get user billing info
+        billingContent.add(BillingPage.addEmailInputTitle());
+        //billingEmailInput = billingContent.add(BillingPage.addGetEmailInput());
+        billingEmailInput = BillingPage.addGetEmailInput();
+        billingContent.add(billingEmailInput);
+
 
         this.add(billingContent);
         this.repaint();
@@ -682,6 +692,20 @@ public class PortalView extends JFrame implements ActionListener {
             } catch (Exception ignore) {
 
             }
+        } else if (e.getSource() == generateUserBillButton) {
+            billingEmail = billingEmailInput.getText();
+            //Todo: Input this into a method in the table in BillingPage (set method equal to variable)
+            //Todo: add variable to billingCOntent
+
+            //billingContent.add(VARIABLE);
+            System.out.println("Email: " + billingEmail);
+
+            this.repaint();
+
+
+            /*roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
+            homeContent.add(roomSelectionContentArea);
+            this.repaint();*/
         }
     }
 }
