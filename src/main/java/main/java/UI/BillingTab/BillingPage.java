@@ -71,7 +71,7 @@ public class BillingPage {
         return pane;
     }*/
 
-    public static JScrollPane generateAllUsersBillingTable(){
+    public static JScrollPane generateBillingTable(){
         //Getting all users who have/had a reservation
 
         JScrollPane pane;
