@@ -255,6 +255,7 @@ public class SqlConnection {
                 reservation.lastName = rs.getString("LastName");
                 reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                reservation.DateCheckedIn = rs.getDate("DateCheckedIn") != null ? rs.getDate("DateCheckedIn").toLocalDate() : null;
                 reservation.roomType = rs.getString("RoomType");
                 reservation.numberOfBeds = rs.getInt("NumberOfBeds");
                 reservation.bedType = rs.getString("BedType");

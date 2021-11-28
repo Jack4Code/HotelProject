@@ -33,7 +33,7 @@ public class ReservationPage {
 
         //Implement the table
         String[] reservationColumnNames = {
-                "Id",
+                "Checked In",
                 "Reservation Code",
                 "Email",
                 "First Name",
@@ -49,7 +49,7 @@ public class ReservationPage {
         Object[][] data = new Object[reservations.size()][11];
 
         for (int i = 0; i < reservations.size(); i++) {
-            data[i][0] = reservations.get(i).ID;
+            data[i][0] = reservations.get(i).DateCheckedIn != null ? "YES" : "NO";// changing this to Checked In. The number isn't really useful and we need something to show whether or not a reservation is currently checked in//reservations.get(i).ID;
             data[i][1] = reservations.get(i).reservationCode;
             data[i][2] = reservations.get(i).userEmail;
             data[i][3] = reservations.get(i).firstName.substring(0, 1).toUpperCase() + reservations.get(i).firstName.substring(1).toLowerCase();
@@ -75,7 +75,7 @@ public class ReservationPage {
 
         //Column Widths
         TableColumn column1 = reservationTable.getColumnModel().getColumn(0);
-        column1.setPreferredWidth(15);
+        column1.setPreferredWidth(30);
 
         TableColumn column8 = reservationTable.getColumnModel().getColumn(7);
         column8.setPreferredWidth(40);
@@ -84,7 +84,7 @@ public class ReservationPage {
         column9.setPreferredWidth(30);
 
         TableColumn column10 = reservationTable.getColumnModel().getColumn(9);
-        column10.setPreferredWidth(30);
+        column10.setPreferredWidth(15);
 
         TableColumn column3 = reservationTable.getColumnModel().getColumn(2);
         column3.setPreferredWidth(150);
