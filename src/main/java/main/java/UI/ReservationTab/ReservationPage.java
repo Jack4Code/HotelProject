@@ -49,7 +49,7 @@ public class ReservationPage {
         Object[][] data = new Object[reservations.size()][11];
 
         for (int i = 0; i < reservations.size(); i++) {
-            data[i][0] = reservations.get(i).DateCheckedIn != null ? "YES" : "NO";// changing this to Checked In. The number isn't really useful and we need something to show whether or not a reservation is currently checked in//reservations.get(i).ID;
+            data[i][0] = reservations.get(i).DateCheckedIn != null ? "YES" : "NO";
             data[i][1] = reservations.get(i).reservationCode;
             data[i][2] = reservations.get(i).userEmail;
             data[i][3] = reservations.get(i).firstName.substring(0, 1).toUpperCase() + reservations.get(i).firstName.substring(1).toLowerCase();
@@ -191,8 +191,6 @@ public class ReservationPage {
 
     public static Reservation selectedReservation()
     {
-        Reservation activeReservation = new Reservation(reservationDetailsString.get(0), reservationDetailsString.get(1), reservationDetailsString.get(2), reservationDetailsString.get(3), reservationDetailsDate.get(0), reservationDetailsDate.get(1), reservationDetailsString.get(4), reservationDetailsInt.get(0), reservationDetailsString.get(5), reservationDetailsInt.get(1));
-
-        return activeReservation;
+        return ReservationManager.getReservationByReservationCode(reservationDetailsString.get(0));
     }
 }

@@ -601,4 +601,54 @@ public class SqlConnection {
         }
         return isSuccessfullCancel;
     }
+
+    public static boolean createBill(String billingCode, int reservationId, double billingAmt) {
+        boolean isSuccessfullBillCreate = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement prepStmt = con.prepareStatement("INSERT INTO Billing (BillingCode, ReservationId, Amount) VALUES (" + "?, ?, ?" + ")");
+            prepStmt.setString(1, billingCode);
+            prepStmt.setInt(2, reservationId);
+            prepStmt.setDouble(3, billingAmt);
+            prepStmt.execute();
+            con.close();
+        } catch (Exception ex) {
+            isSuccessfullBillCreate = false;
+        }
+        return isSuccessfullBillCreate;
+    }
+
+    public static Reservation getReservationByReservationCode(String reservationCode) {
+        Reservation reservation = new Reservation();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Id, ReservationCode, FirstName, LastName, CheckInDate, CheckOutDate, RoomType, NumberOfBeds, BedType, IsSmoking, Email, DateCheckedIn, DateCheckedOut, DateCancelled FROM reservation WHERE ReservationCode = '" + reservationCode + "'");
+
+            while (rs.next()) {
+                reservation.ID = rs.getInt(("Id"));
+                reservation.reservationCode = rs.getString(("ReservationCode"));
+                reservation.firstName = rs.getString(("FirstName"));
+                reservation.lastName = rs.getString(("LastName"));
+                reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate();
+                reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
+                reservation.roomType = rs.getString("RoomType");
+                reservation.numberOfBeds = rs.getInt(("NumberOfBeds"));
+                reservation.bedType = rs.getString(("BedType"));
+                reservation.isSmoking = rs.getInt(("IsSmoking"));
+                reservation.userEmail = rs.getString(("Email"));
+                reservation.DateCheckedIn = rs.getDate("DateCheckedIn") != null ? rs.getDate("DateCheckedIn").toLocalDate() : null;
+                reservation.DateCheckedOut = rs.getDate("DateCheckedOut") != null ? rs.getDate("DateCheckedOut").toLocalDate() : null;
+                reservation.DateCancelled = rs.getDate("DateCancelled") != null ? rs.getDate("DateCancelled").toLocalDate() : null;
+            }
+            con.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return reservation;
+    }
 }

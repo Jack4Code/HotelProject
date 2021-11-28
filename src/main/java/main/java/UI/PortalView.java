@@ -1,6 +1,7 @@
 package main.java.UI;
 
 import jdk.jshell.spi.ExecutionControlProvider;
+import main.java.DataModels.Reservation;
 import main.java.DataModels.Room;
 import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.User;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -230,7 +232,7 @@ public class PortalView extends JFrame implements ActionListener {
         if (userContent != null) {
             this.remove(userContent);
         }
-        if (reservationsContent !=null) {
+        if (reservationsContent != null) {
             this.remove((reservationsContent));
         }
         if (homeContent != null) {
@@ -377,7 +379,29 @@ public class PortalView extends JFrame implements ActionListener {
             checkInReservation.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ReservationManager.checkInReservation(ReservationPage.selectedReservation().reservationCode);
+                    Reservation activeReservation = ReservationPage.selectedReservation();
+                    String reservationCode = activeReservation.reservationCode;
+                    int reservationId = activeReservation.ID;
+                    double rate = 100;
+                    switch (activeReservation.roomType.toUpperCase()) {
+                        case "ECONOMY":
+                            rate = 100;
+                            break;
+                        case "COMFORT":
+                            rate = 150;
+                            break;
+                        case "BUSINESS":
+                            rate = 200;
+                            break;
+                        case "EXECUTIVE":
+                            rate = 250;
+                            break;
+                        default:
+                            rate = 100;
+                            break;
+                    }
+                    double billingAmt = rate * ChronoUnit.DAYS.between(activeReservation.checkInDate, activeReservation.checkOutDate);
+                    ReservationManager.checkInReservation(reservationCode, reservationId, billingAmt);
                     toggleReservationsView();
                 }
             });
@@ -637,7 +661,7 @@ public class PortalView extends JFrame implements ActionListener {
         } else if (e.getSource() == roomOptionButton) {
             this.currentTab = "Rooms";
             SwingUtilities.invokeLater(this::toggleRoomsView);
-        }else if (e.getSource() == billingOptionButton) {
+        } else if (e.getSource() == billingOptionButton) {
             this.currentTab = "Billing";
             SwingUtilities.invokeLater(this::toggleBillingView);
         } else if (e.getSource() == createReservationBtn) {
@@ -668,8 +692,7 @@ public class PortalView extends JFrame implements ActionListener {
             try {
                 boolean is_modified = userManager.modifyUser(userManager.activeUser, firstName.getText(), lastName.getText(), email.getText(), passwordInput.getText());
 
-                if (is_modified)
-                {
+                if (is_modified) {
                     invalidLoginAttemptTxt.setVisible(false);
                     settingsContent.repaint();
 
@@ -685,9 +708,7 @@ public class PortalView extends JFrame implements ActionListener {
                     modal.setSize(200, 200);
                     modal.setLocationRelativeTo(null);
                     modal.setVisible(true);
-                }
-                else
-                {
+                } else {
                     invalidLoginAttemptTxt.setVisible(true);
                     settingsContent.repaint();
                 }
