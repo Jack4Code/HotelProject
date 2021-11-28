@@ -146,11 +146,47 @@ public class ReservationPage {
         JButton modifyReservation = new JButton("Modify");
         modifyReservation.setFocusable(false);
         modifyReservation.setFont(new Font("serif", Font.PLAIN, 30));
-        modifyReservation.setBounds(80, 625, 320, 50);
+        modifyReservation.setBounds(512, 625, 220, 50);
         modifyReservation.setBackground(CustomColor.PURPLE_THEME_TXT);
         modifyReservation.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
 
         return modifyReservation;
+    }
+
+    public static JButton checkInReservationBtn(){
+        JButton checkIn = new JButton("Check In");
+
+        checkIn.setFocusable(false);
+        checkIn.setFont(new Font("serif", Font.PLAIN, 30));
+        checkIn.setBounds(25, 625, 220, 50);
+        checkIn.setBackground(CustomColor.PURPLE_THEME_TXT);
+        checkIn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+
+        return checkIn;
+    }
+
+    public static JButton checkOutReservationBtn(){
+        JButton checkOut = new JButton("Check Out");
+
+        checkOut.setFocusable(false);
+        checkOut.setFont(new Font("serif", Font.PLAIN, 30));
+        checkOut.setBounds(270, 625, 220, 50);
+        checkOut.setBackground(CustomColor.PURPLE_THEME_TXT);
+        checkOut.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+
+        return checkOut;
+    }
+
+    public static JButton cancelReservationBtn()
+    {
+        JButton cancelReservation = new JButton("Cancel");
+        cancelReservation.setFocusable(false);
+        cancelReservation.setFont(new Font("serif", Font.PLAIN, 30));
+        cancelReservation.setBounds(757, 625, 220, 50);
+        cancelReservation.setBackground(CustomColor.PURPLE_THEME_TXT);
+        cancelReservation.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+
+        return cancelReservation;
     }
 
     public static Reservation selectedReservation()
