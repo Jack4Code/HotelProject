@@ -11,7 +11,7 @@ import java.util.Arrays;
 //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
 
 public class SqlConnection {
-    
+
     //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
     //public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
     public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
@@ -42,7 +42,7 @@ public class SqlConnection {
         return isCreateSuccess;
     }
 
-    public static User getUserId(User user){
+    public static User getUserId(User user) {
         //retrieve the userId and assign it to the user object
         //user.id =
         return user;
@@ -53,7 +53,7 @@ public class SqlConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            PreparedStatement prepStmt = con.prepareStatement("Select Email, HashedPassword From Users" + " WHERE Email = ? AND HashedPassword = ?" );
+            PreparedStatement prepStmt = con.prepareStatement("Select Email, HashedPassword From Users" + " WHERE Email = ? AND HashedPassword = ?");
             prepStmt.setString(1, username);
             prepStmt.setString(2, password);
             ResultSet rs = prepStmt.executeQuery();
@@ -69,7 +69,7 @@ public class SqlConnection {
         return isValidUser;
     }
 
-    public static UserType getUserType(int userId){ //TODO: Pass User object instead and lookup userId
+    public static UserType getUserType(int userId) { //TODO: Pass User object instead and lookup userId
         int userTypeId = 1;
         UserType userType = UserType.Guest;
 
@@ -88,7 +88,7 @@ public class SqlConnection {
             while (rs.next()) {
                 userTypeId = rs.findColumn("UserTypeId");
             }
-            switch(userTypeId){
+            switch (userTypeId) {
                 case 1:
                     userType = UserType.Guest;
                     break;
@@ -109,11 +109,10 @@ public class SqlConnection {
         return userType;
     }
 
-    public static User getUserByUsername(String userName)
-    {
+    public static User getUserByUsername(String userName) {
         User user = new User();
 
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             PreparedStatement prepStmt = con.prepareStatement("Select * From Users Where Email =? ");
@@ -127,30 +126,27 @@ public class SqlConnection {
                 user.lastName = rs.getString("LastName");
                 user.email = rs.getString("Email");
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             //logging
             return null;
         }
         return user;
     }
 
-    public static User validateAndGetUser(String userName, String password){
-        if(!validateUserCredentials(userName, password))
-        {
+    public static User validateAndGetUser(String userName, String password) {
+        if (!validateUserCredentials(userName, password)) {
             return null;
         }
         return getUserByUsername(userName);
     }
 
-    public static User modifyUser(User user, String newFirstName, String newLastName, String newUserName, String newPassword)
-    {
+    public static User modifyUser(User user, String newFirstName, String newLastName, String newUserName, String newPassword) {
 
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
 
-            PreparedStatement prepStmt = con.prepareStatement("UPDATE users SET FirstName = ?, LastName = ?, Email = ?, HashedPassword = ?" + " WHERE Id = ?" );
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE users SET FirstName = ?, LastName = ?, Email = ?, HashedPassword = ?" + " WHERE Id = ?");
             prepStmt.setString(1, newFirstName);
             prepStmt.setString(2, newLastName);
             prepStmt.setString(3, newUserName);
@@ -167,21 +163,19 @@ public class SqlConnection {
                 user.lastName = rs.getString("LastName");
                 user.email = rs.getString("Email");
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             //logging
             return null;
         }
         return user;
     }
 
-    public static User modifyUserType(User user, int newUserType)
-    {
-        try{
+    public static User modifyUserType(User user, int newUserType) {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
 
-            PreparedStatement prepStmt = con.prepareStatement("UPDATE users SET UserTypeId = ?" + " WHERE Id = ?" );
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE users SET UserTypeId = ?" + " WHERE Id = ?");
             prepStmt.setInt(1, newUserType);
             prepStmt.setInt(2, user.id);
             prepStmt.executeUpdate();
@@ -193,24 +187,23 @@ public class SqlConnection {
             while (rs.next()) {
                 user.userTypeId = rs.getInt("UserTypeId");
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             //logging
             return null;
         }
         return user;
     }
 
-    public static ArrayList<Room> getAllRooms(){
+    public static ArrayList<Room> getAllRooms() {
         ArrayList<Room> rooms = new ArrayList<>();
 
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM room");
 
-            while(rs.next()){
+            while (rs.next()) {
                 Room room = new Room();
                 room.id = rs.getInt("Id");
                 room.isAvailable = rs.getInt("isAvailable");
@@ -223,15 +216,14 @@ public class SqlConnection {
                 rooms.add(room);
             }
             con.close();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
         return rooms;
     }
 
-    public static ArrayList<Reservation> getAllReservations(User activeUser, String reservationCode, String email){
+    public static ArrayList<Reservation> getAllReservations(User activeUser, String reservationCode, String email) {
         ArrayList<Reservation> reservations = new ArrayList<>();
         ResultSet rs;
 
@@ -241,23 +233,19 @@ public class SqlConnection {
             Statement stmt = con.createStatement();
 
 
-            if (activeUser.userTypeId == 1){
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "'");
-            } else if (reservationCode.equals("") && email.equals(""))
-            {
-                rs = stmt.executeQuery("SELECT * FROM reservation");
-            } else if (!reservationCode.equals(""))
-            {
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE ");
-            } else if(!email.equals(""))
-            {
-                rs = stmt.executeQuery("SELECT * FROM reservation");
-            }
-            else {
-                rs = stmt.executeQuery("SELECT * FROM reservation");
+            if (activeUser.userTypeId == 1) {
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "' AND (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+            } else if (reservationCode.equals("") && email.equals("")) {
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+            } else if (!reservationCode.equals("")) {
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+            } else if (!email.equals("")) {
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+            } else {
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             }
 
-            while(rs.next()){
+            while (rs.next()) {
                 Reservation reservation = new Reservation();
                 reservation.ID = rs.getInt("Id");
                 reservation.reservationCode = rs.getString("ReservationCode");
@@ -266,6 +254,7 @@ public class SqlConnection {
                 reservation.lastName = rs.getString("LastName");
                 reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate(); //.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                reservation.DateCheckedIn = rs.getDate("DateCheckedIn") != null ? rs.getDate("DateCheckedIn").toLocalDate() : null;
                 reservation.roomType = rs.getString("RoomType");
                 reservation.numberOfBeds = rs.getInt("NumberOfBeds");
                 reservation.bedType = rs.getString("BedType");
@@ -274,15 +263,14 @@ public class SqlConnection {
                 reservations.add(reservation);
             }
             con.close();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
         return reservations;
     }
 
-    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate){
+    public static ArrayList<Room> getAllAvailableRoomsByDateRange(String fromDate, String toDate) {
         ArrayList<Room> rooms = new ArrayList<>();
 
         System.out.println("test- got to sql connector");
@@ -298,7 +286,7 @@ public class SqlConnection {
 
 
         String query = "SELECT r.Id as RoomId, r.RoomType as RoomType, r.NumBeds as NumBeds, r.BedType as BedType, r.isSmoking as isSmoking FROM Room r LEFT JOIN ReservationRoom rr on r.Id = rr.RoomId LEFT JOIN Reservation res on res.Id = rr.ReservationId AND res.CheckInDate >= ? AND res.CheckOutDate <= ? WHERE res.CheckInDate IS NULL AND res.CheckOutDate IS NULL;";
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
 
@@ -314,7 +302,7 @@ public class SqlConnection {
             ResultSet rs = prepStmt.executeQuery();
 
 
-            while(rs.next()){
+            while (rs.next()) {
                 Room room = new Room();
                 room.id = rs.getInt("RoomId");
                 //room.isAvailable = rs.getInt("isAvailable");
@@ -328,11 +316,7 @@ public class SqlConnection {
             }
             con.close();
 
-        }
-
-
-
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -340,30 +324,29 @@ public class SqlConnection {
         //System.out.println(Arrays.toString(rooms.toArray()));
 
 
-        for (int i = 0; i < rooms.size(); i++){
+        for (int i = 0; i < rooms.size(); i++) {
 
             System.out.println("Room ID: " + rooms.get(i).id);
             System.out.println("Room Type:" + rooms.get(i).roomType);
         }
 
 
-
         return rooms;
     }
 
-    public static Room getRoomById(int roomId){
+    public static Room getRoomById(int roomId) {
         //Todo: Is this method being used?
         Room room = new Room();
         room.id = roomId;
 
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             PreparedStatement prepStmt = con.prepareStatement("Select * From room Where Id = ?");
             prepStmt.setInt(1, roomId);
             ResultSet rs = prepStmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 room.isAvailable = rs.getInt("isAvailable");
                 room.nextAvailableDate = rs.getDate("NextAvailableDate");
                 room.roomType = rs.getString("RoomType");
@@ -372,16 +355,15 @@ public class SqlConnection {
                 room.isSmoking = rs.getInt("isSmoking");
             }
             con.close();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return room;
     }
 
-    public static boolean updateRoom(Room room){
+    public static boolean updateRoom(Room room) {
         boolean isUpdateSuccessful = true;
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
 
@@ -389,7 +371,7 @@ public class SqlConnection {
                     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String nextAvailableDate = sdf.format(room.nextAvailableDate);
 
-            PreparedStatement prepStmt = con.prepareStatement("UPDATE room SET isAvailable = ?, NextAvailableDate = ?, RoomType = ?, NumBeds = ?, isSmoking = ?, BedType = ?" + " WHERE Id = ?" );
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE room SET isAvailable = ?, NextAvailableDate = ?, RoomType = ?, NumBeds = ?, isSmoking = ?, BedType = ?" + " WHERE Id = ?");
             prepStmt.setInt(1, room.isAvailable);
             prepStmt.setString(2, nextAvailableDate);
             prepStmt.setString(3, room.roomType);
@@ -398,8 +380,7 @@ public class SqlConnection {
             prepStmt.setString(6, room.bedType);
             prepStmt.setInt(7, room.id);
             prepStmt.executeUpdate();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             isUpdateSuccessful = false;
         }
@@ -407,11 +388,11 @@ public class SqlConnection {
     }
 
     //Check for repeated email usage
-    public static boolean isRepeatUser(String newEmail){
+    public static boolean isRepeatUser(String newEmail) {
 
         int is_repeated = -1;
 
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             PreparedStatement pstmt = con.prepareStatement("SELECT COUNT(1) FROM users WHERE Email = ?");
@@ -422,13 +403,11 @@ public class SqlConnection {
                 is_repeated = rs.getInt("COUNT(1)");
             }
 
-            if (is_repeated == 1)
-            {
+            if (is_repeated == 1) {
                 return true;
             }
             con.close();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -506,7 +485,7 @@ public class SqlConnection {
             prepStmt.setString(2, firstName);
             prepStmt.setString(3, lastName);
             java.sql.Date sqlCheckInDate = new java.sql.Date(Date.from(checkInDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
-            prepStmt.setDate(4,  sqlCheckInDate);
+            prepStmt.setDate(4, sqlCheckInDate);
             java.sql.Date sqlCheckOutDate = new java.sql.Date(Date.from(checkOutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
             prepStmt.setDate(5, sqlCheckOutDate);
             prepStmt.setString(6, roomType);
@@ -537,7 +516,7 @@ public class SqlConnection {
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
 
-           // String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
+            // String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
             String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount" +
                     " FROM billing b" +
                     " LEFT JOIN reservation r on ReservationId = r.Id;";
@@ -545,7 +524,7 @@ public class SqlConnection {
             rs = stmt.executeQuery(statement);
 
 
-            while(rs.next()){
+            while (rs.next()) {
                 Billing billing = new Billing();
                 billing.ID = rs.getInt("ID");
                 billing.firstName = rs.getString("FirstName");
@@ -561,8 +540,7 @@ public class SqlConnection {
 
             }
             con.close();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -610,5 +588,98 @@ public class SqlConnection {
         return userBillingList;
 
     }
+    public static boolean checkInReservation(String reservationCode) {
+        boolean isSuccessfullCheckIn = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE Reservation SET DateCheckedIn = now() WHERE ReservationCode = " + "?");
+            prepStmt.setString(1, reservationCode);
+            prepStmt.execute();
+            con.close();
+        } catch (Exception ex) {
+            isSuccessfullCheckIn = false;
+        }
+        return isSuccessfullCheckIn;
+    }
 
+    public static boolean checkOutReservation(String reservationCode) {
+        boolean isSuccessfullCheckOut = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE Reservation SET DateCheckedOut = now() WHERE ReservationCode = " + "?");
+            prepStmt.setString(1, reservationCode);
+            prepStmt.execute();
+            con.close();
+        } catch (Exception ex) {
+            isSuccessfullCheckOut = false;
+        }
+        return isSuccessfullCheckOut;
+    }
+
+    public static boolean cancelReservation(String reservationCode) {
+        boolean isSuccessfullCancel = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE Reservation SET DateCancelled = now() WHERE ReservationCode = " + "?");
+            prepStmt.setString(1, reservationCode);
+            prepStmt.execute();
+            con.close();
+        } catch (Exception ex) {
+            isSuccessfullCancel = false;
+        }
+        return isSuccessfullCancel;
+    }
+
+    public static boolean createBill(String billingCode, int reservationId, double billingAmt) {
+        boolean isSuccessfullBillCreate = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement prepStmt = con.prepareStatement("INSERT INTO Billing (BillingCode, ReservationId, Amount) VALUES (" + "?, ?, ?" + ")");
+            prepStmt.setString(1, billingCode);
+            prepStmt.setInt(2, reservationId);
+            prepStmt.setDouble(3, billingAmt);
+            prepStmt.execute();
+            con.close();
+        } catch (Exception ex) {
+            isSuccessfullBillCreate = false;
+        }
+        return isSuccessfullBillCreate;
+    }
+
+    public static Reservation getReservationByReservationCode(String reservationCode) {
+        Reservation reservation = new Reservation();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Id, ReservationCode, FirstName, LastName, CheckInDate, CheckOutDate, RoomType, NumberOfBeds, BedType, IsSmoking, Email, DateCheckedIn, DateCheckedOut, DateCancelled FROM reservation WHERE ReservationCode = '" + reservationCode + "'");
+
+            while (rs.next()) {
+                reservation.ID = rs.getInt(("Id"));
+                reservation.reservationCode = rs.getString(("ReservationCode"));
+                reservation.firstName = rs.getString(("FirstName"));
+                reservation.lastName = rs.getString(("LastName"));
+                reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate();
+                reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
+                reservation.roomType = rs.getString("RoomType");
+                reservation.numberOfBeds = rs.getInt(("NumberOfBeds"));
+                reservation.bedType = rs.getString(("BedType"));
+                reservation.isSmoking = rs.getInt(("IsSmoking"));
+                reservation.userEmail = rs.getString(("Email"));
+                reservation.DateCheckedIn = rs.getDate("DateCheckedIn") != null ? rs.getDate("DateCheckedIn").toLocalDate() : null;
+                reservation.DateCheckedOut = rs.getDate("DateCheckedOut") != null ? rs.getDate("DateCheckedOut").toLocalDate() : null;
+                reservation.DateCancelled = rs.getDate("DateCancelled") != null ? rs.getDate("DateCancelled").toLocalDate() : null;
+            }
+            con.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return reservation;
+    }
 }

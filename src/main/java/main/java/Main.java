@@ -24,50 +24,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*
-        SimpleDateFormat timeFormat;
-        timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //ArrayList<Room> availableRes = ReservationManager.getAllCurrentlyAvailableRooms();
-        String fromDateInput = "2021-11-01 00:00:00";
-        String toDateInput = "2021-11-03 00:00:00";
-        //Date fDate = timeFormat.parse(fromDateInput);
-        //java.util.Date tDate = timeFormat.parse(toDateInput);
-        //LocalDate fromDate = LocalDate.parse(fromDateInput);
-        //LocalDate toDate = LocalDate.parse(toDateInput);
-        //Date fromDate1 = Date.valueOf(fromDate);
-        //Date toDate1 = Date.valueOf(toDate);
-        //System.out.println(fDate);
-       // System.out.println(tDate);
-
-
-        //java.sql.Date sfDate = new java.sql.Date(fDate.getTime());
-        //java.sql.Date stDate = new java.sql.Date(tDate.getTime());
-        ArrayList<Room> availableRooms = SqlConnection.getAllAvailableRoomsByDateRange(fromDateInput, toDateInput);
-
-        //System.out.println(Arrays.toString(availableRooms.toArray()));
-
-
-        for (int i = 0; i < availableRooms.size(); i++){
-            System.out.println("Room ID: " + availableRooms.get(i).id);
-            System.out.println("Room Type: " + availableRooms.get(i).roomType);
-            System.out.println("Number of Beds: " + availableRooms.get(i).numBeds);
-            System.out.println("Bed Type " + availableRooms.get(i).bedType);
-            System.out.println("Is Smoking: " + availableRooms.get(i).isSmoking);
-
-
-
-        }
-*/
-
-/*        ArrayList<Billing> billingList = SqlConnection.getBillingForAllUsers("", "");
-
-        for (int i=0; i < billingList.size(); i++){
-            System.out.println("Id: " + billingList.get(i).ID);
-            System.out.println("Reservation Id: " + billingList.get(i).reservationCode);
-            System.out.println("First: " + billingList.get(i).firstName);
-            System.out.println("Last: " + billingList.get(i).lastName);
-        }*/
-
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));

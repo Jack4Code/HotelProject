@@ -162,5 +162,20 @@ public class ReservationManager {
 
     //upateReservation(reservationCode, whatever we can update) ... needs corresponding SqlConnection method
 
+    public static boolean checkInReservation(String reservationCode, int reservationId, double billingAmt){
+        String billingCode = createReservationCode();
+        return SqlConnection.checkInReservation(reservationCode) && SqlConnection.createBill(billingCode, reservationId, billingAmt);
+    }
 
+    public static boolean checkOutReservation(String reservationCode){
+        return SqlConnection.checkOutReservation(reservationCode);
+    }
+
+    public static boolean cancelReservation(String reservationCode) {
+        return SqlConnection.cancelReservation(reservationCode);
+    }
+
+    public static Reservation getReservationByReservationCode(String reservationCode) {
+        return SqlConnection.getReservationByReservationCode(reservationCode);
+    }
 }

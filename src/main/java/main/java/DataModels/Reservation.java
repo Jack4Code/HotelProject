@@ -6,7 +6,7 @@ import java.util.Date;
 public class Reservation {
     public int ID, numberOfBeds, isSmoking;
     public String userEmail, reservationCode, roomType, bedType, firstName, lastName;
-    public LocalDate checkInDate, checkOutDate;
+    public LocalDate checkInDate, checkOutDate, DateCheckedIn, DateCheckedOut, DateCancelled;
 
     public Reservation(){
 
