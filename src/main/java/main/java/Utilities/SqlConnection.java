@@ -507,33 +507,37 @@ public class SqlConnection {
     }
 
 
-    public static ArrayList<Billing> getBillingForAllUsers(String billingCode, String email){
+    public static ArrayList<Billing> getBilling(String email){
         ArrayList<Billing> billingList = new ArrayList<>();
         ResultSet rs;
+        String statement;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
 
-            // String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
-            String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount" +
-                    " FROM billing b" +
-                    " LEFT JOIN reservation r on ReservationId = r.Id;";
+            if (email.equals("")){
+                statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.DateCheckedOut is not Null or r.DateCancelled is not Null";
+                rs = stmt.executeQuery(statement);
+            }
+            else{
+                statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.Email = '" + email + "' AND (r.DateCheckedOut is not Null or r.DateCancelled is not null)";
 
-            rs = stmt.executeQuery(statement);
-
+                rs = stmt.executeQuery(statement);
+            }
 
             while (rs.next()) {
                 Billing billing = new Billing();
-                billing.ID = rs.getInt("ID");
+
+                //billing.ID = rs.getInt("ID");
+                billing.billingCode = rs.getString("BillingCode");
+                billing.reservationCode = rs.getString("ReservationCode");
                 billing.firstName = rs.getString("FirstName");
                 billing.lastName = rs.getString("LastName");
                 billing.userEmail = rs.getString("Email");
-                billing.reservationCode = rs.getString("ReservationCode");
                 billing.checkInDate = rs.getDate("CheckInDate").toLocalDate();
-                billing.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
-                billing.billingCode = rs.getString("BillingCode");
+                billing.dateCheckedOut = rs.getDate("DateCheckedOut").toLocalDate();
                 billing.totalCost = rs.getFloat("Amount");
 
                 billingList.add(billing);
@@ -547,47 +551,7 @@ public class SqlConnection {
         return billingList;
 
     }
-    public static ArrayList<Billing> getBillingForOneUser(String email){
-        ArrayList<Billing> userBillingList = new ArrayList<>();
-        ResultSet rs;
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
-
-            //Todo: Change this for one email
-            //String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
-            String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount" +
-                    " FROM billing b" +
-                    " LEFT JOIN reservation r on ReservationId = r.Id;";
-            rs = stmt.executeQuery(statement);
-
-
-            while(rs.next()){
-                Billing billing = new Billing();
-                billing.ID = rs.getInt("ID");
-                billing.firstName = rs.getString("FirstName");
-                billing.lastName = rs.getString("LastName");
-                billing.userEmail = rs.getString("Email");
-                billing.reservationCode = rs.getString("ReservationCode");
-                billing.checkInDate = rs.getDate("CheckInDate").toLocalDate();
-                billing.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
-                billing.billingCode = rs.getString("BillingCode");
-                billing.totalCost = rs.getFloat("Amount");
-
-                userBillingList.add(billing);
-
-            }
-            con.close();
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-
-        return userBillingList;
-
-    }
     public static boolean checkInReservation(String reservationCode) {
         boolean isSuccessfullCheckIn = true;
         try {

@@ -58,9 +58,10 @@ public class PortalView extends JFrame implements ActionListener {
     JButton cancelReservationButton, modifyReservationButton, searchReservationButton, checkInReservation, checkOutReservation;
 
     //Billing Tab
-    JButton generateUserBillButton, generateAllBillsButton;
+    JButton getUserBillButton, getAllBillsButton;
     JTextField billingEmailInput;
     String billingEmail;
+    JScrollPane createBillingTable;
 
     //Home Tab
     JButton createReservationBtn;
@@ -629,21 +630,34 @@ public class PortalView extends JFrame implements ActionListener {
         new Thread(() -> {
             this.regenerateSideNav();
             this.billingContent = generateBlankContentCanvas();
-            billingContent.add(BillingPage.generateBillingTable());
+
+            createBillingTable = BillingPage.generateBillingTable("");
+            billingContent.add(createBillingTable);
             billingContent.add(BillingPage.addTitle());
-            generateUserBillButton = (BillingPage.addGetUserBillButton());
-            generateAllBillsButton = (BillingPage.addGetAllBillsButton());
 
+            //Get one users bill
+            getUserBillButton = (BillingPage.addGetUserBillButton());
+            getUserBillButton.addActionListener(this);
 
-        billingContent.add(generateUserBillButton);
-        billingContent.add(generateAllBillsButton);
+            //Get all bills
+            getAllBillsButton = (BillingPage.addGetAllBillsButton());
+            getAllBillsButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   //this.billingContent.remove(createBillingTable);
+                    billingEmail = "";
+                    createBillingTable = BillingPage.generateBillingTable(billingEmail);
+                    billingContent.add(createBillingTable);
 
-        //Input user email to get user billing info
-        billingContent.add(BillingPage.addEmailInputTitle());
-        //billingEmailInput = billingContent.add(BillingPage.addGetEmailInput());
-        billingEmailInput = BillingPage.addGetEmailInput();
-        billingContent.add(billingEmailInput);
+                }
+            });
 
+            billingContent.add(getUserBillButton);
+            billingContent.add(getAllBillsButton);
+
+            billingContent.add(BillingPage.addEmailInputTitle());
+            billingEmailInput = BillingPage.addGetEmailInput();
+            billingContent.add(billingEmailInput);
 
             this.add(billingContent);
             this.repaint();
@@ -755,20 +769,17 @@ public class PortalView extends JFrame implements ActionListener {
             } catch (Exception ignore) {
 
             }
-        } else if (e.getSource() == generateUserBillButton) {
-            billingEmail = billingEmailInput.getText();
-            //Todo: Input this into a method in the table in BillingPage (set method equal to variable)
-            //Todo: add variable to billingCOntent
+        } else if (e.getSource() == getUserBillButton) {
+            this.billingContent.remove(createBillingTable);
 
-            //billingContent.add(VARIABLE);
-            System.out.println("Email: " + billingEmail);
+            billingEmail = billingEmailInput.getText();
+
+            createBillingTable = BillingPage.generateBillingTable(billingEmail);
+            billingContent.add(createBillingTable);
+
 
             this.repaint();
 
-
-            /*roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
-            homeContent.add(roomSelectionContentArea);
-            this.repaint();*/
         }
     }
 }

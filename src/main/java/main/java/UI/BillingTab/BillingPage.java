@@ -6,6 +6,7 @@ import main.java.Managers.BillingManager;
 import main.java.UI.Resources.CustomColor;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -13,97 +14,40 @@ import java.util.Locale;
 public class BillingPage {
 
     static ArrayList<Billing> billingList;
-    static ArrayList<Billing> userBillingList;
-
-/*    public static JScrollPane generateOneUserBillingTable(String email){
-        //Getting all users who have/had a reservation
-
-        JScrollPane pane;
-        JTable billingTable;
-
-        userBillingList = BillingManager.getBillingForOneUser(email);
-
-
-        String[] billingColumnNames = {
-                "Id",
-                "First Name",
-                "Last Name",
-                "Email",
-                "Reservation Code",
-                "Check In Date",
-                "Check Out Date",
-                "Billing Code",
-                "Total Cost"
-        };
-
-        Object[][] data = new Object[userBillingList.size()][9];
-
-        for (int i=0; i < userBillingList.size(); i++){
-            data[i][0] = userBillingList.get(i).ID;
-            data[i][1] = userBillingList.get(i).firstName.substring(0,1).toUpperCase() + userBillingList.get(i).firstName.substring(1).toLowerCase();
-            data[i][2] = userBillingList.get(i).lastName.substring(0,1).toUpperCase() + userBillingList.get(i).lastName.substring(1).toLowerCase();
-            data[i][3] = userBillingList.get(i).userEmail;
-            data[i][4] = userBillingList.get(i).reservationCode;
-            data[i][5] = userBillingList.get(i).checkInDate;
-            data[i][6] = userBillingList.get(i).checkOutDate;
-            data[i][7] = userBillingList.get(i).billingCode;
-            data[i][8] = userBillingList.get(i).totalCost;
-        }
-
-        billingTable = new JTable(data, billingColumnNames){
-            @Override
-            public boolean isCellEditable(int row, int column){return false;}
-        };
-
-        billingTable.setFont(new Font("serif", Font.PLAIN, 18));
-        billingTable.setRowHeight(25);
-
-
-        pane = new JScrollPane(billingTable);
-        pane.setBounds(30,250,1150,400);
 
 
 
+    public static JScrollPane generateBillingTable(String email){
 
-
-
-
-        return pane;
-    }*/
-
-    public static JScrollPane generateBillingTable(){
-        //Getting all users who have/had a reservation
 
         JScrollPane pane;
         JTable billingTable;
 
         //Todo: Think about removing the billing code
-        billingList = BillingManager.getBillingForAllUsers("", "");
+        billingList = BillingManager.getBilling(email);
 
         String[] billingColumnNames = {
-                "Id",
+                "Billing Code",
+                "Reservation Code",
                 "First Name",
                 "Last Name",
                 "Email",
-                "Reservation Code",
                 "Check In Date",
                 "Check Out Date",
-                "Billing Code",
                 "Total Cost"
         };
 
-        Object[][] data = new Object[billingList.size()][9];
+        Object[][] data = new Object[billingList.size()][8];
 
         for (int i=0; i < billingList.size(); i++){
-            data[i][0] = billingList.get(i).ID;
-            data[i][1] = billingList.get(i).firstName.substring(0,1).toUpperCase() + billingList.get(i).firstName.substring(1).toLowerCase();
-            data[i][2] = billingList.get(i).lastName.substring(0,1).toUpperCase() + billingList.get(i).lastName.substring(1).toLowerCase();
-            data[i][3] = billingList.get(i).userEmail;
-            data[i][4] = billingList.get(i).reservationCode;
+            data[i][0] = billingList.get(i).billingCode;
+            data[i][1] = billingList.get(i).reservationCode;
+            data[i][2] = billingList.get(i).firstName.substring(0,1).toUpperCase() + billingList.get(i).firstName.substring(1).toLowerCase();
+            data[i][3] = billingList.get(i).lastName.substring(0,1).toUpperCase() + billingList.get(i).lastName.substring(1).toLowerCase();
+            data[i][4] = billingList.get(i).userEmail;
             data[i][5] = billingList.get(i).checkInDate;
-            data[i][6] = billingList.get(i).checkOutDate;
-            data[i][7] = billingList.get(i).billingCode;
-            data[i][8] = billingList.get(i).totalCost;
+            data[i][6] = billingList.get(i).dateCheckedOut;
+            data[i][7] = "$" + billingList.get(i).totalCost;
         }
 
         billingTable = new JTable(data, billingColumnNames){
@@ -114,9 +58,28 @@ public class BillingPage {
         billingTable.setFont(new Font("serif", Font.PLAIN, 18));
         billingTable.setRowHeight(25);
 
+        //First Name
+        TableColumn column3 = billingTable.getColumnModel().getColumn(2);
+        column3.setPreferredWidth(50);
+
+        //Last Name
+        TableColumn column4 = billingTable.getColumnModel().getColumn(3);
+        column4.setPreferredWidth(50);
+
+        //Email
+        TableColumn column5 = billingTable.getColumnModel().getColumn(4);
+        column5.setPreferredWidth(150);
+
+        //Total Cost
+        TableColumn column8 = billingTable.getColumnModel().getColumn(7);
+        column8.setPreferredWidth(15);
+
 
         pane = new JScrollPane(billingTable);
         pane.setBounds(30,250,1150,400);
+
+
+
 
 
         return pane;
@@ -125,7 +88,7 @@ public class BillingPage {
 
 
     public static JLabel addTitle() {
-        JLabel tableTitle = new JLabel("Generate Billing for Guest(s): ");
+        JLabel tableTitle = new JLabel("Generate Billing For Past Reservations: ");
         tableTitle.setFont(new Font("serif", Font.PLAIN, 24));
         tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
         tableTitle.setBounds(30, 30, 700, 35);
@@ -161,7 +124,6 @@ public class BillingPage {
         JButton getUserBill = new JButton("Get Bill");
         getUserBill.setFocusable(false);
         getUserBill.setFont(new Font("serif", Font.PLAIN, 22));
-        //getUserBill.setBounds(30, 625, 305, 50);
         getUserBill.setBounds(415, 200, 150, 35);
         getUserBill.setBackground(CustomColor.PURPLE_THEME_TXT);
         getUserBill.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
@@ -174,8 +136,6 @@ public class BillingPage {
         JButton getAllBills = new JButton("Get All Bills");
         getAllBills.setFocusable(false);
         getAllBills.setFont(new Font("serif", Font.PLAIN, 22));
-        //getAllBills.setBounds(365, 625, 305, 50); //At bottom
-        //getAllBills.setBounds(700, 100, 305, 35); //At top to the right
         getAllBills.setBounds(615, 200, 150, 35);
         getAllBills.setBackground(CustomColor.PURPLE_THEME_TXT);
         getAllBills.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
