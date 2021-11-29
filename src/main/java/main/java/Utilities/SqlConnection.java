@@ -240,7 +240,7 @@ public class SqlConnection {
             localNowDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             if (activeUser.userTypeId == 1) {
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "' AND (CheckOutDate > " + localNowDate + " AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "' AND (CheckOutDate > '" + localNowDate + "' AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (reservationCode.equals("") && email.equals("")) {
                 rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > '" + localNowDate + "' AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (!reservationCode.equals("")) {
