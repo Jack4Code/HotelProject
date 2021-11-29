@@ -74,6 +74,17 @@ public class ReservationManager {
         return reservationCode;
     }
 
+    public static String modifyReservation(LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, int isSmoking, String passedInReservationCode)
+    {
+        if(toDate.compareTo(fromDate) < 0){
+            return "";
+        }
+
+        SqlConnection.modifyReservation(passedInReservationCode, fromDate, toDate, roomType, numberOfBeds, bedType, isSmoking);
+
+        return passedInReservationCode;
+    }
+
     public static String createReservationCode()
     {
 
@@ -125,7 +136,8 @@ public class ReservationManager {
 
         int deleteCount = -1;
 
-        for(int i = 0; i < allRoomCombosAvailable.size(); i++) {
+        int roomComboSize = allRoomCombosAvailable.size();
+        for(int i = 0; i < roomComboSize; i++) {
 
             deleteCount++;
 

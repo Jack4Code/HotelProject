@@ -1,6 +1,7 @@
 package main.java.UI;
 
 import jdk.jshell.spi.ExecutionControlProvider;
+import main.java.DataModels.Reservation;
 import main.java.DataModels.Room;
 import main.java.DataModels.AvailableRoom;
 import main.java.DataModels.User;
@@ -66,6 +67,7 @@ public class PortalView extends JFrame implements ActionListener {
     Date currentDate;
     static LocalDate localFromDate, localToDate;
     LocalDate fromDate, toDate;
+    String reservationCode = "";
 
 
     HomePage homepage = null;
@@ -98,7 +100,7 @@ public class PortalView extends JFrame implements ActionListener {
         localFromDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         localToDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1);
 
-        this.toggleHomeView();
+        this.toggleHomeView(reservationCode);
     }
 
     public JPanel initSideNav() {
@@ -263,7 +265,7 @@ public class PortalView extends JFrame implements ActionListener {
         return panel;
     }
 
-    public void toggleHomeView() {
+    public void toggleHomeView(String passedInReservationCode) {
         new Thread(() -> {
             this.regenerateSideNav();
             this.homeContent = generateBlankContentCanvas();
@@ -276,7 +278,7 @@ public class PortalView extends JFrame implements ActionListener {
             searchAvailableRoomsBtn.addActionListener(this);
             homeContent.add(searchAvailableRoomsBtn);
 
-            roomSearchArea = homepage.generateRoomSearchContentArea();
+            roomSearchArea = homepage.generateRoomSearchContentArea(passedInReservationCode);
 
             fromDateText = homepage.addFromDateText();
             toDateText = homepage.addToDateText();
@@ -294,6 +296,7 @@ public class PortalView extends JFrame implements ActionListener {
 
             this.add(homeContent);
             this.repaint();
+
         }).start();
     }
 
@@ -624,7 +627,7 @@ public class PortalView extends JFrame implements ActionListener {
             this.dispose();
         } else if (e.getSource() == homeOptionButton) {
             this.currentTab = "Home";
-            SwingUtilities.invokeLater(this::toggleHomeView);
+            toggleHomeView(reservationCode);
         } else if (e.getSource() == userOptionButton) {
             this.currentTab = "Users";
             SwingUtilities.invokeLater(this::toggleUserView);
@@ -645,18 +648,27 @@ public class PortalView extends JFrame implements ActionListener {
             toDate = LocalDate.parse(toDateText.getText());
             Object[][] selectedRoomValues;
             selectedRoomValues = HomePage.selectedRoom();
-            ReservationManager.makeReservation(userManager.activeUser, fromDate, toDate, selectedRoomValues[0][0].toString(), (Integer) selectedRoomValues[0][1], selectedRoomValues[0][2].toString(), (Integer) selectedRoomValues[0][3]);
+            if (reservationCode.equals("")) {
+                ReservationManager.makeReservation(userManager.activeUser, fromDate, toDate, selectedRoomValues[0][0].toString(), (Integer) selectedRoomValues[0][1], selectedRoomValues[0][2].toString(), (Integer) selectedRoomValues[0][3]);
+            }
+            else {
+                ReservationManager.modifyReservation(fromDate, toDate, selectedRoomValues[0][0].toString(), (Integer) selectedRoomValues[0][1], selectedRoomValues[0][2].toString(), (Integer) selectedRoomValues[0][3], reservationCode);
+                reservationCode = "";
+            }
 
             //search button refresh after making reservation
-            this.homeContent.remove(roomSelectionContentArea);
+            /* this.homeContent.remove(roomSelectionContentArea);
             fromDate = LocalDate.parse(fromDateText.getText());
             toDate = LocalDate.parse(toDateText.getText());
             roomSelectionContentArea = HomePage.generateRoomSelectionContentArea(fromDate, toDate);
-            homeContent.add(roomSelectionContentArea);
-        } else if (e.getSource() == modifyReservationButton) {
-            ReservationPage.selectedReservation();
+            homeContent.add(roomSelectionContentArea); */
             this.currentTab = "Home";
-            this.toggleHomeView();
+            toggleHomeView(reservationCode);
+        } else if (e.getSource() == modifyReservationButton) {
+            Reservation activeReservation = ReservationPage.selectedReservation();
+            reservationCode = activeReservation.reservationCode;
+            this.currentTab = "Home";
+            this.toggleHomeView(reservationCode);
         } else if (e.getSource() == searchAvailableRoomsBtn) {
             this.homeContent.remove(roomSelectionContentArea);
             fromDate = LocalDate.parse(fromDateText.getText());

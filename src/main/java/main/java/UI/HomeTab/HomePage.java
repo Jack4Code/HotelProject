@@ -44,7 +44,6 @@ public class HomePage {
             "Smoking Available"
     };
 
-
     public HomePage() {
         currentDate = new Date(); //Initializes date and sets it to current time
 
@@ -57,52 +56,10 @@ public class HomePage {
         //toDate = c.getTime();
     }
 
-
-    /*
-    public ArrayList<AvailableRoom> getAvailableRooms(String fromDate, String toDate) {
-        try{
-            //Parsing a string needs a try catch
-
-            //System.out.println("test-Got to getAvailableRooms");
-            ArrayList<AvailableRoom> availableRooms = new ArrayList<>();
-            ArrayList<Room> rooms = ReservationManager.getAllAvailableRoomsByDateRange(fromDate, toDate);
-            for (int i = 0; i < rooms.size(); i++) {
-                AvailableRoom availableRoom = new AvailableRoom();
-                availableRoom.roomId = rooms.get(i).id;
-                availableRoom.bedType = rooms.get(i).bedType;
-                availableRoom.roomType = rooms.get(i).roomType;
-                availableRoom.numBeds = rooms.get(i).numBeds;
-                availableRoom.checkInDate = timeFormat.parse(fromDate);
-                availableRoom.checkOutDate = timeFormat.parse(toDate);
-                availableRooms.add(availableRoom);
-
-            }
-
-
-
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-
-
-
-
-        return availableRooms;
-    }
-
-    public void displayResultsInTable(){
-        //resultsContentArea.Add()
-
-
-
-
-
-    }
-    */
-
     //left side
-    public JPanel generateRoomSearchContentArea() {
+    public JPanel generateRoomSearchContentArea(String passedInReservationCode) {
+
+        JLabel dateTitle;
 
         JPanel contentArea = new JPanel();
         contentArea.setLayout(null);
@@ -110,33 +67,38 @@ public class HomePage {
         contentArea.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
 
 
-        JPanel fromDateArea = new JPanel();
-        //JLabel checkInLabel = new JLabel("Check In:");
-        fromDateArea.setLayout(null);
-        //fromDateArea.setBounds(50, 50, 250, 75);
-        fromDateArea.setBounds(25, 25, 225, 50);
-        fromDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
-        //checkInLabel.setBounds(50, 20, 250, 20);
-       // checkInLabel.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
-        //checkInLabel.setForeground(Color.RED);
+        if (passedInReservationCode.equals("")) {
+            dateTitle = new JLabel("Create a Reservation: ");
+            dateTitle.setFont(new Font("serif", Font.PLAIN, 30));
+            dateTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+            dateTitle.setBounds(25, 10, 400, 75);
+        }
+        else {
+            dateTitle = new JLabel("Modify Reservation " + passedInReservationCode + ": ");
+            dateTitle.setFont(new Font("serif", Font.PLAIN, 30));
+            dateTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+            dateTitle.setBounds(25, 10, 400, 75);
+        }
 
-        JPanel toDateArea = new JPanel();
-        toDateArea.setLayout(null);
-        toDateArea.setBounds(300, 25, 250, 50);
-        //toDateArea.setBounds(350, 50, 250, 75);
+        JLabel checkInTitle = new JLabel("Check in Date: ");
+        checkInTitle.setFont(new Font("serif", Font.PLAIN, 18));
+        checkInTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        checkInTitle.setBounds(30, 80, 200, 75);
 
-        toDateArea.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        JLabel checkOutTitle = new JLabel("Check out Date: ");
+        checkOutTitle.setFont(new Font("serif", Font.PLAIN, 18));
+        checkOutTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        checkOutTitle.setBounds(310, 80, 200, 75);
 
-        //Todo: Automatically adding a check-out date causes issues. Here, just showing a week out from starting date
-
-        contentArea.add(fromDateArea);
-        contentArea.add(toDateArea);
+        contentArea.add(dateTitle);
+        contentArea.add(checkInTitle);
+        contentArea.add(checkOutTitle);
 
         return contentArea;
     }
 
     //right side
-    public static JScrollPane generateRoomSelectionContentArea(LocalDate fromDate, LocalDate toDate){
+    public static JScrollPane generateRoomSelectionContentArea(LocalDate fromDate, LocalDate toDate) {
         JScrollPane pane;
 
         data = ReservationManager.getAvailableRoomCombos(fromDate, toDate);
@@ -153,7 +115,7 @@ public class HomePage {
         availableRoomTable.setRowHeight(25);
 
         pane = new JScrollPane(availableRoomTable);
-        pane.setBounds(600, 100, 500, 500); //640
+        pane.setBounds(600, 100, 500, 398); //640
 
         availableRoomTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
@@ -174,10 +136,10 @@ public class HomePage {
 
     public static JLabel addTitle()
     {
-        JLabel tableTitle = new JLabel("Currently Available Rooms: ");
-        tableTitle.setFont(new Font("serif", Font.PLAIN, 18));
-        tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
-        tableTitle.setBounds(600, 50, 300, 75);
+            JLabel tableTitle = new JLabel("Currently Available Rooms: ");
+            tableTitle.setFont(new Font("serif", Font.PLAIN, 18));
+            tableTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+            tableTitle.setBounds(600, 50, 300, 75);
 
         return tableTitle;
     }
@@ -198,7 +160,7 @@ public class HomePage {
 
         JButton searchAvailableRoomsBtn = new JButton("Search");
         searchAvailableRoomsBtn.setFocusable(false);
-        searchAvailableRoomsBtn.setBounds(300, 150, 250, 50);
+        searchAvailableRoomsBtn.setBounds(150, 300, 250, 50);
         searchAvailableRoomsBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         searchAvailableRoomsBtn.setFont(new Font("serif", Font.PLAIN, 20));
         searchAvailableRoomsBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
@@ -212,9 +174,8 @@ public class HomePage {
         JTextField fromDateTxt = new JTextField(localFromDate.toString());
 
         fromDateTxt.setLayout(null);
-        fromDateTxt.setBounds(25, 35, 225, 25);
-        fromDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
-        fromDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        fromDateTxt.setBounds(25, 140, 200, 50);
+        fromDateTxt.setBackground(CustomColor.INPUT_BACKGROUND);
         fromDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
         fromDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 
@@ -226,9 +187,8 @@ public class HomePage {
         JTextField toDateTxt = new JTextField(localToDate.toString());
 
         toDateTxt.setLayout(null);
-        toDateTxt.setBounds(305, 35, 225, 25);
-        toDateTxt.setBackground(CustomColor.MAIN_PURPLE_THEME);
-        toDateTxt.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
+        toDateTxt.setBounds(305, 140, 200, 50);
+        toDateTxt.setBackground(CustomColor.INPUT_BACKGROUND);
         toDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
         toDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 
@@ -239,103 +199,4 @@ public class HomePage {
     {
         return selectedRoomValues;
     }
-/*
-    public JPanel generateRoomSelectionContentArea() {
-
-        resultsContentArea = new JPanel();
-        resultsContentArea.setLayout(null);
-        resultsContentArea.setBounds(600, 0, 600, 1400);
-        resultsContentArea.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
-
-
-        for (int i = 0; i < 4; i++) {
-            JPanel panel = generateRoomSelectionBox(1, "Executive",
-                    new Date(2021, 01, 01),
-                    new Date(2020, 02, 01),
-                    false,
-                    (i * 100) + (i * 20));
-
-            resultsContentArea.add(panel);
-        }
-        return resultsContentArea;
-
-    }
-
-    public JPanel generateRoomSelectionBox(int bedCnt, String roomType, Date fromDate, Date toDate, boolean isSmoking, int top) {
-        JPanel box = new JPanel();
-        box.setLayout(null);
-        box.setBounds(20, top + 20, 560, 100);
-        box.setBackground(CustomColor.PURPLE_THEME_TXT);
-
-
-        return box;
-    }*/
-
-
-
-
 }
-
-
-
-
-/*
-For later...maybe
-
-//        JPanel contentArea = new JPanel();
-//
-//        contentArea.setLayout(new BorderLayout());
-//        contentArea.setBounds(600, 0, 600, 700);
-//        contentArea.setBackground(Color.BLUE);
-
-//        JPanel contentArea = new JPanel();
-//        //contentArea.setPreferredSize(new Dimension( 2000,2000));
-//        contentArea.setBounds(600, 0, 600, 1400);
-//        //contentArea.setBackground(Color.BLUE);
-//
-//
-////        JPanel someStupidThing = new JPanel();
-////        someStupidThing.setBounds(0, 750, 100, 600);
-////        someStupidThing.setBackground(Color.GREEN);
-//
-//        JTextArea textArea = new JTextArea(5,5);
-//        textArea.setText("xx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\nxx\n");
-//        JScrollPane scrollFrame = new JScrollPane(textArea);
-//        //someStupidThing.setAutoscrolls(true);
-//        scrollFrame.setPreferredSize(new Dimension( 600,700));
-//        scrollFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//
-//        contentArea.add(scrollFrame, BorderLayout.CENTER);
-
-        JLayeredPane contentArea = new JLayeredPane();
-        contentArea.setBounds(600, 0, 600, 1400);
-
-
-        JPanel scrollContent = new JPanel();
-        scrollContent.setLayout(null);
-        scrollContent.setBounds(0, 0, 600, 1400);
-        //scrollContent.setBackground(Color.PINK);
-
-        JScrollPane scrollFrame = new JScrollPane(scrollContent);
-        //scrollFrame.setPreferredSize(new Dimension( 600,300));
-        scrollFrame.setBounds(0, 0, 600, 700);
-        scrollFrame.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        JScrollBar scrollbar = new JScrollBar(JScrollBar.VERTICAL){
-            @Override
-            public boolean isVisible(){
-                return true;
-            }
-        };
-
-        //scrollbar.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
-
-        scrollFrame.setVerticalScrollBar(scrollbar);
-
-        //contentArea.add(scrollContent);
-
-
-
-
- */

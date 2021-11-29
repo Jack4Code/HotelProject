@@ -2,12 +2,14 @@ package main.java.Utilities;
 
 import main.java.DataModels.*;
 import main.java.Managers.UserManager;
+import main.java.UI.HomeTab.HomePage;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
 
@@ -233,17 +235,21 @@ public class SqlConnection {
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
 
+            Date currentDate;
+            currentDate = new Date();
+            LocalDate localNowDate;
+            localNowDate = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             if (activeUser.userTypeId == 1) {
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "' AND (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE Email = '" + activeUser.email + "' AND (CheckOutDate > " + localNowDate + " AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (reservationCode.equals("") && email.equals("")) {
-                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > '" + localNowDate + "' AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (!reservationCode.equals("")) {
-                rs = stmt.executeQuery("SELECT * FROM reservation WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+                rs = stmt.executeQuery("SELECT * FROM reservation WHERE (CheckOutDate > '" + localNowDate + "' AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else if (!email.equals("")) {
-                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > '" + localNowDate + "' AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             } else {
-                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > now() AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
+                rs = stmt.executeQuery("SELECT * FROM reservation  WHERE (CheckOutDate > '" + localNowDate + "' AND DateCheckedOut IS NULL) AND DateCancelled IS NULL");
             }
 
             while (rs.next()) {
@@ -452,8 +458,8 @@ public class SqlConnection {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE (CheckInDate >= '" + checkInDate + "' AND CheckInDate < '" +
-                    checkOutDate + "') OR (CheckOutDate > '" + checkInDate + "' AND CheckOutDate <= '" + checkOutDate + "') GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*), RoomType, NumberOfBeds, BedType, isSmoking FROM reservation WHERE ((CheckInDate >= '" + checkInDate + "' AND CheckInDate < '" +
+                    checkOutDate + "') OR (CheckOutDate > '" + checkInDate + "' AND CheckOutDate <= '" + checkOutDate + "')) AND DateCancelled IS NULL AND DateCheckedOut IS NULL GROUP BY BedType, RoomType, NumberOfBeds, isSmoking ORDER BY RoomType, NumberOfBeds, isSmoking;");
 
             while (rs.next()) {
                 Room room = new Room();
@@ -499,18 +505,38 @@ public class SqlConnection {
 
             con.close();
 
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return reservationCode;
+    }
+
+    public static String modifyReservation(String reservationCode, LocalDate checkInDate, LocalDate checkOutDate, String roomType, int numberOfBeds, String bedType, int isSmoking) {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE reservation SET CheckInDate = ?, CheckOutDate = ?, RoomType = ?, NumberOfBeds = ?, BedType = ?, IsSmoking = ? WHERE ReservationCode = '" +  reservationCode + "'");
+
+            java.sql.Date sqlCheckInDate = new java.sql.Date(Date.from(checkInDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
+            prepStmt.setDate(1, sqlCheckInDate);
+            java.sql.Date sqlCheckOutDate = new java.sql.Date(Date.from(checkOutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
+            prepStmt.setDate(2, sqlCheckOutDate);
+            prepStmt.setString(3, roomType);
+            prepStmt.setInt(4, numberOfBeds);
+            prepStmt.setString(5, bedType);
+            prepStmt.setInt(6, isSmoking);
+
+            prepStmt.execute();
+
+            con.close();
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
         return reservationCode;
     }
-
-
-    //getUsersForBilling()
-    //getUserBilling()
-    //getAllBilling()
 
     public static ArrayList<Billing> getBillingForAllUsers(String billingCode, String email) {
         ArrayList<Billing> billingList = new ArrayList<>();
