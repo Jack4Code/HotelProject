@@ -7,6 +7,7 @@ import main.java.UI.PortalView;
 import main.java.UI.Resources.CustomColor;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -63,7 +64,7 @@ public class HomePage {
 
         JPanel contentArea = new JPanel();
         contentArea.setLayout(null);
-        contentArea.setBounds(0, 0, 600, 1400);
+        contentArea.setBounds(0, 0, 500, 75);
         contentArea.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
 
 
@@ -71,30 +72,91 @@ public class HomePage {
             dateTitle = new JLabel("Create a Reservation: ");
             dateTitle.setFont(new Font("serif", Font.PLAIN, 30));
             dateTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
-            dateTitle.setBounds(25, 10, 400, 75);
+            dateTitle.setBounds(25, 0, 400, 75);
         }
         else {
             dateTitle = new JLabel("Modify Reservation " + passedInReservationCode + ": ");
             dateTitle.setFont(new Font("serif", Font.PLAIN, 30));
             dateTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
-            dateTitle.setBounds(25, 10, 400, 75);
+            dateTitle.setBounds(25, 0, 400, 75);
         }
+
+        contentArea.add(dateTitle);
+
+        return contentArea;
+    }
+
+    public JPanel generateDateSearchField() {
+
+        Border areaBorder = BorderFactory.createLineBorder(CustomColor.PORTAL_TOP_BAR);
+
+        JPanel searchFieldContentArea = new JPanel();
+        searchFieldContentArea.setLayout(null);
+        searchFieldContentArea.setBounds(50, 100, 500, 397);
+        searchFieldContentArea.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
+        searchFieldContentArea.setBorder(areaBorder);
 
         JLabel checkInTitle = new JLabel("Check in Date: ");
         checkInTitle.setFont(new Font("serif", Font.PLAIN, 18));
         checkInTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
-        checkInTitle.setBounds(30, 80, 200, 75);
+        checkInTitle.setBounds(35, 50, 200, 75);
 
         JLabel checkOutTitle = new JLabel("Check out Date: ");
         checkOutTitle.setFont(new Font("serif", Font.PLAIN, 18));
         checkOutTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
-        checkOutTitle.setBounds(310, 80, 200, 75);
+        checkOutTitle.setBounds(270, 50, 200, 75);
 
-        contentArea.add(dateTitle);
-        contentArea.add(checkInTitle);
-        contentArea.add(checkOutTitle);
+        searchFieldContentArea.add(checkInTitle);
+        searchFieldContentArea.add(checkOutTitle);
 
-        return contentArea;
+        return searchFieldContentArea;
+    }
+
+    public JPanel generateSearchFieldTitle() {
+
+        JPanel searchFieldTitleArea = new JPanel();
+        searchFieldTitleArea.setLayout(null);
+        searchFieldTitleArea.setBounds(60, 77, 130, 40);
+        searchFieldTitleArea.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
+
+        JLabel searchFieldTitle = new JLabel("Room Filters: ");
+        searchFieldTitle.setFont(new Font("serif", Font.PLAIN, 20));
+        searchFieldTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        searchFieldTitle.setBounds(10, 0, 130, 40);
+
+        searchFieldTitleArea.add(searchFieldTitle);
+
+        return searchFieldTitleArea;
+    }
+
+    public JPanel generateUserBorder() {
+
+        Border userBorder = BorderFactory.createLineBorder(CustomColor.PORTAL_TOP_BAR);
+
+        JPanel userBorderArea = new JPanel();
+        userBorderArea .setLayout(null);
+        userBorderArea .setBounds(50, 550, 500, 100);
+        userBorderArea .setBackground(CustomColor.LOGIN_CONTAINER_THEME);
+        userBorderArea .setBorder(userBorder);
+
+        return userBorderArea ;
+    }
+
+    public JPanel generateUserBorderTitle() {
+
+        JPanel userBorderTitleArea = new JPanel();
+        userBorderTitleArea.setLayout(null);
+        userBorderTitleArea.setBounds(60, 527, 170, 40);
+        userBorderTitleArea.setBackground(CustomColor.LOGIN_CONTAINER_THEME);
+
+        JLabel userBorderTitle = new JLabel("Reservation Email: ");
+        userBorderTitle.setFont(new Font("serif", Font.PLAIN, 20));
+        userBorderTitle.setForeground(CustomColor.PORTAL_TOP_BAR);
+        userBorderTitle.setBounds(10, 0, 170, 40);
+
+        userBorderTitleArea.add(userBorderTitle);
+
+        return userBorderTitleArea;
     }
 
     //right side
@@ -115,7 +177,7 @@ public class HomePage {
         availableRoomTable.setRowHeight(25);
 
         pane = new JScrollPane(availableRoomTable);
-        pane.setBounds(600, 100, 500, 398); //640
+        pane.setBounds(600, 100, 560, 398); //640
 
         availableRoomTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
@@ -144,12 +206,20 @@ public class HomePage {
         return tableTitle;
     }
 
-    public static JButton addCreateReservationButton()
+    public static JButton addCreateReservationButton(String passedInReservationCode)
     {
-        JButton makeReservationBtn = new JButton("Reserve");
+        JButton makeReservationBtn;
+
+        if (passedInReservationCode.equals("")) {
+            makeReservationBtn = new JButton("Reserve");
+        }
+        else {
+            makeReservationBtn = new JButton("Modify");
+        }
+
         makeReservationBtn.setFocusable(false);
         makeReservationBtn.setFont(new Font("serif", Font.PLAIN, 20));
-        makeReservationBtn.setBounds(600, 600, 250, 50);
+        makeReservationBtn.setBounds(710, 575, 350, 50);
         makeReservationBtn.setBackground(CustomColor.PURPLE_THEME_TXT);
         makeReservationBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
 
@@ -160,21 +230,20 @@ public class HomePage {
 
         JButton searchAvailableRoomsBtn = new JButton("Search");
         searchAvailableRoomsBtn.setFocusable(false);
-        searchAvailableRoomsBtn.setBounds(150, 300, 250, 50);
+        searchAvailableRoomsBtn.setBounds(150, 320, 300, 50);
         searchAvailableRoomsBtn.setForeground(CustomColor.LOGIN_CONTAINER_THEME);
         searchAvailableRoomsBtn.setFont(new Font("serif", Font.PLAIN, 20));
-        searchAvailableRoomsBtn.setBackground(CustomColor.MAIN_PURPLE_THEME);
+        searchAvailableRoomsBtn.setBackground(CustomColor.PURPLE_THEME_TXT);
 
         return searchAvailableRoomsBtn;
     }
 
     public static JTextField addFromDateText()
-
     {
         JTextField fromDateTxt = new JTextField(localFromDate.toString());
 
         fromDateTxt.setLayout(null);
-        fromDateTxt.setBounds(25, 140, 200, 50);
+        fromDateTxt.setBounds(80, 200, 200, 50);
         fromDateTxt.setBackground(CustomColor.INPUT_BACKGROUND);
         fromDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
         fromDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
@@ -183,16 +252,30 @@ public class HomePage {
     }
 
     public static JTextField addToDateText() {
-
         JTextField toDateTxt = new JTextField(localToDate.toString());
 
         toDateTxt.setLayout(null);
-        toDateTxt.setBounds(305, 140, 200, 50);
+        toDateTxt.setBounds(315, 200, 200, 50);
         toDateTxt.setBackground(CustomColor.INPUT_BACKGROUND);
         toDateTxt.setFont(new Font("serif", Font.PLAIN, 20));
         toDateTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 
         return toDateTxt;
+    }
+
+    public static JTextField addEmailText(String activeUserEmail, int activeUserCode) {
+        JTextField emailTxt = new JTextField(activeUserEmail);
+
+        emailTxt.setLayout(null);
+        emailTxt.setBounds(70, 575, 460, 50);
+        emailTxt.setBackground(CustomColor.INPUT_BACKGROUND);
+        emailTxt.setFont(new Font("serif", Font.PLAIN, 20));
+        emailTxt.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        if (activeUserCode == 1) {
+            emailTxt.setEditable(false);
+        }
+
+        return emailTxt;
     }
 
     public static Object[][] selectedRoom()

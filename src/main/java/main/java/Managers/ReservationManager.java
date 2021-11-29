@@ -61,17 +61,25 @@ public class ReservationManager {
         return availableRooms;
     }
 
-    public static String makeReservation(User activeUser, LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, int isSmoking)
+    public static void makeReservation(String userEmail, LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, int isSmoking)
     {
+        User userToReserveFor;
+
         if(toDate.compareTo(fromDate) < 0){
-            return "";
+            return;
         }
 
-        String reservationCode = createReservationCode();
+        userToReserveFor = SqlConnection.getUserByUsername(userEmail);
 
-        SqlConnection.createReservation(reservationCode, activeUser.firstName, activeUser.lastName, fromDate, toDate, roomType, numberOfBeds, bedType, isSmoking, activeUser.email);
+        if (userToReserveFor.firstName != null) {
 
-        return reservationCode;
+            String reservationCode = createReservationCode();
+
+            SqlConnection.createReservation(reservationCode, userToReserveFor.firstName, userToReserveFor.lastName, fromDate, toDate, roomType, numberOfBeds, bedType, isSmoking, userToReserveFor.email);
+        }
+        else {
+            System.out.println("Error, user not authenticated.");
+        }
     }
 
     public static String modifyReservation(LocalDate fromDate, LocalDate toDate, String roomType, int numberOfBeds, String bedType, int isSmoking, String passedInReservationCode)
@@ -162,10 +170,15 @@ public class ReservationManager {
 
         for (int i = 0; i < allRoomCombosAvailable.size(); i++) {
             availableRoomCombos[i][0] = allRoomCombosAvailable.get(i).isAvailable;
-            availableRoomCombos[i][1] = allRoomCombosAvailable.get(i).roomType;
+            availableRoomCombos[i][1] = allRoomCombosAvailable.get(i).roomType.substring(0,1).toUpperCase() + allRoomCombosAvailable.get(i).roomType.substring(1);
             availableRoomCombos[i][2] = allRoomCombosAvailable.get(i).numBeds;
             availableRoomCombos[i][3] = allRoomCombosAvailable.get(i).bedType;
-            availableRoomCombos[i][4] = allRoomCombosAvailable.get(i).isSmoking;
+            if (allRoomCombosAvailable.get(i).isSmoking == 0) {
+                availableRoomCombos[i][4] = "No";
+            }
+            else {
+                availableRoomCombos[i][4] = "Yes";
+            }
         }
 
         return availableRoomCombos;
