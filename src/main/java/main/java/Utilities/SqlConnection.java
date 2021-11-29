@@ -1,5 +1,4 @@
 package main.java.Utilities;
-
 import main.java.DataModels.*;
 import main.java.Managers.UserManager;
 import main.java.UI.HomeTab.HomePage;
@@ -538,37 +537,38 @@ public class SqlConnection {
         return reservationCode;
     }
 
-    public static ArrayList<Billing> getBillingForAllUsers(String billingCode, String email) {
+
+    public static ArrayList<Billing> getBilling(String email){
         ArrayList<Billing> billingList = new ArrayList<>();
         ResultSet rs;
+        String statement;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             Statement stmt = con.createStatement();
 
-            // String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount FROM billing b LEFT JOIN reservation r on ReservationId = r.Id;       ";
-            String statement = "SELECT b.ID, r.FirstName, r.LastName, r.Email,  b.ReservationId, r.CheckInDate, r.CheckOutDate, r.ReservationCode, b.BillingCode, b.Amount" +
-                    " FROM billing b" +
-                    " LEFT JOIN reservation r on ReservationId = r.Id;";
-            //Todo: test this first
-            rs = stmt.executeQuery(statement);
+            if (email.equals("")){
+                statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.DateCheckedOut is not Null or r.DateCancelled is not Null";
+                rs = stmt.executeQuery(statement);
+            }
+            else{
+                statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.Email = '" + email + "' AND (r.DateCheckedOut is not Null or r.DateCancelled is not null)";
 
+                rs = stmt.executeQuery(statement);
+            }
 
             while (rs.next()) {
                 Billing billing = new Billing();
-                billing.ID = rs.getInt("ID");
+
+                //billing.ID = rs.getInt("ID");
+                billing.billingCode = rs.getString("BillingCode");
+                billing.reservationCode = rs.getString("ReservationCode");
                 billing.firstName = rs.getString("FirstName");
                 billing.lastName = rs.getString("LastName");
                 billing.userEmail = rs.getString("Email");
-                billing.reservationCode = rs.getString("ReservationCode");
-                //billing.checkInDate = LocalDate.parse(rs.getString("CheckInDate"));
-                //billing.checkInDate = LocalDate.parse(rs.getString("CheckInDate"), DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-                //billing.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate")); //Todo: Verify these dates work
-                //billing.checkOutDate = LocalDate.parse(rs.getString("CheckOutDate"), DateTimeFormatter.ofPattern("YYYY-MM-dd"));
                 billing.checkInDate = rs.getDate("CheckInDate").toLocalDate();
-                billing.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
-                billing.billingCode = rs.getString("BillingCode");
+                billing.dateCheckedOut = rs.getDate("DateCheckedOut").toLocalDate();
                 billing.totalCost = rs.getFloat("Amount");
 
                 billingList.add(billing);
@@ -626,5 +626,55 @@ public class SqlConnection {
             isSuccessfullCancel = false;
         }
         return isSuccessfullCancel;
+    }
+
+    public static boolean createBill(String billingCode, int reservationId, double billingAmt) {
+        boolean isSuccessfullBillCreate = true;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            PreparedStatement prepStmt = con.prepareStatement("INSERT INTO Billing (BillingCode, ReservationId, Amount) VALUES (" + "?, ?, ?" + ")");
+            prepStmt.setString(1, billingCode);
+            prepStmt.setInt(2, reservationId);
+            prepStmt.setDouble(3, billingAmt);
+            prepStmt.execute();
+            con.close();
+        } catch (Exception ex) {
+            isSuccessfullBillCreate = false;
+        }
+        return isSuccessfullBillCreate;
+    }
+
+    public static Reservation getReservationByReservationCode(String reservationCode) {
+        Reservation reservation = new Reservation();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Id, ReservationCode, FirstName, LastName, CheckInDate, CheckOutDate, RoomType, NumberOfBeds, BedType, IsSmoking, Email, DateCheckedIn, DateCheckedOut, DateCancelled FROM reservation WHERE ReservationCode = '" + reservationCode + "'");
+
+            while (rs.next()) {
+                reservation.ID = rs.getInt(("Id"));
+                reservation.reservationCode = rs.getString(("ReservationCode"));
+                reservation.firstName = rs.getString(("FirstName"));
+                reservation.lastName = rs.getString(("LastName"));
+                reservation.checkInDate = rs.getDate("CheckInDate").toLocalDate();
+                reservation.checkOutDate = rs.getDate("CheckOutDate").toLocalDate();
+                reservation.roomType = rs.getString("RoomType");
+                reservation.numberOfBeds = rs.getInt(("NumberOfBeds"));
+                reservation.bedType = rs.getString(("BedType"));
+                reservation.isSmoking = rs.getInt(("IsSmoking"));
+                reservation.userEmail = rs.getString(("Email"));
+                reservation.DateCheckedIn = rs.getDate("DateCheckedIn") != null ? rs.getDate("DateCheckedIn").toLocalDate() : null;
+                reservation.DateCheckedOut = rs.getDate("DateCheckedOut") != null ? rs.getDate("DateCheckedOut").toLocalDate() : null;
+                reservation.DateCancelled = rs.getDate("DateCancelled") != null ? rs.getDate("DateCancelled").toLocalDate() : null;
+            }
+            con.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return reservation;
     }
 }
