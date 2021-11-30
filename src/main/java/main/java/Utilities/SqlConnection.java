@@ -55,7 +55,7 @@ public class SqlConnection {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            PreparedStatement prepStmt = con.prepareStatement("Select Email, HashedPassword From Users" + " WHERE Email = ? AND HashedPassword = ?");
+            PreparedStatement prepStmt = con.prepareStatement("Select Email, HashedPassword From Users" + " WHERE Email = ? AND BINARY HashedPassword = ?");
             prepStmt.setString(1, username);
             prepStmt.setString(2, password);
             ResultSet rs = prepStmt.executeQuery();
