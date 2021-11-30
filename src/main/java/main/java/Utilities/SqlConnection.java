@@ -542,20 +542,23 @@ public class SqlConnection {
         ArrayList<Billing> billingList = new ArrayList<>();
         ResultSet rs;
         String statement;
+        PreparedStatement prepStmt;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
-            Statement stmt = con.createStatement();
+            //Statement stmt = con.createStatement();
 
             if (email.equals("")){
                 statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.DateCheckedOut is not Null or r.DateCancelled is not Null";
-                rs = stmt.executeQuery(statement);
+                prepStmt = con.prepareStatement(statement);
+                rs = prepStmt.executeQuery();
             }
             else{
-                statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.Email = '" + email + "' AND (r.DateCheckedOut is not Null or r.DateCancelled is not null)";
-
-                rs = stmt.executeQuery(statement);
+                statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.Email = ? AND (r.DateCheckedOut is not Null or r.DateCancelled is not null)";
+                prepStmt = con.prepareStatement(statement);
+                prepStmt.setString(1, email);
+                rs = prepStmt.executeQuery();
             }
 
             while (rs.next()) {
