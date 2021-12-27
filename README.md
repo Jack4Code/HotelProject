@@ -12,8 +12,6 @@ Getting and setting up the project:
 7. Build the project
 8. Run the project
 
-Download and install MySql workbench. Sql credentials will be provided. They are also currently visible in the code, but will soon be deleted from code and changed to be stored in azure key vault.
-
 Application User Credentials
 
 1. Hotel Guest => Simply register with a valid email and a password. The email has to be unique so if it already exists in the database you will not be able to register with it.
