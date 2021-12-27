@@ -1,4 +1,5 @@
 package main.java.Utilities;
+
 import main.java.DataModels.*;
 import main.java.Managers.UserManager;
 import main.java.UI.HomeTab.HomePage;
@@ -9,6 +10,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
+
 
 //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
 
@@ -16,9 +19,12 @@ public class SqlConnection {
 
     //String url ="jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/{your_database}?useSSL=true&requireSSL=false"; myDbConn = DriverManager.getConnection(url, "zzsa@mysqlclassproject", {your_password});
     //public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
-    public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
-    public static String connectionUserName = "zzsa@mysqlclassproject";
-    public static String connectionPassword = "Y7*9dkUkl1";
+    //public static String connectionString = "jdbc:mysql://mysqlclassproject.mysql.database.azure.com:3306/hotelmanagement?useSSL=true&requireSSL=false";
+    //public static String connectionUserName = "zzsa@mysqlclassproject";
+    //public static String connectionPassword = "Y7*9dkUkl1";
+    public static String connectionString = "jdbc:mysql://localhost:3306/hotelmanagement?useSSL=true&requireSSL=false";
+    public static String connectionUserName = System.getenv("MYSQL_USERNAME");
+    public static String connectionPassword = System.getenv("MYSQL_PASSWORD");
 
     //Users
     public static boolean createUser(User user) {
@@ -516,7 +522,7 @@ public class SqlConnection {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
 
-            PreparedStatement prepStmt = con.prepareStatement("UPDATE reservation SET CheckInDate = ?, CheckOutDate = ?, RoomType = ?, NumberOfBeds = ?, BedType = ?, IsSmoking = ? WHERE ReservationCode = '" +  reservationCode + "'");
+            PreparedStatement prepStmt = con.prepareStatement("UPDATE reservation SET CheckInDate = ?, CheckOutDate = ?, RoomType = ?, NumberOfBeds = ?, BedType = ?, IsSmoking = ? WHERE ReservationCode = '" + reservationCode + "'");
 
             java.sql.Date sqlCheckInDate = new java.sql.Date(Date.from(checkInDate.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime());
             prepStmt.setDate(1, sqlCheckInDate);
@@ -538,7 +544,7 @@ public class SqlConnection {
     }
 
 
-    public static ArrayList<Billing> getBilling(String email){
+    public static ArrayList<Billing> getBilling(String email) {
         ArrayList<Billing> billingList = new ArrayList<>();
         ResultSet rs;
         String statement;
@@ -549,12 +555,11 @@ public class SqlConnection {
             Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
             //Statement stmt = con.createStatement();
 
-            if (email.equals("")){
+            if (email.equals("")) {
                 statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.DateCheckedOut is not Null or r.DateCancelled is not Null";
                 prepStmt = con.prepareStatement(statement);
                 rs = prepStmt.executeQuery();
-            }
-            else{
+            } else {
                 statement = "SELECT b.BillingCode as BillingCode, r.ReservationCode as ReservationCode, r.FirstName as FirstName, r.LastName as LastName, r.Email as Email, r.CheckInDate, r.DateCheckedOut, b.Amount as Amount FROM Reservation r JOIN Billing b ON r.Id = b.ReservationId WHERE r.Email = ? AND (r.DateCheckedOut is not Null or r.DateCancelled is not null)";
                 prepStmt = con.prepareStatement(statement);
                 prepStmt.setString(1, email);
@@ -679,5 +684,150 @@ public class SqlConnection {
             System.out.println(ex.getMessage());
         }
         return reservation;
+    }
+
+    public static void setupDatabaseIfNotExists() throws Exception {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+        } catch (Exception ex) {
+            try {
+                setupDatabase();
+                setupTables();
+                setupData();
+            } catch (Exception ex2) {
+                System.out.println(ex2.getMessage());
+                throw new Exception("Error setting up database");
+            }
+        }
+    }
+
+    public static void setupDatabase() throws Exception {
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys?useSSL=true&requireSSL=false", connectionUserName, connectionPassword);
+            Statement stmt = con.createStatement();
+            stmt.execute("CREATE DATABASE hotelmanagement");
+        }
+        catch(Exception ex){
+            throw new Exception("Error setting up database");
+        }
+    }
+
+    public static void setupTables() throws Exception {
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+
+            String billingTable = "CREATE TABLE `billing` (\n" +
+                    "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                    "  `BillingCode` varchar(32) DEFAULT NULL,\n" +
+                    "  `ReservationId` int(11) DEFAULT NULL,\n" +
+                    "  `Amount` decimal(10,0) DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`Id`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;";
+
+            String reservationTable = "CREATE TABLE `reservation` (`Id` bigint(20) NOT NULL AUTO_INCREMENT,`ReservationCode` varchar(64) DEFAULT NULL,\n" +
+                    "  `FirstName` varchar(64) DEFAULT NULL,\n" +
+                    "  `LastName` varchar(64) DEFAULT NULL,\n" +
+                    "  `CheckInDate` datetime DEFAULT NULL,\n" +
+                    "  `CheckOutDate` datetime DEFAULT NULL,\n" +
+                    "  `RoomType` varchar(32) DEFAULT NULL,\n" +
+                    "  `NumberOfBeds` int(11) DEFAULT NULL,\n" +
+                    "  `BedType` varchar(32) DEFAULT NULL,\n" +
+                    "  `IsSmoking` bit(1) DEFAULT NULL,\n" +
+                    "  `Email` varchar(32) DEFAULT NULL,\n" +
+                    "  `DateCheckedIn` datetime DEFAULT NULL,\n" +
+                    "  `DateCheckedOut` datetime DEFAULT NULL,\n" +
+                    "  `DateCancelled` datetime DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`Id`),\n" +
+                    "  UNIQUE KEY `ReservationCode` (`ReservationCode`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;";
+
+            String reservationRoomTable = "CREATE TABLE `reservationroom` (\n" +
+                    "  `Id` bigint(20) NOT NULL AUTO_INCREMENT,\n" +
+                    "  `ReservationId` bigint(20) DEFAULT NULL,\n" +
+                    "  `RoomId` int(11) DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`Id`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;";
+
+            String roomTable = "CREATE TABLE `room` (\n" +
+                    "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                    "  `isAvailable` bit(1) DEFAULT NULL,\n" +
+                    "  `NextAvailableDate` datetime DEFAULT NULL,\n" +
+                    "  `RoomType` varchar(32) DEFAULT NULL,\n" +
+                    "  `NumBeds` int(11) DEFAULT NULL,\n" +
+                    "  `BedType` varchar(32) DEFAULT NULL,\n" +
+                    "  `isSmoking` bit(1) DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`Id`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;";
+
+            String usersTable = "CREATE TABLE `users` (\n" +
+                    "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                    "  `UserTypeId` int(11) DEFAULT NULL,\n" +
+                    "  `FirstName` varchar(128) DEFAULT NULL,\n" +
+                    "  `LastName` varchar(128) DEFAULT NULL,\n" +
+                    "  `Email` varchar(128) DEFAULT NULL,\n" +
+                    "  `HashedPassword` varchar(2048) DEFAULT NULL,\n" +
+                    "  `CreateDate` datetime DEFAULT NULL,\n" +
+                    "  `ModifiedDate` datetime DEFAULT NULL,\n" +
+                    "  `LastLoginDate` datetime DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`Id`),\n" +
+                    "  UNIQUE KEY `Email` (`Email`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;";
+
+            String userTypesTable = "CREATE TABLE `usertypes` (\n" +
+                    "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n" +
+                    "  `UserTypeName` varchar(128) DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`Id`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;";
+
+            ArrayList<String> tableCreateStmts = new ArrayList<>();
+            tableCreateStmts.add(billingTable);
+            tableCreateStmts.add(reservationTable);
+            tableCreateStmts.add(reservationRoomTable);
+            tableCreateStmts.add(roomTable);
+            tableCreateStmts.add(usersTable);
+            tableCreateStmts.add(userTypesTable);
+
+            for(int i=0; i<tableCreateStmts.size(); i++){
+                Statement stmt = con.createStatement();
+                stmt.execute(tableCreateStmts.get(i));
+            }
+
+        } catch (Exception ex) {
+            throw new Exception("Error setting up database");
+        }
+    }
+
+    public static void setupData() throws Exception {
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(connectionString, connectionUserName, connectionPassword);
+
+            String[] bedTypes = {"Twin", "King", "Queen", "Full" };
+
+            for(int i=1; i<=40; i++){
+
+                Random r = new Random();
+                int randomBedPos = r.nextInt(4);
+                int numBeds = randomBedPos == 0 || randomBedPos == 4 ? 2 : 1;
+
+                String roomType = i < 11 ? "Comfort" : i < 21 ? "Executive" : i < 31 ? "Business" : "Economy";
+                String createRoom = "INSERT INTO Room (isAvailable, nextAvailableDate, RoomType, NumBeds, BedType, isSmoking) VALUES (1, utc_date(), '" + roomType + "', " + numBeds + ", '" + bedTypes[randomBedPos] + "', 0)";
+
+                Statement stmt = con.createStatement();
+                stmt.execute(createRoom);
+            }
+
+            String sysAdminUser = "INSERT INTO USERS (UserTypeId, FirstName, LastName, Email, HashedPassword, CreateDate, ModifiedDate) VALUES (3, 'sys', 'admin', 'sysadmin@j3.net', 'password', utc_date(), utc_date())";
+            Statement stmt = con.createStatement();
+            stmt.execute(sysAdminUser);
+
+        } catch (Exception ex) {
+            throw new Exception("Error setting up database");
+        }
     }
 }

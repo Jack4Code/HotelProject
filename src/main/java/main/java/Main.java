@@ -22,8 +22,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+        SqlConnection.setupDatabaseIfNotExists();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));

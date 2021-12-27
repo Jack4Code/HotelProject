@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Added one prepared statement for billing" />
+    <list default="true" id="ba1d6a34-d254-4325-9858-bbd1ec92bc5b" name="Changes" comment="Added one prepared statement for billing">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/java/Utilities/SqlConnection.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="release/20211130-01" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,8 +57,12 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <envs>
+        <env name="MYSQL_USERNAME" value="root" />
+        <env name="MYSQL_PASSWORD" value="EyO0zClldf9gj9" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
-      <module name="HotelProject" />
+      <module name="Sandbox" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.*" />
@@ -139,6 +150,9 @@
       <workItem from="1637934722409" duration="16722000" />
       <workItem from="1638107014299" duration="12135000" />
       <workItem from="1638244448387" duration="15000" />
+      <workItem from="1640048974892" duration="1504000" />
+      <workItem from="1640059336962" duration="811000" />
+      <workItem from="1640546045390" duration="7881000" />
     </task>
     <task id="LOCAL-00001" summary="Modifying inputted dates, added connections from UI to sql connector">
       <created>1635854996211</created>
@@ -238,6 +252,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/main/java/Managers/ReservationManager.java</url>
           <line>73</line>
           <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
+          <line>834</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/java/Utilities/SqlConnection.java</url>
+          <line>830</line>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
